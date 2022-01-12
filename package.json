@@ -5,7 +5,8 @@
         "dev": "vite --mode development",
         "prod": "vite --mode production",
         "build": "tsc && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "commit": "git cz -a"
     },
     "dependencies": {
         "@commitlint/cli": "^16.0.2",
@@ -20,6 +21,7 @@
         "@types/react": "^17.0.33",
         "@types/react-dom": "^17.0.10",
         "@vitejs/plugin-react": "^1.0.7",
+        "commitlint-config-cz": "^0.13.3",
         "cz-conventional-changelog": "3.3.0",
         "cz-customizable": "^6.3.0",
         "less": "^4.1.2",
