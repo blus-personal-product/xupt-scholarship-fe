@@ -27,7 +27,7 @@ export default {
       { find: "hooks", replacement: path.resolve(__dirname, '/src/hooks') },
       { find: "types", replacement: path.resolve(__dirname, '/src/types') },
       { find: "utils", replacement: path.resolve(__dirname, '/src/utils') },
-      { find: "store", replacement: path.resolve(__dirname, '/src/store') },
+      { find: "stores", replacement: path.resolve(__dirname, '/src/stores') },
     ]
   },
   build: {
