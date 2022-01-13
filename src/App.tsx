@@ -15,7 +15,7 @@ function App() {
     <div className="App">
       <PageLayout />
     </div>
-  )
+  );
 }
 
 export default App;
