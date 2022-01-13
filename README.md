@@ -4,7 +4,7 @@
 
 - 项目依赖管理使用`yarn`而非`npm`;
 - 项目采用`Vite`+`React`+`Typescript`+`Less`构建；
-- 组件库采用`Arco-Design`；
+- 组件库采用`Ant-Design`；
 - 请求管理使用`Axios`并进行自定义封装；
 - 项目中的提交加入了`commit lint`检测，提交使用指定的命令行`npm run commit`提交即可；
 - 项目中添加了`Less Modules`弥补`React`不支持`style scoped`的缺陷；
