@@ -21,13 +21,14 @@ export default {
     mainFields: ['browser', 'module', 'main'],
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
     alias: [
-      { find: '@', replacement: path.resolve(__dirname, '/src') },
-      { find: "components", replacement: path.resolve(__dirname, '/src/components') },
-      { find: "pages", replacement: path.resolve(__dirname, '/src/pages') },
-      { find: "hooks", replacement: path.resolve(__dirname, '/src/hooks') },
-      { find: "types", replacement: path.resolve(__dirname, '/src/types') },
-      { find: "utils", replacement: path.resolve(__dirname, '/src/utils') },
-      { find: "stores", replacement: path.resolve(__dirname, '/src/stores') },
+      { find: '@', replacement: path.resolve(__dirname, '../src') },
+      { find: "components", replacement: path.resolve(__dirname, '../src/components') },
+      { find: "pages", replacement: path.resolve(__dirname, '../src/pages') },
+      { find: "hooks", replacement: path.resolve(__dirname, '../src/hooks') },
+      { find: "types", replacement: path.resolve(__dirname, '../src/types') },
+      { find: "utils", replacement: path.resolve(__dirname, '../src/utils') },
+      { find: "stores", replacement: path.resolve(__dirname, '../src/stores') },
+      { find: "client", replacement: path.resolve(__dirname, '../src/client') },
     ]
   },
   build: {
@@ -51,6 +52,7 @@ export default {
       '/api': {
         target: 'http://123.56.239.54:8096/',
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
         configure: (proxy, options) => {
           // proxy 是 'http-proxy' 的实例
         }

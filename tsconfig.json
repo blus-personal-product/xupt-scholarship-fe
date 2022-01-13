@@ -23,7 +23,8 @@
             "hooks/*": ["src/hooks/*"],
             "types/*": ["src/types/*"],
             "utils/*": ["src/utils/*"],
-            "stores/*": ["src/stores/*"]
+            "stores/*": ["src/stores/*"],
+            "client/*": ["src/client/*"]
         }
     },
     "typeRoots": [
