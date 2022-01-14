@@ -8,6 +8,7 @@
 - 请求管理使用`Axios`并进行自定义封装；
 - 项目中的提交加入了`commit lint`检测，提交使用指定的命令行`npm run commit`提交即可；
 - 项目中添加了`Less Modules`弥补`React`不支持`style scoped`的缺陷；
+- 使用`eslint`和`prettier`进行代码格式化和代码约束
 
 
 ## 项目使用
@@ -89,6 +90,15 @@ const RoutesCenter: React.FC = () => {
     </React.Suspense>
   );
 };
+```
+
+### `ESlint`配置
+
+对于Eslint执行自动修复，可以查看对应的`package.json`中的`scripts`命令。
+
+```
+//检查src下的文件并且进行自动的格式化
+npm run lint:fix
 ```
 
 ### Axios封装
