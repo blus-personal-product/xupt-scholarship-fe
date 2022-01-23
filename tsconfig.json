@@ -24,7 +24,8 @@
             "types/*": ["src/types/*"],
             "utils/*": ["src/utils/*"],
             "stores/*": ["src/stores/*"],
-            "client/*": ["src/client/*"]
+            "client/*": ["src/client/*"],
+            "service/*": ["src/service/*"]
         }
     },
     "typeRoots": [

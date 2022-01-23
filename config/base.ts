@@ -29,6 +29,7 @@ export default {
       { find: "utils", replacement: path.resolve(__dirname, '../src/utils') },
       { find: "stores", replacement: path.resolve(__dirname, '../src/stores') },
       { find: "client", replacement: path.resolve(__dirname, '../src/client') },
+      { find: "service", replacement: path.resolve(__dirname, '../src/service') },
     ]
   },
   build: {
