@@ -36,13 +36,17 @@ yarn dev
 通过下面的配置可以实现便捷路径（路径别名）访问，比如使用`src/app.tsx`可以使用`@/app.tsx`来访问。
 
 ```js
-      { find: '@', replacement: path.resolve(__dirname, '/src') },
-      { find: "components", replacement: path.resolve(__dirname, '/src/components') },
-      { find: "pages", replacement: path.resolve(__dirname, '/src/pages') },
-      { find: "hooks", replacement: path.resolve(__dirname, '/src/hooks') },
-      { find: "types", replacement: path.resolve(__dirname, '/src/types') },
-      { find: "utils", replacement: path.resolve(__dirname, '/src/utils') },
-      { find: "stores", replacement: path.resolve(__dirname, '/src/stores') },
+alias: [
+      { find: '@', replacement: path.resolve(__dirname, '../src') },
+      { find: "components", replacement: path.resolve(__dirname, '../src/components') },
+      { find: "pages", replacement: path.resolve(__dirname, '../src/pages') },
+      { find: "hooks", replacement: path.resolve(__dirname, '../src/hooks') },
+      { find: "types", replacement: path.resolve(__dirname, '../src/types') },
+      { find: "utils", replacement: path.resolve(__dirname, '../src/utils') },
+      { find: "stores", replacement: path.resolve(__dirname, '../src/stores') },
+      { find: "client", replacement: path.resolve(__dirname, '../src/client') },
+      { find: "service", replacement: path.resolve(__dirname, '../src/service') },
+    ]
 ```
 
 ### 项目代理设置
