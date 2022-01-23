@@ -1,9 +1,10 @@
 import * as React from 'react';
+import SignFrom from './components/sign-form';
 
 const Login: React.FC = () => {
   return(
     <React.Fragment>
-      Login
+      <SignFrom type="register" />
     </React.Fragment>
   )
 };
