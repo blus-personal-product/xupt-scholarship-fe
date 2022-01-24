@@ -35,7 +35,6 @@ class http {
         return response.data;
       },
       function (error: AxiosError) {
-        message.error(error.message);
         return Promise.reject(error);
       });
   }
