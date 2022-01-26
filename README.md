@@ -105,6 +105,12 @@ const RoutesCenter: React.FC = () => {
 npm run lint:fix
 ```
 
+### 项目权限和页面重定向
+
+因为在`React Router V6`中不再支持`<Redirect />`对页面进行路由重定义，所以使用了`React Router`文档推荐的`Context` + `Navigate`的组合方案，需要进行较多的内容自定义和页面跳转。
+
+页面权限采用`Session` + `LocalStorage`的组合方案，支持本地信息持久化存储。
+
 ### Axios封装
 
 对于Axios进行基于TS的二次封装，并且加入关于错误的`Antd Message`提示。
