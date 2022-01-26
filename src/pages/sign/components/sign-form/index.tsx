@@ -5,6 +5,7 @@ import * as React from 'react';
 import * as ahooks from 'ahooks';
 import { Form, Input, Checkbox, message } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import * as sign from '@/service/sign';
 
@@ -17,20 +18,24 @@ export interface ISignFormProps {
 }
 
 const LoginInitValue: sign.ILoginFormValue = {
-  sign_id: '12131413@ss.com',
-  password: 'sss@@ss@@112AA',
+  email: '',
+  password: '',
   remember: false,
 };
 
 const RegisterInitValue: sign.IRegisterFormValue = {
-  sign_id: '',
+  email: '',
   password: '',
   confirm_password: '',
 };
 
 const SignForm: React.FC<ISignFormProps> = (props) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { type, setLoading } = props;
   const [form] = Form.useForm();
+
+  const fromPath = (location as any).state?.from?.pathname || "/";
 
   const { run: submitForm } = ahooks.useDebounceFn(async () => {
     await form.validateFields();
@@ -42,6 +47,7 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
       } else {
         await sign.postRegister(formValue);
       }
+      navigate(fromPath, { replace: true });
     } catch (error) {
       message.error("登陆失败");
     } finally {

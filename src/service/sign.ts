@@ -1,7 +1,7 @@
 import http from '@/client';
 
 interface IBaseFormValue {
-  sign_id: string;
+  email: string;
   password: string;
 }
 
@@ -14,7 +14,7 @@ export interface ILoginFormValue extends IBaseFormValue {
  * @param params 登录表单信息
  */
 export const postLogin = function (params: ILoginFormValue) {
-  return http.post("/register", params);
+  return http.post("/login", params);
 }
 
 
