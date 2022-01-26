@@ -1,5 +1,9 @@
+/**
+ * 登录注册页面
+ */
 import * as React from 'react';
 import { Card } from 'antd';
+import * as H from '@/hooks';
 
 import SignFrom from './components/sign-form';
 import { ISignFormProps } from './components/sign-form';
@@ -21,8 +25,11 @@ const tabList = [
 ];
 
 const Login: React.FC = () => {
+  
   const [loading, setLoading] = React.useState(false);
   const [activeTabKey, setActiveTabKey] = React.useState<ITabKey>('login');
+
+  H.useDocumentTitle(activeTabKey === 'login' ? "登录": "注册", [activeTabKey])
 
   return (
     <div className={`${style['sign-page']} sign`}>

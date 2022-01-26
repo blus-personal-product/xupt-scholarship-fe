@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import RoutesCenter from './routes';
-import Footer from 'components/footer';
 
 const PageLayout = () => {
   return (
@@ -9,7 +8,6 @@ const PageLayout = () => {
       <BrowserRouter>
         <RoutesCenter />
       </BrowserRouter>
-      <Footer />
     </div>
   );
 };
