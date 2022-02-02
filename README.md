@@ -11,6 +11,10 @@
 - 使用`eslint`和`prettier`进行代码格式化和代码约束
 
 
+## 项目接口信息
+
+[Postman 接口集合](https://xupt-bzy.postman.co/workspace/Team-Workspace~a1923cf2-d37d-41c2-8308-68f2fe254a6f/overview)
+
 ## 项目使用
 
 1. 克隆项目
