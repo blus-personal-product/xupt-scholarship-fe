@@ -77,7 +77,7 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
       >
         <Form.Item
           label="邮箱"
-          name="sign_id"
+          name="email"
           required
           hasFeedback
           rules={[{

@@ -14,7 +14,7 @@ export interface ILoginFormValue extends IBaseFormValue {
  * @param params 登录表单信息
  */
 export const postLogin = function (params: ILoginFormValue) {
-  return http.post("/login", params);
+  return http.post("/user/login", params);
 }
 
 
@@ -27,5 +27,5 @@ export interface IRegisterFormValue extends IBaseFormValue {
  * @param params 注册表单信息
  */
 export const postRegister = function (params: IRegisterFormValue) {
-  return http.post("/register", params);
+  return http.post("/user/register", params);
 }

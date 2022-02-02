@@ -51,9 +51,9 @@ export default {
     cors: true,
     proxy: {
       '/api': {
-        target: 'http://123.56.239.54:8096/',
+        target: 'http://localhost:8096/',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        rewrite: (path) => path.replace(/\/api/, ''),
         configure: (proxy, options) => {
           // proxy 是 'http-proxy' 的实例
         }
