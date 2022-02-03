@@ -54,11 +54,11 @@ export const useAuth = () => {
  * @param props children
  */
 export const RequireAuth: React.FC<React.PropsWithChildren<{}>> = (props) => {
-  const { user } = useAuth();
-  const location = useLocation();
-  if (!user.email) {
-    return <Navigate to="/sign" state={{ from: location }} replace />
-  }
+  // const { user } = useAuth();
+  // const location = useLocation();
+  // if (!user.email) {
+  //   return <Navigate to="/sign" state={{ from: location }} replace />
+  // }
   return (
     <React.Fragment>
       {props.children}
