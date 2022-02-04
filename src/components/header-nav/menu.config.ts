@@ -18,3 +18,11 @@ export const getMenus = (): IMenus[] => [
     title: '申请'
   }
 ];
+
+/**
+ * 获取key对应的title
+ * @param searchKey 
+ * @param menus 
+ */
+export const getTitle = (searchKey: string, menus: IMenus[]): string => 
+  menus.find(item => item.key === searchKey)?.title || ''
