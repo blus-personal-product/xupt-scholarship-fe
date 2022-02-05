@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { Layout } from 'antd';
 import RoutesCenter from './routes';
 import Footer from 'components/footer';
 import './style/main.less';
 
 function App() {
   return (
-    <div className="App">
+    <Layout className="app">
       <BrowserRouter>
         <RoutesCenter />
       </BrowserRouter>
       <Footer />
-    </div>
+    </Layout>
   );
 }
 

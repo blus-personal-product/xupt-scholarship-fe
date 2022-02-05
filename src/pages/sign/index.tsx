@@ -32,7 +32,7 @@ const Login: React.FC = () => {
   H.useDocumentTitle(activeTabKey === 'login' ? "登录": "注册", [activeTabKey])
 
   return (
-    <div className={`${style['sign-page']} sign`}>
+    <div className='sign'>
       <Card
         hoverable
         className={style['sign-tab-card']}
