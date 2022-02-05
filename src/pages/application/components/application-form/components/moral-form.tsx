@@ -2,8 +2,10 @@
  * 思想品德成绩表
  */
 import * as React from 'react';
-import { Form, Input, Select, DatePicker, Button, Card, PageHeader, Statistic, FormProps, notification } from 'antd';
+import { Form, Input, Select, DatePicker, Button, Card, FormProps, notification } from 'antd';
 import { moralScoreList, MoralScoreItem } from '../config/moral.config';
+import FormHeader from './form-header';
+import { FormValue } from '../types/form';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { validateMessages, disabledFormCurrentDate } from '@/config/form';
 
@@ -13,10 +15,7 @@ type MoralFormItemValue = {
   info: string;
   time: string;
 }
-
-interface MoralFormValue {
-  list: MoralFormItemValue[];
-}
+type MoralFormValue = FormValue<MoralFormItemValue>;
 
 const defaultFormValue: MoralFormValue = {
   list: [
@@ -69,7 +68,7 @@ const MoralForm: React.FC<IProps> = (props) => {
   }, []);
 
   const onValuesChange: FormProps<MoralFormValue>['onValuesChange'] = (_, values) => {
-    const currScore =getScore(values.list);
+    const currScore = getScore(values.list);
     if (currScore !== score) {
       notification.open({
         message: `最新估算成绩为：${currScore}分`,
@@ -80,14 +79,9 @@ const MoralForm: React.FC<IProps> = (props) => {
   }
   return (
     <React.Fragment>
-      <PageHeader
+      <FormHeader
         title="思想品德成绩"
-        extra={[
-          <Statistic
-            title="估算得分"
-            value={score}
-          />
-        ]}
+        score={score}
       />
       <Form
         initialValues={moralValue}
