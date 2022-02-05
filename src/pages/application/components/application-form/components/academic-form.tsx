@@ -3,7 +3,6 @@
  */
 import * as React from 'react';
 import { Form } from 'antd';
-;
 
 const AcademicForm: React.FC = () => {
   return (

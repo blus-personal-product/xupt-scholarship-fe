@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form } from 'antd';
+import ApplicationProvider from './context/application.context';
 import AcademicForm from './components/academic-form';
 import MoralForm from './components/moral-form';
 import PracticeForm from './components/practice-from';
@@ -7,12 +7,11 @@ import PracticeForm from './components/practice-from';
 const ApplicationForm: React.FC = () => {
   return (
     <React.Fragment>
-      <Form.Provider
-      >
+      <ApplicationProvider>
         <AcademicForm />
         <MoralForm />
         <PracticeForm />
-      </Form.Provider>
+      </ApplicationProvider>
     </React.Fragment>
   );
 };
