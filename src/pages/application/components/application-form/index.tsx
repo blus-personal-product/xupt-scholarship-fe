@@ -7,12 +7,12 @@ import PracticeForm from './components/practice-from';
 const ApplicationForm: React.FC = () => {
   return (
     <React.Fragment>
-      <Form.Provider
+      <React.Fragment
       >
         <AcademicForm />
         <MoralForm />
         <PracticeForm />
-      </Form.Provider>
+      </React.Fragment>
     </React.Fragment>
   );
 };

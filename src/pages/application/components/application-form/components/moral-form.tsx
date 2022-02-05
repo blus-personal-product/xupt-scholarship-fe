@@ -29,7 +29,13 @@ const defaultFormValue: MoralFormValue = {
   ]
 }
 
-const MoralForm: React.FC = () => {
+
+interface IProps {
+  moralValue?: MoralFormValue;
+}
+
+const MoralForm: React.FC<IProps> = (props) => {
+  const { moralValue } = props;
 
   const [score, setScore] = React.useState(0);
 
@@ -40,17 +46,30 @@ const MoralForm: React.FC = () => {
     });
     return temp;
   }, []);
+
   const options = React.useMemo(() => moralScoreList.map(item => ({
     ...item,
     title: `${item.title}  『分数：${item.score}分』`
   })), []);
 
-  const onValuesChange: FormProps<MoralFormValue>['onValuesChange'] = (value, values) => {
-    const currScore = values.list.reduce((prev, curr) => {
+  const getScore = (moralList: MoralFormValue['list']) => {
+    return moralList.reduce((prev, curr) => {
       if (!curr || !curr.level) return prev;
       prev += scoreMap.get(curr.level);
       return prev;
     }, 0);
+  };
+
+  const prevScore = React.useMemo(() => getScore(moralValue?.list || []), [props.moralValue]);
+
+  React.useEffect(() => {
+    if (prevScore !== score) {
+      setScore(prevScore);
+    }
+  }, []);
+
+  const onValuesChange: FormProps<MoralFormValue>['onValuesChange'] = (_, values) => {
+    const currScore =getScore(values.list);
     if (currScore !== score) {
       notification.open({
         message: `最新估算成绩为：${currScore}分`,
@@ -60,17 +79,18 @@ const MoralForm: React.FC = () => {
     }
   }
   return (
-    <PageHeader
-      title="思想品德得分"
-      extra={[
-        <Statistic
-          title="估算得分"
-          value={score}
-        />
-      ]}
-    >
+    <React.Fragment>
+      <PageHeader
+        title="思想品德成绩"
+        extra={[
+          <Statistic
+            title="估算得分"
+            value={score}
+          />
+        ]}
+      />
       <Form
-        initialValues={defaultFormValue}
+        initialValues={moralValue}
         labelWrap
         onValuesChange={onValuesChange}
         labelCol={{ span: 6 }}
@@ -170,8 +190,12 @@ const MoralForm: React.FC = () => {
           }
         </Form.List>
       </Form>
-    </PageHeader>
+    </React.Fragment>
   );
 };
+
+MoralForm.defaultProps = {
+  moralValue: defaultFormValue
+}
 
 export default MoralForm;
