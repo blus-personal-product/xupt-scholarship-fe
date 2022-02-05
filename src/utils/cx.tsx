@@ -3,7 +3,7 @@
  * @param classNames class类名
  */
 const cx = function (...classNames: string[]) {
-  return classNames.join(' ');
+  return classNames.filter(v => !!v).join(' ');
 };
 
 export default cx;
