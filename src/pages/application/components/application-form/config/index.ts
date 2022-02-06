@@ -4,10 +4,11 @@ export interface BaseTagOption {
 
 export interface BaseScoreItem<BL, BS> extends BaseLevelScoreItem<BL, BS> { }
 
+
 export interface BaseLevelScoreItem<L, S> {
   level: L;
   score: S;
-  title: string;
+  title: string | string[];
 }
 
 export interface BaseTypeScoreItem<T, C> {
