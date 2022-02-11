@@ -1,12 +1,29 @@
 import * as React from 'react';
 import * as C from '../config/practice.config';
 import * as U from '@/utils';
-import { Button, Card, Col, DatePicker, Form, FormItemProps, Input, InputNumber, Row, Select } from 'antd';
+import { Button, Card, Col, DatePicker, DatePickerProps, Form, FormItemProps, Input, InputNumber, Row, Select } from 'antd';
 import { disabledFormCurrentDate } from '@/config/form';
 import { FormListFieldData } from 'antd/lib/form/FormList';
+import moment from 'moment';
 
 interface IProps extends FormItemProps {
 
+}
+
+export interface PracticeResultFormValue {
+  level: C.ResultScoreItem['level'];
+  time: DatePickerProps['value'];
+  name: string;
+  order: number;
+  partners: number;
+}
+
+export const practiceResultDefaultFormValue: PracticeResultFormValue = {
+  level: 'international',
+  time: moment(),
+  name: '',
+  order: 1,
+  partners: 1
 }
 
 

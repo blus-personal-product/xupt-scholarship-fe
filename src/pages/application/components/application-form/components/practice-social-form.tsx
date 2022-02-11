@@ -1,24 +1,39 @@
 import * as React from 'react';
 import * as C from '../config/practice.config';
 import { disabledFormCurrentDate } from '@/config/form';
-import { Form, Card, Cascader, Select, Input, Button, DatePicker, Radio, FormItemProps } from 'antd';
+import { Form, Card, Cascader, Select, Input, Button, DatePicker, Radio, FormItemProps, Alert, Typography } from 'antd';
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
+import moment from 'moment';
+
+const { Paragraph } = Typography;
 
 export interface CadreFormItemValue {
-  level: [C.SocialCadreLevel, string];
+  level: [C.SocialCadreLevel, string] | [];
   department: string;
 }
 
 export interface ActivityFormItemValue {
   level: C.SocialActivityLevel;
   name: string;
-  time: RangePickerProps<string>['value'];
+  time: RangePickerProps<moment.MomentInput>['value'];
 }
 
 export interface PracticeSocialFormValue {
   cadre: CadreFormItemValue[];
   activity: ActivityFormItemValue[];
-}[]
+}
+
+export const practiceSocialFormDefaultValue: PracticeSocialFormValue = {
+  cadre: [{
+    level: [],
+    department: '',
+  }],
+  activity: [{
+    level: 'college_activities',
+    name: '',
+    time: [moment(), moment()]
+  }]
+}
 
 
 interface IProps extends FormItemProps {
@@ -58,6 +73,11 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
     <Card
       title="社会活动表"
     >
+      <Alert
+        message="因解职、辞职、免职使任职时间不足一届的 2/3 的学生干部不予加分，增补、升任的干部按任职时间在 2/3 以上的职务计分"
+        type="info"
+        showIcon
+      />
       <Form.Item
         {...resetProps}
         noStyle
@@ -81,6 +101,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                               name={[field.name, "level"]}
                             >
                               <Cascader
+                                placeholder="职位级别"
                                 options={cadreOption}
                               />
                             </Form.Item>
@@ -103,6 +124,25 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
             }
           }
         </Form.List>
+        <Alert
+          message="备注："
+          description={
+            <Typography>
+              <Paragraph>
+                <ol>
+                  <li>
+                    社会工作计分按照学生干部的实际工作情况给分，兼任多项学生工作职务者计最高分，不累加
+                  </li>
+                  <li>
+                    参加社会活动量化分由学生工作办公室认定
+                  </li>
+                </ol>
+              </Paragraph>
+            </Typography>
+          }
+          type="info"
+          showIcon
+        />
         <Form.List
           name={["social", "activity"]}
         >

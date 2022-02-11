@@ -2,38 +2,27 @@
  * 实践活动表
  */
 import * as React from 'react';
-import { FormValue } from '../types/form';
-import FormHeader from './form-header';
-import PracticeSocialForm from './practice-social-form';
 import { Form } from 'antd';
-import PracticeCompetitionForm from './practice-competition-form';
-import PracticeResultForm from './practice-result-form';
+import FormHeader from './form-header';
+import PracticeSocialForm, { PracticeSocialFormValue, practiceSocialFormDefaultValue } from './practice-social-form';
+import PracticeCompetitionForm, { PracticeCompetitionFormValue, practiceCompetitionDefaultFormValue } from './practice-competition-form';
+import PracticeResultForm, { PracticeResultFormValue, practiceResultDefaultFormValue } from './practice-result-form';
 import PracticeFormProvider from '../context/practice.context';
 
-interface PracticeFormItemValue {
-
-}
-
-type PracticeFormValue = FormValue<PracticeFormItemValue>;
+type PracticeFormValue = {
+  result: PracticeResultFormValue[];
+  social: PracticeSocialFormValue;
+  competition: PracticeCompetitionFormValue[];
+};
 
 interface IProps {
   practiceValue?: PracticeFormValue;
 }
 
 const defaultFormValue: PracticeFormValue = {
-  list: [
-    {
-      category: 'result',
-      list: [
-        {
-          type: 'international',
-          info: '',
-          name: '',
-          list: []
-        }
-      ],
-    }
-  ]
+  result: [practiceResultDefaultFormValue],
+  social: practiceSocialFormDefaultValue,
+  competition: [practiceCompetitionDefaultFormValue]
 }
 
 const PracticeForm: React.FC<IProps> = (props) => {
