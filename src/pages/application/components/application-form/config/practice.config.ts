@@ -120,8 +120,10 @@ export const competitionScoreList: CompetitionScoreItem[] = [
 
 export type SocialCadreLevel = 'leader' | 'deputy_leader' | 'committee';
 
+export type SocialActivityLevel = 'school_activities' | 'college_activities';
+
 export type SocialLevelScoreItem = BaseLevelScoreItem<
-  SocialCadreLevel | 'school_activities' | 'college_activities',
+  SocialActivityLevel | SocialCadreLevel,
   30 | 20 | 10 | 5 | 2
 >
 

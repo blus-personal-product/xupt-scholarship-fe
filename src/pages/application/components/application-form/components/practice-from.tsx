@@ -4,24 +4,14 @@
 import * as React from 'react';
 import { FormValue } from '../types/form';
 import FormHeader from './form-header';
-import * as C from '../config/practice.config';
-import SocialForm from './practice-social-form';
-import { Button, Card, DatePicker, Form, Input, Select } from 'antd';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { disabledFormCurrentDate } from '@/config/form';
+import PracticeSocialForm from './practice-social-form';
+import { Form } from 'antd';
+import PracticeCompetitionForm from './practice-competition-form';
+import PracticeResultForm from './practice-result-form';
+import PracticeFormProvider from '../context/practice.context';
 
 interface PracticeFormItemValue {
-  category: 'social' | 'competition' | 'result';
-  list: {
-    info: string;
-    name: string;
-    type: C.CompetitionScoreItem['type'] | C.ResultScoreItem['level'] | C.SocialScoreItem['type'];
-    list: {
-      info: string;
-      name: string;
-      level: C.SocialLevelScoreItem['level'] | C.CompetitionLevelScoreItem['level']
-    }[];
-  }[];
+
 }
 
 type PracticeFormValue = FormValue<PracticeFormItemValue>;
@@ -49,18 +39,21 @@ const defaultFormValue: PracticeFormValue = {
 const PracticeForm: React.FC<IProps> = (props) => {
   const { practiceValue } = props;
   return (
-    <React.Fragment>
+    <PracticeFormProvider>
       <FormHeader
         title="实践活动成绩"
         score={0}
       />
       <Form
         name="practice"
+        onValuesChange={(v, v1) => console.log(v, v1)}
         initialValues={practiceValue}
       >
-        <SocialForm />
+        <PracticeResultForm />
+        <PracticeSocialForm />
+        <PracticeCompetitionForm />
       </Form>
-    </React.Fragment>
+    </PracticeFormProvider>
   )
 };
 
