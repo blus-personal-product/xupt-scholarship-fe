@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as C from '../config/practice.config';
+import * as C from '../../../config/practice.config';
 import * as U from '@/utils';
-import { Button, Card, Col, DatePicker, DatePickerProps, Form, FormItemProps, Input, InputNumber, Row, Select } from 'antd';
+import { Alert, Button, Card, Col, DatePicker, DatePickerProps, Form, FormItemProps, Input, InputNumber, Row, Select } from 'antd';
 import { disabledFormCurrentDate } from '@/config/form';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import moment from 'moment';
@@ -63,7 +63,13 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
   return (
     <Card
       title="实践成果表"
+      id="practice-form-result"
     >
+      <Alert
+        message="实践成果中专利需授权，标准需获批立项。实践成果应明确标注西安邮电大学。"
+        type="info"
+        showIcon
+      />
       <Form.Item {...resetProps} noStyle>
         <Form.List
           name="result"
@@ -74,33 +80,29 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
                 <React.Fragment>
                   {
                     fields.map(field => (
-                      <Form.Item
-                        label={`成果 ${field.key + 1}`}
+                      <Card
+                        title={`成果 ${field.key + 1}`}
+                        type="inner"
                       >
-                        <Row>
-                          <Col span={16}>
-                            <Form.Item
-                              noStyle
-                              name={[field.name, "level"]}
-                            >
-                              <Select
-                                options={resultScoreOptions}
-                              />
-                            </Form.Item>
-                          </Col>
-                          <Col>
-                            <Form.Item
-                              noStyle
-                              name={[field.name, "time"]}
-                            >
-                              <DatePicker
-                                disabledDate={disabledFormCurrentDate}
-                              />
-                            </Form.Item>
-                          </Col>
-                        </Row>
                         <Form.Item
-                          noStyle
+                          label="成果类型"
+                          name={[field.name, "level"]}
+                        >
+                          <Select
+                            options={resultScoreOptions}
+                          />
+                        </Form.Item>
+                        <Form.Item
+                          label="获奖时间"
+                          name={[field.name, "time"]}
+                        >
+                          <DatePicker
+                            disabledDate={disabledFormCurrentDate}
+                          />
+                        </Form.Item>
+                        
+                        <Form.Item
+                          label="成果具名"
                           name={[field.name, "name"]}
                         >
                           <Input />
@@ -142,7 +144,7 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
                             }
                           }
                         </Form.Item>
-                      </Form.Item>
+                      </Card>
                     ))
                   }
                   <Button onClick={() => add()} >add R</Button>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as C from '../config/practice.config';
+import * as C from '../../../config/practice.config';
 import { disabledFormCurrentDate } from '@/config/form';
 import { Card, FormItemProps, Form, DatePicker, Cascader, Input, InputNumber, Typography, Button, DatePickerProps, Alert } from 'antd';
 import moment from 'moment';
@@ -40,6 +40,7 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
   return (
     <Card
       title="竞赛信息表"
+      id="practice-form-competition"
     >
       <Alert
         message="仅认可互联网+、挑战杯、中国研究生创新实践系列大赛、陕西省研究生创新成果展。研究生创新成果展与省赛同级"
@@ -56,11 +57,12 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
                 <React.Fragment>
                   {
                     fields.map(field => (
-                      <Form.Item
-                        label={`竞赛 ${field.key + 1}`}
+                      <Card
+                        title={`竞赛 ${field.key + 1}`}
+                        type="inner"
                       >
                         <Form.Item
-                          noStyle
+                          label="竞赛类型"
                           name={[field.name, "level"]}
                         >
                           <Cascader
@@ -69,13 +71,13 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
                           />
                         </Form.Item>
                         <Form.Item
-                          noStyle
+                          label="赛事具名"
                           name={[field.name, "name"]}
                         >
                           <Input />
                         </Form.Item>
                         <Form.Item
-                          noStyle
+                          label="获奖时间"
                           name={[field.name, "time"]}
                         >
                           <DatePicker
@@ -106,7 +108,7 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
                             />
                           </Form.Item>
                         </Form.Item>
-                      </Form.Item>
+                      </Card>
                     ))
                   }
                   <Button onClick={() => add()} >add C</Button>

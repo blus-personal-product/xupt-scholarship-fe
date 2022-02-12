@@ -1,11 +1,10 @@
 import * as React from 'react';
-import * as C from '../config/practice.config';
+import * as C from '../../../config/practice.config';
 import { disabledFormCurrentDate } from '@/config/form';
-import { Form, Card, Cascader, Select, Input, Button, DatePicker, Radio, FormItemProps, Alert, Typography } from 'antd';
+import { Form, Card, Cascader, Input, Button, DatePicker, Radio, FormItemProps, Alert } from 'antd';
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import moment from 'moment';
-
-const { Paragraph } = Typography;
+import { TextLoop } from 'react-text-loop-next';
 
 export interface CadreFormItemValue {
   level: [C.SocialCadreLevel, string] | [];
@@ -72,9 +71,18 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
   return (
     <Card
       title="社会活动表"
+      id="practice-form-social"
     >
       <Alert
-        message="因解职、辞职、免职使任职时间不足一届的 2/3 的学生干部不予加分，增补、升任的干部按任职时间在 2/3 以上的职务计分"
+        style={{
+          height: 64
+        }}
+        message={
+          <TextLoop mask noWrap={false}>
+            <div>社会工作计分按照学生干部的实际工作情况给分，兼任多项学生工作职务者计最高分，不累加</div>
+            <div>因解职、辞职、免职使任职时间不足一届的 2/3 的学生干部不予加分，增补、升任的干部按任职时间在 2/3 以上的职务计分</div>
+          </TextLoop>
+        }
         type="info"
         showIcon
       />
@@ -88,58 +96,43 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
           {
             (fields, { add, remove }) => {
               return (
-                <React.Fragment>
+                <section id="practice-form-social-cadre">
                   {
                     fields.map(field => {
                       return (
-                        <React.Fragment>
+                        <Card
+                          title={`职位 ${field.key + 1}`}
+                          type="inner"
+                        >
                           <Form.Item
-                            label={`职位 ${field.key + 1}`}
+                            label="职位级别"
+                            name={[field.name, "level"]}
                           >
-                            <Form.Item
-                              noStyle
-                              name={[field.name, "level"]}
-                            >
-                              <Cascader
-                                placeholder="职位级别"
-                                options={cadreOption}
-                              />
-                            </Form.Item>
-                            <Form.Item
-                              noStyle
-                              name={[field.name, "department"]}
-                            >
-                              <Input
-                                placeholder="所属组织/部门/学院"
-                              />
-                            </Form.Item>
+                            <Cascader
+                              placeholder="职位级别"
+                              options={cadreOption}
+                            />
                           </Form.Item>
-                        </React.Fragment>
+                          <Form.Item
+                            label="所属部门"
+                            name={[field.name, "department"]}
+                          >
+                            <Input
+                              placeholder="所属组织/部门/学院"
+                            />
+                          </Form.Item>
+                        </Card>
                       );
                     })
                   }
                   <Button onClick={() => add()} >add</Button>
-                </React.Fragment>
+                </section>
               )
             }
           }
         </Form.List>
         <Alert
-          message="备注："
-          description={
-            <Typography>
-              <Paragraph>
-                <ol>
-                  <li>
-                    社会工作计分按照学生干部的实际工作情况给分，兼任多项学生工作职务者计最高分，不累加
-                  </li>
-                  <li>
-                    参加社会活动量化分由学生工作办公室认定
-                  </li>
-                </ol>
-              </Paragraph>
-            </Typography>
-          }
+          message="参加社会活动量化分由学生工作办公室认定"
           type="info"
           showIcon
         />
@@ -149,16 +142,17 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
           {
             (fields, { add, remove }) => {
               return (
-                <React.Fragment>
+                <section id="practice-form-social-activity">
                   {
                     fields.map(field => {
                       return (
                         <React.Fragment>
-                          <Form.Item
-                            label={`活动 ${field.key + 1}`}
+                          <Card
+                            title={`活动 ${field.key + 1}`}
+                            type="inner"
                           >
                             <Form.Item
-                              noStyle
+                              label="活动类型"
                               name={[field.name, "level"]}
                             >
                               <Radio.Group
@@ -168,7 +162,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                               />
                             </Form.Item>
                             <Form.Item
-                              noStyle
+                              label="活动名称"
                               name={[field.name, "name"]}
                             >
                               <Input
@@ -176,7 +170,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                               />
                             </Form.Item>
                             <Form.Item
-                              noStyle
+                              label="活动时间"
                               name={[field.name, "time"]}
                             >
                               <DatePicker.RangePicker
@@ -184,13 +178,13 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                                 placeholder={["活动开始时间", "活动终止时间"]}
                               />
                             </Form.Item>
-                          </Form.Item>
+                          </Card>
                         </React.Fragment>
                       );
                     })
                   }
                   <Button onClick={() => add()} >add Activity</Button>
-                </React.Fragment>
+                </section>
               )
             }
           }
