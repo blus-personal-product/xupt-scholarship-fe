@@ -5,6 +5,7 @@ import { Alert, Button, Card, Col, DatePicker, DatePickerProps, Form, FormItemPr
 import { disabledFormCurrentDate } from '@/config/form';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import moment from 'moment';
+import { PlusOutlined } from '@ant-design/icons';
 
 interface IProps extends FormItemProps {
 
@@ -100,7 +101,7 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
                             disabledDate={disabledFormCurrentDate}
                           />
                         </Form.Item>
-                        
+
                         <Form.Item
                           label="成果具名"
                           name={[field.name, "name"]}
@@ -147,7 +148,14 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
                       </Card>
                     ))
                   }
-                  <Button onClick={() => add()} >add R</Button>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    添加成果
+                    </Button>
                 </React.Fragment>
               )
             }

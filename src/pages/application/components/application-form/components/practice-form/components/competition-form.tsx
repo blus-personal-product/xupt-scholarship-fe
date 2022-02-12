@@ -3,6 +3,7 @@ import * as C from '../../../config/practice.config';
 import { disabledFormCurrentDate } from '@/config/form';
 import { Card, FormItemProps, Form, DatePicker, Cascader, Input, InputNumber, Typography, Button, DatePickerProps, Alert } from 'antd';
 import moment from 'moment';
+import { PlusOutlined } from '@ant-design/icons';
 
 export interface PracticeCompetitionFormValue {
   level: [C.CompetitionScoreItem['type'], C.CompetitionLevelScoreItem['level']] | [];
@@ -111,7 +112,14 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
                       </Card>
                     ))
                   }
-                  <Button onClick={() => add()} >add C</Button>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    添加比赛
+                    </Button>
                 </React.Fragment>
               )
             }

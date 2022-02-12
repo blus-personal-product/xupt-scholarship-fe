@@ -5,6 +5,7 @@ import { Form, Card, Cascader, Input, Button, DatePicker, Radio, FormItemProps, 
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import moment from 'moment';
 import { TextLoop } from 'react-text-loop-next';
+import { PlusOutlined } from '@ant-design/icons';
 
 export interface CadreFormItemValue {
   level: [C.SocialCadreLevel, string] | [];
@@ -125,7 +126,14 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                       );
                     })
                   }
-                  <Button onClick={() => add()} >add</Button>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    添加职位
+                    </Button>
                 </section>
               )
             }
@@ -135,6 +143,9 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
           message="参加社会活动量化分由学生工作办公室认定"
           type="info"
           showIcon
+          style={{
+            marginTop: 24
+          }}
         />
         <Form.List
           name={["social", "activity"]}
@@ -183,7 +194,14 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                       );
                     })
                   }
-                  <Button onClick={() => add()} >add Activity</Button>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    添加活动
+                    </Button>
                 </section>
               )
             }

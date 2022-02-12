@@ -3,14 +3,20 @@
  */
 import * as React from 'react';
 import { Form } from 'antd';
+import FormHeader from '../form-header';
+import ScientificForm from './components/scientific-form';
 
 const AcademicForm: React.FC = () => {
   return (
     <section id="academic-form">
+      <FormHeader
+        title="科研项目"
+        score={0}
+      />
       <Form
         name="academic"
       >
-        
+        <ScientificForm />
       </Form>
     </section>
   )

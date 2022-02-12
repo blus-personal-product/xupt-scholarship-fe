@@ -181,7 +181,7 @@ const MoralForm: React.FC<IProps> = (props) => {
                       block
                       icon={<PlusOutlined />}
                     >
-                      添加获奖
+                      添加奖项
                     </Button>
                   </Form.Item>
                 </Card>
