@@ -6,13 +6,13 @@ import { Form } from 'antd';
 
 const AcademicForm: React.FC = () => {
   return (
-    <React.Fragment>
+    <section id="academic-form">
       <Form
         name="academic"
       >
         
       </Form>
-    </React.Fragment>
+    </section>
   )
 };
 

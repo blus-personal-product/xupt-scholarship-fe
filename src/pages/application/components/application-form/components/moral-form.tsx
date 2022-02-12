@@ -2,7 +2,7 @@
  * 思想品德成绩表
  */
 import * as React from 'react';
-import { Form, Input, Select, DatePicker, Button, Card, FormProps, notification } from 'antd';
+import { Form, Input, Select, DatePicker, Button, Card, FormProps, notification, Alert } from 'antd';
 import { moralScoreList, MoralScoreItem } from '../config/moral.config';
 import FormHeader from './form-header';
 import { FormValue } from '../types/form';
@@ -78,7 +78,7 @@ const MoralForm: React.FC<IProps> = (props) => {
     }
   }
   return (
-    <React.Fragment>
+    <section id="moral-form">
       <FormHeader
         title="思想品德成绩"
         score={score}
@@ -99,13 +99,19 @@ const MoralForm: React.FC<IProps> = (props) => {
           {
             (fields, { add, remove }) => {
               return (
-                <React.Fragment>
+                <Card>
+                  <Alert
+                    message="各级表彰均应属思想品德方面"
+                    type="info"
+                    showIcon
+                  />
                   {
                     fields.map(field => (
-                      <React.Fragment key={field.key}>
+                      <section id={`moral-form-item-${field.key}`} key={field.key}>
                         <Card
                           title={`奖项${field.key + 1}`}
                           key={field.key}
+                          type="inner"
                           extra={
                             <Button
                               danger
@@ -163,7 +169,7 @@ const MoralForm: React.FC<IProps> = (props) => {
                             />
                           </Form.Item>
                         </Card>
-                      </React.Fragment>
+                      </section>
                     ))
                   }
                   <Form.Item
@@ -178,13 +184,13 @@ const MoralForm: React.FC<IProps> = (props) => {
                       添加获奖
                     </Button>
                   </Form.Item>
-                </React.Fragment>
+                </Card>
               );
             }
           }
         </Form.List>
       </Form>
-    </React.Fragment>
+    </section>
   );
 };
 
