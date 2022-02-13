@@ -1,17 +1,18 @@
 import * as React from 'react';
 import * as C from '../../../config/practice.config';
 import * as U from '@/utils';
-import { DatePicker, DatePickerProps, Form, FormItemProps, Input, InputNumber,Select } from 'antd';
+import { DatePicker, DatePickerProps, Form, FormItemProps, Input, Select } from 'antd';
 import { disabledFormCurrentDate } from '@/config/form';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
+import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
 
 interface IProps extends FormItemProps {
 
 }
 
-export interface PracticeResultFormValue {
+export interface PracticeResultFormValue extends CooperateFormValue {
   level: C.ResultScoreItem['level'];
   time: DatePickerProps['value'];
   name: string;
@@ -102,30 +103,9 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
                   // 通过确定是否是合作项目来判断是否需要展示合作贡献表单
                   const isShowCooperationFormGroup = isCooperationLevel(getFieldValue(['result', field.name, "level"]));
                   return isShowCooperationFormGroup && (
-                    <Form.Item
-                      label="合作信息"
-                    >
-                      <Form.Item
-                        noStyle
-                        name={[field.name, "order"]}
-                      >
-                        <InputNumber
-                          addonBefore="个人贡献名次"
-                          addonAfter="名"
-                          min={1}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name={[field.name, "partners"]}
-                        noStyle
-                      >
-                        <InputNumber
-                          addonBefore="团队人数"
-                          addonAfter="人"
-                          min={1}
-                        />
-                      </Form.Item>
-                    </Form.Item>
+                    <CooperateForm
+                      field={field}
+                    />
                   );
                 }
               }

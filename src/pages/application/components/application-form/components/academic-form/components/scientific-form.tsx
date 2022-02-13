@@ -6,11 +6,25 @@ import * as C from '../../../config/academic.config';
 import * as React from 'react';
 import { disabledFormCurrentDate } from '@/config/form';
 import FormListSkeleton from '../../form-list-skeleton';
-import { TextLoop } from 'react-text-loop-next';
+import moment from 'moment';
+import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
+import CooperateForm from '../../cooperate-form';
 
 interface IProps extends FormItemProps {
 
 }
+
+export interface ScientificFormValue {
+  level: C.ScientificScoreItem['level'];
+  name: string;
+  time: RangePickerProps<moment.MomentInput>['value'];
+}
+
+export const scientificDefaultFormValue: ScientificFormValue = {
+  level: 'bureau',
+  name: '',
+  time: [moment(), moment()]
+};
 
 const ScientificForm: React.FC<IProps> = (props) => {
 
@@ -26,8 +40,11 @@ const ScientificForm: React.FC<IProps> = (props) => {
       itemTitle="项目"
       listId="academic-form-scientific"
       alertMessage={
-        ['每名学生参加教师科研项目量化分总计不超过 1 篇 SCI 2 区收录(期刊)的标准',
-          '学校提供的配套经费一律不计分']}
+        [
+          '每名学生参加教师科研项目量化分总计不超过 1 篇 SCI 2 区收录(期刊)的标准',
+          '学校提供的配套经费一律不计分'
+        ]
+      }
     >
       {
         (field) => (
@@ -54,6 +71,9 @@ const ScientificForm: React.FC<IProps> = (props) => {
                 disabledDate={disabledFormCurrentDate}
               />
             </Form.Item>
+            <CooperateForm
+              field={field}
+            />
           </React.Fragment>
         )
       }

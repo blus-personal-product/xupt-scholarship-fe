@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as C from '../../../config/practice.config';
 import { disabledFormCurrentDate } from '@/config/form';
-import { Form, Card, Cascader, Input, Button, DatePicker, Radio, FormItemProps, Alert } from 'antd';
+import { Form, Card, Cascader, Input, DatePicker, Radio, FormItemProps } from 'antd';
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';

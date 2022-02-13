@@ -10,7 +10,7 @@ const AcademicForm: React.FC = () => {
   return (
     <section id="academic-form">
       <FormHeader
-        title="科研项目"
+        title="学术成果"
         score={0}
       />
       <Form

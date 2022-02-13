@@ -1,16 +1,15 @@
 import * as React from 'react';
 import * as C from '../../../config/practice.config';
 import { disabledFormCurrentDate } from '@/config/form';
-import { FormItemProps, Form, DatePicker, Cascader, Input, InputNumber, DatePickerProps } from 'antd';
+import { FormItemProps, Form, DatePicker, Cascader, Input, DatePickerProps } from 'antd';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
+import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
 
-export interface PracticeCompetitionFormValue {
+export interface PracticeCompetitionFormValue extends CooperateFormValue {
   level: [C.CompetitionScoreItem['type'], C.CompetitionLevelScoreItem['level']] | [];
   name: string;
   time: DatePickerProps['value'];
-  order: number;
-  partners: number;
 }
 
 export const practiceCompetitionDefaultFormValue: PracticeCompetitionFormValue = {
@@ -71,30 +70,9 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
                 disabledDate={disabledFormCurrentDate}
               />
             </Form.Item>
-            <Form.Item
-              label="合作信息"
-            >
-              <Form.Item
-                noStyle
-                name={[field.name, "order"]}
-              >
-                <InputNumber
-                  addonBefore="个人贡献名次"
-                  addonAfter="名"
-                  min={1}
-                />
-              </Form.Item>
-              <Form.Item
-                name={[field.name, "partners"]}
-                noStyle
-              >
-                <InputNumber
-                  addonBefore="团队人数"
-                  addonAfter="人"
-                  min={1}
-                />
-              </Form.Item>
-            </Form.Item>
+            <CooperateForm
+              field={field}
+            />
           </React.Fragment>
         )
       }
