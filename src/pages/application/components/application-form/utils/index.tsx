@@ -12,12 +12,15 @@ export const getCooperationScore = (order: number = 1, partners: number = 1): nu
   // 如果只有一个人，占比是1
   if (order === 1 && partners === 1) return 1;
   // 如果五个人内，第2，3，4名的得分占比始终固定
-  if (order > 2 && partners <= 5) return fixedScore[order - 3];
+  if (order > 2 && order < 5) return fixedScore[order - 3];
   // 排序为1并且合作人数超过两个
-  if (order === 1 ) return fixedFirstStartScore - 0.05 * (partners - 2);
+  if (order === 1) {
+    const value = fixedFirstStartScore - 0.05 * (partners - 2);
+    return value >= 0.5 ? value : 0.5
+  }
   // 第二名在人数增加到四人后维持在25%
   if (order === 2 && partners > 3) return 0.25;
-  
+
   if (order === 2) {
     if (partners === 2) {
       return 0.35;

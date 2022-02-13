@@ -1,16 +1,18 @@
 import * as React from 'react';
 import * as C from '../../../config/practice.config';
 import * as U from '@/utils';
-import { Alert, Button, Card, Col, DatePicker, DatePickerProps, Form, FormItemProps, Input, InputNumber, Row, Select } from 'antd';
+import { DatePicker, DatePickerProps, Form, FormItemProps, Input, Select } from 'antd';
 import { disabledFormCurrentDate } from '@/config/form';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import moment from 'moment';
+import FormListSkeleton from '../../form-list-skeleton';
+import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
 
 interface IProps extends FormItemProps {
 
 }
 
-export interface PracticeResultFormValue {
+export interface PracticeResultFormValue extends CooperateFormValue {
   level: C.ResultScoreItem['level'];
   time: DatePickerProps['value'];
   name: string;
@@ -52,8 +54,6 @@ const isCooperationLevel = (level: C.ResultScoreItem['level']) => {
 }
 
 const PracticeResultForm: React.FC<IProps> = (props) => {
-  const { ...resetProps } = props;
-
   const resultScoreOptions = React.useMemo(() => C.resultScoreList.map(item => ({
     label: `${item.title} 『${item.score}分』`,
     value: item.level,
@@ -61,100 +61,59 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
   })), []);
 
   return (
-    <Card
+    <FormListSkeleton
       title="实践成果表"
-      id="practice-form-result"
+      listId="practice-form-result"
+      itemTitle="成果"
+      name="result"
+      alertMessage=""
     >
-      <Alert
-        message="实践成果中专利需授权，标准需获批立项。实践成果应明确标注西安邮电大学。"
-        type="info"
-        showIcon
-      />
-      <Form.Item {...resetProps} noStyle>
-        <Form.List
-          name="result"
-        >
-          {
-            (fields, { add, remove }) => {
-              return (
-                <React.Fragment>
-                  {
-                    fields.map(field => (
-                      <Card
-                        title={`成果 ${field.key + 1}`}
-                        type="inner"
-                      >
-                        <Form.Item
-                          label="成果类型"
-                          name={[field.name, "level"]}
-                        >
-                          <Select
-                            options={resultScoreOptions}
-                          />
-                        </Form.Item>
-                        <Form.Item
-                          label="获奖时间"
-                          name={[field.name, "time"]}
-                        >
-                          <DatePicker
-                            disabledDate={disabledFormCurrentDate}
-                          />
-                        </Form.Item>
-                        
-                        <Form.Item
-                          label="成果具名"
-                          name={[field.name, "name"]}
-                        >
-                          <Input />
-                        </Form.Item>
-                        <Form.Item
-                          noStyle
-                          shouldUpdate={isUpdateCooperation(field)}
-                        >
-                          {
-                            ({ getFieldValue }) => {
-                              // 通过确定是否是合作项目来判断是否需要展示合作贡献表单
-                              const isShowCooperationFormGroup = isCooperationLevel(getFieldValue(['result', field.name, "level"]));
-                              return isShowCooperationFormGroup && (
-                                <Form.Item
-                                  label="合作信息"
-                                >
-                                  <Form.Item
-                                    noStyle
-                                    name={[field.name, "order"]}
-                                  >
-                                    <InputNumber
-                                      addonBefore="个人贡献名次"
-                                      addonAfter="名"
-                                      min={1}
-                                    />
-                                  </Form.Item>
-                                  <Form.Item
-                                    name={[field.name, "partners"]}
-                                    noStyle
-                                  >
-                                    <InputNumber
-                                      addonBefore="团队人数"
-                                      addonAfter="人"
-                                      min={1}
-                                    />
-                                  </Form.Item>
-                                </Form.Item>
-                              );
-                            }
-                          }
-                        </Form.Item>
-                      </Card>
-                    ))
-                  }
-                  <Button onClick={() => add()} >add R</Button>
-                </React.Fragment>
-              )
-            }
-          }
-        </Form.List>
-      </Form.Item>
-    </Card>
+      {
+        (field) => (
+          <React.Fragment>
+            <Form.Item
+              label="成果类型"
+              name={[field.name, "level"]}
+            >
+              <Select
+                options={resultScoreOptions}
+              />
+            </Form.Item>
+            <Form.Item
+              label="获奖时间"
+              name={[field.name, "time"]}
+            >
+              <DatePicker
+                disabledDate={disabledFormCurrentDate}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="成果具名"
+              name={[field.name, "name"]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              noStyle
+              shouldUpdate={isUpdateCooperation(field)}
+            >
+              {
+                ({ getFieldValue }) => {
+                  // 通过确定是否是合作项目来判断是否需要展示合作贡献表单
+                  const isShowCooperationFormGroup = isCooperationLevel(getFieldValue(['result', field.name, "level"]));
+                  return isShowCooperationFormGroup && (
+                    <CooperateForm
+                      field={field}
+                    />
+                  );
+                }
+              }
+            </Form.Item>
+          </React.Fragment>
+        )
+      }
+    </FormListSkeleton>
   );
 };
 

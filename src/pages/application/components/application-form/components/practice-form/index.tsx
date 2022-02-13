@@ -36,7 +36,6 @@ const PracticeForm: React.FC<IProps> = (props) => {
         />
         <Form
           name="practice"
-          onValuesChange={(v, v1) => console.log(v, v1)}
           initialValues={practiceValue}
         >
           <PracticeResultForm />

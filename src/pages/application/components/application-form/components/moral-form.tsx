@@ -2,12 +2,12 @@
  * 思想品德成绩表
  */
 import * as React from 'react';
-import { Form, Input, Select, DatePicker, Button, Card, FormProps, notification, Alert } from 'antd';
+import { Form, Input, Select, DatePicker, Card, FormProps, notification } from 'antd';
 import { moralScoreList, MoralScoreItem } from '../config/moral.config';
 import FormHeader from './form-header';
 import { FormValue } from '../types/form';
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { validateMessages, disabledFormCurrentDate } from '@/config/form';
+import FormListSkeleton from './form-list-skeleton';
 
 type MoralFormItemValue = {
   level: MoralScoreItem['level'];
@@ -37,7 +37,6 @@ const MoralForm: React.FC<IProps> = (props) => {
   const { moralValue } = props;
 
   const [score, setScore] = React.useState(0);
-
   const scoreMap = React.useMemo(() => {
     const temp = new Map();
     moralScoreList.forEach(item => {
@@ -93,104 +92,71 @@ const MoralForm: React.FC<IProps> = (props) => {
         requiredMark={false}
         validateMessages={validateMessages}
       >
-        <Form.List
-          name="list"
-        >
-          {
-            (fields, { add, remove }) => {
-              return (
-                <Card>
-                  <Alert
-                    message="各级表彰均应属思想品德方面"
-                    type="info"
-                    showIcon
+        <Card>
+          <FormListSkeleton
+            listId=""
+            name="list"
+            alertMessage="各级表彰均应属思想品德方面"
+            title=""
+            itemTitle="奖项"
+          >
+            {
+            (field) => (
+              <React.Fragment>
+                <Form.Item
+                  label="奖项级别"
+                  name={[field.name, 'level']}
+                  rules={[{
+                    required: true
+                  }]}
+                >
+                  <Select
+                    options={options}
+                    fieldNames={{ label: 'title', value: 'level' }}
+                    placeholder="请选择奖项级别（必填）"
                   />
-                  {
-                    fields.map(field => (
-                      <section id={`moral-form-item-${field.key}`} key={field.key}>
-                        <Card
-                          title={`奖项${field.key + 1}`}
-                          key={field.key}
-                          type="inner"
-                          extra={
-                            <Button
-                              danger
-                              icon={<DeleteOutlined />}
-                              onClick={() => remove(field.name)}
-                            >
-                              删除
-                          </Button>
-                          }
-                        >
-                          <Form.Item
-                            label="奖项级别"
-                            name={[field.name, 'level']}
-                            rules={[{
-                              required: true
-                            }]}
-                          >
-                            <Select
-                              options={options}
-                              fieldNames={{ label: 'title', value: 'level' }}
-                              placeholder="请选择奖项级别（必填）"
-                            />
-                          </Form.Item>
-                          <Form.Item
-                            label="奖项具名"
-                            name={[field.name, 'name']}
-                            rules={[{
-                              required: true
-                            }]}
-                          >
-                            <Input
-                              allowClear
-                              placeholder="请输入奖项全名（必填）"
-                            />
-                          </Form.Item>
-                          <Form.Item
-                            label="颁布时间"
-                            name={[field.name, 'time']}
-                            rules={[{
-                              required: true
-                            }]}
-                          >
-                            <DatePicker
-                              allowClear
-                              disabledDate={disabledFormCurrentDate}
-                              placeholder="请输入奖项颁布时间（必填）"
-                            />
-                          </Form.Item>
-                          <Form.Item
-                            label="补充信息"
-                            name={[field.name, 'info']}
-                          >
-                            <Input.TextArea
-                              placeholder="请输入奖项相关信息或者其他说明（非必填项）"
-                            />
-                          </Form.Item>
-                        </Card>
-                      </section>
-                    ))
-                  }
-                  <Form.Item
-                    noStyle
-                  >
-                    <Button
-                      type="dashed"
-                      onClick={() => add()}
-                      block
-                      icon={<PlusOutlined />}
-                    >
-                      添加获奖
-                    </Button>
-                  </Form.Item>
-                </Card>
-              );
-            }
+                </Form.Item>
+                <Form.Item
+                  label="奖项具名"
+                  name={[field.name, 'name']}
+                  rules={[{
+                    required: true
+                  }]}
+                >
+                  <Input
+                    allowClear
+                    placeholder="请输入奖项全名（必填）"
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="颁布时间"
+                  name={[field.name, 'time']}
+                  rules={[{
+                    required: true
+                  }]}
+                >
+                  <DatePicker
+                    allowClear
+                    disabledDate={disabledFormCurrentDate}
+                    placeholder="请输入奖项颁布时间（必填）"
+                  />
+                </Form.Item>
+                <Form.Item
+                  label="补充信息"
+                  name={[field.name, 'info']}
+                >
+                  <Input.TextArea
+                    placeholder="请输入奖项相关信息或者其他说明（非必填项）"
+                  />
+                </Form.Item>
+              </React.Fragment>
+            )
           }
-        </Form.List>
+
+          </FormListSkeleton>
+        </Card>
       </Form>
-    </section>
+    </section >
   );
 };
 

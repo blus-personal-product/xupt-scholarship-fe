@@ -13,7 +13,7 @@ const ApplicationForm: React.FC = () => {
   return (
     <Row>
       <ApplicationProvider>
-        <Col span={4}>
+        <Col xs={{ span: 24 }} span={8} md={{ span: 4 }}>
           <FormAnchor />
         </Col>
         <Col>
