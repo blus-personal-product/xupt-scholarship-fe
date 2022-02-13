@@ -28,11 +28,12 @@ export const scientificDefaultFormValue: ScientificFormValue = {
 
 const ScientificForm: React.FC<IProps> = (props) => {
 
-  const scientificOptions = React.useMemo(() => C.ScientificScoreList.map(item => ({
+  const scientificOptions = React.useMemo(() => C.scientificScoreList.map(item => ({
     label: `${item.title} 『分数：${item.score}分』`,
     value: item.level,
     score: item.score
   })), []);
+  
   return (
     <FormListSkeleton
       title="科研项目"

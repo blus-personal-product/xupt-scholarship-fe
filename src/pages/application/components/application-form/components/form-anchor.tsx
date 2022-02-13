@@ -30,6 +30,9 @@ const FormAnchor: React.FC = () => {
           </Link>
           <Link href="#academic-form" title="学术成果">
             <Link href="#academic-form-scientific" title="科研项目"></Link>
+            <Link href="#academic-form-award" title="荣获奖项" />
+            <Link href="#academic-form-dissertation" title="公开发表论文" />
+            <Link href="#academic-form-publish" title="出版专著" />
           </Link>
       </Anchor>
     </React.Fragment>

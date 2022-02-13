@@ -42,7 +42,10 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
       itemTitle="竞赛"
       title="竞赛信息表"
       listId="practice-form-competition"
-      alertMessage="仅认可互联网+、挑战杯、中国研究生创新实践系列大赛、陕西省研究生创新成果展。研究生创新成果展与省赛同级"
+      alertMessage={[
+        '仅认可互联网+、挑战杯、中国研究生创新实践系列大赛、陕西省研究生创新成果展',
+        '研究生创新成果展与省赛同级'
+      ]}
     >
       {
         (field) => (
