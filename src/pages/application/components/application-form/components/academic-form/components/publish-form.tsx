@@ -4,7 +4,7 @@
 import { FormItemProps, Form, Select, Input, DatePicker, InputNumber, Space, DatePickerProps } from 'antd';
 import * as C from '../../../config/academic.config';
 import * as React from 'react';
-import { disabledFormCurrentDate } from '@/config/form';
+import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import FormListSkeleton from '../../form-list-skeleton';
 import moment from 'moment';
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
@@ -58,6 +58,7 @@ const PublishForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="出版社级别"
               name={[field.name, "level"]}
+              rules={requiredRule}
             >
               <Select
                 options={scientificOptions}
@@ -66,34 +67,43 @@ const PublishForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="出版社名称"
               name={[field.name, "publish_house_name"]}
+              rules={requiredRule}
             >
               <Input />
             </Form.Item>
             <Form.Item
               label="专著名称"
               name={[field.name, "name"]}
+              rules={requiredRule}
             >
               <Input />
             </Form.Item>
-            <Space>
-              <Form.Item
-                label="出版时间"
-                name={[field.name, "time"]}
-              >
-                <DatePicker
-                  disabledDate={disabledFormCurrentDate}
-                />
-              </Form.Item>
-              <Form.Item
-                name={[field.name, "fonts_count"]}
-              >
-                <InputNumber
-                  addonBefore="承担字数"
-                  addonAfter="万字"
-                  min={1}
-                />
-              </Form.Item>
-            </Space>
+            <Form.Item
+              label="出版时间"
+            >
+              <Space>
+                <Form.Item
+                  noStyle
+                  name={[field.name, "time"]}
+                  rules={requiredRule}
+                >
+                  <DatePicker
+                    disabledDate={disabledFormCurrentDate}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name={[field.name, "fonts_count"]}
+                  rules={requiredRule}
+                  noStyle
+                >
+                  <InputNumber
+                    addonBefore="承担字数"
+                    addonAfter="万字"
+                    min={1}
+                  />
+                </Form.Item>
+              </Space>
+            </Form.Item>
           </React.Fragment>
         )
       }

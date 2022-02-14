@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as C from '../../../config/practice.config';
-import { disabledFormCurrentDate } from '@/config/form';
+import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { Form, Card, Cascader, Input, DatePicker, Radio, FormItemProps } from 'antd';
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import moment from 'moment';
@@ -91,6 +91,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
               <Form.Item
                 label="职位级别"
                 name={[field.name, "level"]}
+                rules={requiredRule}
               >
                 <Cascader
                   placeholder="职位级别"
@@ -100,6 +101,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
               <Form.Item
                 label="所属部门"
                 name={[field.name, "department"]}
+                rules={requiredRule}
               >
                 <Input
                   placeholder="所属组织/部门/学院"
@@ -123,6 +125,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
               <Form.Item
                 label="活动类型"
                 name={[field.name, "level"]}
+                rules={requiredRule}
               >
                 <Radio.Group
                   buttonStyle="solid"
@@ -133,6 +136,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
               <Form.Item
                 label="活动名称"
                 name={[field.name, "name"]}
+                rules={requiredRule}
               >
                 <Input
                   placeholder="活动名称"
@@ -141,6 +145,7 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
               <Form.Item
                 label="活动时间"
                 name={[field.name, "time"]}
+                rules={requiredRule}
               >
                 <DatePicker.RangePicker
                   disabledDate={disabledFormCurrentDate}

@@ -15,6 +15,7 @@ const FormAnchor: React.FC = () => {
       <Anchor
         showInkInFixed
         targetOffset={targetOffset}
+        offsetTop={60}
         style={{
           backgroundColor: "#F0F2F5",
           marginLeft: 16
