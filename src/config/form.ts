@@ -11,9 +11,13 @@ export const requiredRule: FormItemProps['rules'] = [
   }
 ]
 
-export const baseFormLayout = {
+export const baseFormConf = {
   labelCol: { span: 4, offset: 2 },
-  wrapperCol: { span: 12 }
+  wrapperCol: { span: 12 },
+  scrollToFirstError: true,
+  requiredMark: false,
+  labelWrap: true,
+  validateMessages,
 }
 
 export const disabledFormCurrentDate: DatePickerProps['disabledDate'] = (current) => {

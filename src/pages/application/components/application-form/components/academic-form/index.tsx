@@ -11,10 +11,10 @@ import PublishForm, { publishDefaultFormValue, PublishFormValue } from './compon
 import useScoreMap from '../../hooks/use-score-map';
 import { awardScoreList, dissertationScoreList, publishScoreList, scientificScoreList } from '../../config/academic.config';
 import { getCooperationScore } from '../../utils';
-import { baseFormLayout, validateMessages } from '@/config/form';
+import { baseFormConf, validateMessages } from '@/config/form';
 import { useApplicationContext } from '../../context/application.context';
 
-interface AcademicFormValue {
+export interface AcademicFormValue {
   award: AwardFormValue[];
   scientific: ScientificFormValue[];
   dissertation: DissertationFormValue[];
@@ -106,11 +106,10 @@ const AcademicForm: React.FC<IProps> = (props) => {
         score={score}
       />
       <Form
-        {...baseFormLayout}
+        {...baseFormConf}
         name="academic"
         initialValues={academicValue}
         onValuesChange={onValuesChange}
-        validateMessages={validateMessages}
         form={academicForm}
       >
         <ScientificForm />

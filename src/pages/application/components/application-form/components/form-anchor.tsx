@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Collapse, Anchor } from 'antd';
+import { Anchor } from 'antd';
+import { HEADER_NAV_HEIGHT } from '@/config/header';
+import style from '../style/anchor.module.less';
 
 const { Link } = Anchor;
-const { Panel } = Collapse;
 
 const FormAnchor: React.FC = () => {
   const [targetOffset, setTargetOffset] = useState<number | undefined>(undefined);
@@ -15,10 +16,11 @@ const FormAnchor: React.FC = () => {
       <Anchor
         showInkInFixed
         targetOffset={targetOffset}
-        offsetTop={60}
+        className={style['left-anchor-nav']}
+        // 72 是pageHeader的高度
+        offsetTop={HEADER_NAV_HEIGHT + 72 + 8}
         style={{
           backgroundColor: "#F0F2F5",
-          marginLeft: 16
         }}>
           <Link href="#moral-form" title="思想品德" />
           <Link href="#practice-form" title="实践活动">

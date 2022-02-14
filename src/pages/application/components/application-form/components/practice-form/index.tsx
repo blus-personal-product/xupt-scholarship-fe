@@ -17,10 +17,10 @@ import PracticeFormProvider from '../../context/practice.context';
 import { getCooperationScore } from '../../utils/index';
 import { competitionScoreList, resultScoreList, SocialScoreList } from '../../config/practice.config';
 import useScoreMap from '../../hooks/use-score-map';
-import { baseFormLayout, validateMessages } from '@/config/form';
+import { baseFormConf, validateMessages } from '@/config/form';
 import { useApplicationContext } from '../../context/application.context';
 
-type PracticeFormValue = {
+export type PracticeFormValue = {
   result: PracticeResultFormValue[];
   social: PracticeSocialFormValue;
   competition: PracticeCompetitionFormValue[];
@@ -118,12 +118,11 @@ const PracticeForm: React.FC<IProps> = (props) => {
           score={score}
         />
         <Form
-          {...baseFormLayout}
+          {...baseFormConf}
           name="practice"
           form={practiceForm}
           initialValues={practiceValue}
           onValuesChange={onValuesChange}
-          validateMessages={validateMessages}
         >
           <PracticeResultForm />
           <PracticeSocialForm />

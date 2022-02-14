@@ -6,7 +6,7 @@ import { Form, Input, Select, DatePicker, Card, FormProps } from 'antd';
 import { moralScoreList, MoralScoreItem } from '../../config/moral.config';
 import FormHeader from '../form-header';
 import { FormValue } from '../../types/form';
-import { validateMessages, disabledFormCurrentDate, requiredRule, baseFormLayout } from '@/config/form';
+import { validateMessages, disabledFormCurrentDate, requiredRule, baseFormConf } from '@/config/form';
 import FormListSkeleton from '../form-list-skeleton';
 import useScoreMap from '../../hooks/use-score-map';
 import { useApplicationContext } from '../../context/application.context';
@@ -17,7 +17,8 @@ type MoralFormItemValue = {
   info: string;
   time: string;
 }
-type MoralFormValue = FormValue<MoralFormItemValue>;
+
+export type MoralFormValue = FormValue<MoralFormItemValue>;
 
 const defaultFormValue: MoralFormValue = {
   list: [
@@ -75,13 +76,10 @@ const MoralForm: React.FC<IProps> = (props) => {
         score={score}
       />
       <Form
-        {...baseFormLayout}
+        {...baseFormConf}
         initialValues={moralValue}
-        labelWrap
         onValuesChange={onValuesChange}
         name="moral"
-        requiredMark={false}
-        validateMessages={validateMessages}
         form={moralForm}
       >
         <Card>

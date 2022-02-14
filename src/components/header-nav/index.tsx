@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { getMenus, IMenus, getTitle } from './menu.config';
-import { Menu, MenuProps } from 'antd';
+import { Anchor, Menu, MenuProps } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import * as hooks from '@/hooks'
+import style from './style.module.less';
 
 const { SubMenu } = Menu;
 
@@ -23,9 +24,9 @@ const HeaderNav: React.FC = () => {
   const matchKeys = React.useMemo(() => Menus.find(item => item.path === pathname)?.key, [Menus]);
   const [selectKeys, SetSelectedKeys] = React.useState<string[]>(['home' || matchKeys]);
   const title = React.useMemo(() => getTitle(selectKeys[0], Menus), [Menus, selectKeys]);
-  
+
   hooks.useDocumentTitle(title, [title]);
-  
+
   const updateKeys: MenuProps['onClick'] = (e) => {
     SetSelectedKeys(e.keyPath)
   }
@@ -38,17 +39,17 @@ const HeaderNav: React.FC = () => {
   }, [])
 
   return (
-    <React.Fragment>
-      <Menu
-        mode="horizontal"
-        selectedKeys={selectKeys}
-        onClick={updateKeys}
-      >
-        {
-          renderMenuChildren(Menus)
-        }
-      </Menu>
-    </React.Fragment>
+    <Menu
+      mode="horizontal"
+      selectedKeys={selectKeys}
+      onClick={updateKeys}
+      theme="light"
+      className={style['header-nav']}
+    >
+      {
+        renderMenuChildren(Menus)
+      }
+    </Menu>
   )
 };
 
