@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as C from '../../../config/practice.config';
-import { disabledFormCurrentDate } from '@/config/form';
+import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { FormItemProps, Form, DatePicker, Cascader, Input, DatePickerProps } from 'antd';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
@@ -53,6 +53,7 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="竞赛类型"
               name={[field.name, "level"]}
+              rules={requiredRule}
             >
               <Cascader
                 placeholder="竞赛类型"
@@ -62,12 +63,14 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="赛事具名"
               name={[field.name, "name"]}
+              rules={requiredRule}
             >
               <Input />
             </Form.Item>
             <Form.Item
               label="获奖时间"
               name={[field.name, "time"]}
+              rules={requiredRule}
             >
               <DatePicker
                 disabledDate={disabledFormCurrentDate}

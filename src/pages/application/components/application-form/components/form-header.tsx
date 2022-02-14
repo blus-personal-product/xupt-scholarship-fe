@@ -14,6 +14,7 @@ const FormHeader: React.FC<IProps> = (props) => {
       title={title}
       extra={[
         <Statistic
+          key="score"
           title="估算得分"
           value={score}
         />

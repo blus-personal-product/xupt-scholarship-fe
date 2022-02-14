@@ -6,6 +6,7 @@ import { Form, InputNumber, Space, Statistic, Tag } from 'antd';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import { getCooperationScore } from '../utils';
 import * as U from '@/utils';
+import { requiredRule } from '@/config/form';
 
 interface IProps {
   field: FormListFieldData;
@@ -43,6 +44,7 @@ const CooperateForm: React.FC<IProps> = (props) => {
         <Form.Item
           noStyle
           name={[field.name, "order"]}
+          rules={requiredRule}
         >
           <InputNumber
             addonBefore="个人贡献名次"
@@ -54,6 +56,7 @@ const CooperateForm: React.FC<IProps> = (props) => {
         <Form.Item
           name={[field.name, "partners"]}
           noStyle
+          rules={requiredRule}
         >
           <InputNumber
             addonBefore="团队人数"

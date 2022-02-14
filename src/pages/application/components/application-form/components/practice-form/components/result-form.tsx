@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as C from '../../../config/practice.config';
 import * as U from '@/utils';
 import { DatePicker, DatePickerProps, Form, FormItemProps, Input, Select } from 'antd';
-import { disabledFormCurrentDate } from '@/config/form';
+import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { FormListFieldData } from 'antd/lib/form/FormList';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
@@ -40,7 +40,7 @@ const isUpdateCooperation = (field: FormListFieldData): FormItemProps['shouldUpd
  * 是否是合作成果
  * @param level 成果类型 
  */
-const isCooperationLevel = (level: C.ResultScoreItem['level']) => {
+export const isCooperationLevel = (level: C.ResultScoreItem['level']) => {
   const cooperationLevels: Omit<C.ResultScoreItem['level'], "study_abroad" | "case_library_professional">[]
     = [
       'international',
@@ -74,6 +74,7 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="成果类型"
               name={[field.name, "level"]}
+              rules={requiredRule}
             >
               <Select
                 options={resultScoreOptions}
@@ -82,6 +83,7 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="获奖时间"
               name={[field.name, "time"]}
+              rules={requiredRule}
             >
               <DatePicker
                 disabledDate={disabledFormCurrentDate}
@@ -91,6 +93,7 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="成果具名"
               name={[field.name, "name"]}
+              rules={requiredRule}
             >
               <Input />
             </Form.Item>

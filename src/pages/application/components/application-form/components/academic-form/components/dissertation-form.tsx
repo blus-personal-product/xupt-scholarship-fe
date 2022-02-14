@@ -4,7 +4,7 @@
 import { FormItemProps, Form, Select, Input, DatePicker, DatePickerProps } from 'antd';
 import * as C from '../../../config/academic.config';
 import * as React from 'react';
-import { disabledFormCurrentDate } from '@/config/form';
+import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import FormListSkeleton from '../../form-list-skeleton';
 import moment from 'moment';
 
@@ -58,6 +58,7 @@ const DissertationForm: React.FC<IProps> = (props) => {
             <Form.Item
               label="期刊类型"
               name={[field.name, "level"]}
+              rules={requiredRule}
             >
               <Select
                 options={scientificOptions}
@@ -65,18 +66,21 @@ const DissertationForm: React.FC<IProps> = (props) => {
             </Form.Item>
             <Form.Item
               label="论文名称"
+              rules={requiredRule}
               name={[field.name, "name"]}
             >
               <Input />
             </Form.Item>
             <Form.Item
               label="期刊刊号"
+              rules={requiredRule}
               name={[field.name, "id_number"]}
             >
               <Input />
             </Form.Item>
             <Form.Item
               label="出版时间"
+              rules={requiredRule}
               name={[field.name, "time"]}
             >
               <DatePicker

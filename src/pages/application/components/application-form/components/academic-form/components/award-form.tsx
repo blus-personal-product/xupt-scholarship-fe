@@ -1,7 +1,7 @@
 /**
  * 获奖信息表
  */
-import { disabledFormCurrentDate } from '@/config/form';
+import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { Cascader, DatePicker, DatePickerProps, Form, Input, Select } from 'antd';
 import moment from 'moment';
 import * as React from 'react';
@@ -48,6 +48,7 @@ const AwardForm: React.FC = () => {
           <React.Fragment>
             <Form.Item
               label="奖项类别"
+              rules={requiredRule}
               name={[field.name, "level"]}
             >
               <Cascader
@@ -56,12 +57,14 @@ const AwardForm: React.FC = () => {
             </Form.Item>
             <Form.Item
               label="奖项具名"
+              rules={requiredRule}
               name={[field.name, "name"]}
             >
               <Input />
             </Form.Item>
             <Form.Item
               label="获奖时间"
+              rules={requiredRule}
               name={[field.name, "time"]}
             >
               <DatePicker
