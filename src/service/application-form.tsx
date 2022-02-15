@@ -1,5 +1,5 @@
 import http from '@/client';
-import { ApplicationValue } from '@/pages/application/components/application-form';
+import { ApplicationValue } from '@/pages/application/pages/application-form';
 
 export type HandleApplicationFormType = 'submit' | 'save';
 

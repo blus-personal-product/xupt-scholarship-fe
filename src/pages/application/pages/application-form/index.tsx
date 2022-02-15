@@ -7,8 +7,8 @@ import AcademicForm, { AcademicFormValue } from './components/academic-form';
 import MoralForm, { MoralFormValue } from './components/moral-form';
 import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
-
-import { Col, Form, message, Modal, Row } from 'antd';
+import style from './style/layout.module.less';
+import { Form, message, Modal } from 'antd';
 import FormSubmitBanner from './components/form-submit-banner';
 import { HandleApplicationFormType, postApplicationForm } from '@/service/application-form';
 
@@ -116,22 +116,28 @@ const ApplicationForm: React.FC = () => {
         save={saveForm}
         submit={submitForm}
       />
-      <Row>
+      <div
+        className={style['form-page-layout']}
+      >
         <ApplicationProvider
           moralForm={moralForm}
           practiceForm={practiceForm}
           academicForm={academicForm}
         >
-          <Col xs={{ span: 24 }} span={8} md={{ span: 4 }}>
+          <section
+            className={style['application-form-anchor']}
+          >
             <FormAnchor />
-          </Col>
-          <Col>
+          </section>
+          <section
+            className={style['application-form-card']}
+          >
             <MoralForm />
             <PracticeForm />
             <AcademicForm />
-          </Col>
+          </section>
         </ApplicationProvider>
-      </Row>
+      </div>
     </React.Fragment>
   );
 };

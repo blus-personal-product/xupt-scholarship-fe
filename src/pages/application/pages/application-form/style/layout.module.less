@@ -1,0 +1,25 @@
+.form-page-layout {
+  @media screen and (max-width: 992px) {
+    .application-form-card {
+      width: 100%;
+    }
+
+    .application-form-anchor {
+      display: none;
+    }
+  }
+
+  @media screen and (min-width: 992px) {
+    display: flex;
+    justify-content: center;
+    .application-form-card {
+      width: 768px;
+    }
+
+    .application-form-anchor {
+      margin-right: 2px;
+      background-color: #fff;
+      box-shadow: 2px 0px 2px #ccc;
+    }
+  }
+}
