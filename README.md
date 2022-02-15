@@ -9,6 +9,9 @@
 - 项目中的提交加入了`commit lint`检测，提交使用指定的命令行`npm run commit`提交即可；
 - 项目中添加了`Less Modules`弥补`React`不支持`style scoped`的缺陷；
 - 使用`eslint`和`prettier`进行代码格式化和代码约束
+- 动态表单使用`Antd`的`Form.List`实现
+- 支持带一级子菜单的页面菜单匹配
+- 使用媒体查询进行基本的移动端兼容
 
 
 ## 项目接口信息
@@ -23,6 +26,7 @@
 ```shell
 yarn
 // 这里的安装依赖请使用yarn，避免出现项目依赖版本不一致导致项目无法启动的情况
+// 安装失败考虑换源，本人使用的是npm原生的源，非淘宝源
 ```
 
 3. 启动项目
@@ -33,6 +37,32 @@ yarn dev
 // or npm run dev
 ```
 
+## 项目设计介绍
+
+### 组件一致性
+
+1. 所有组件均来自于`Antd`以及`Antd`推荐的搭配组件
+2. 对于所有的组件采取尽可能少的定制话，避免特殊性
+
+### 长表单数据录入配备左侧大纲
+
+奖学金信息表单页面支持展示左侧的表单快捷导航(仅支持PC端)
+
+### 布局思路
+
+1. 所有的页面布局采用居中展示，对于移动端在不遮挡页面主体内容的情况下进行`flex`布局的排列
+2. 表单的布局目前存在一些对齐的因素尚未调整，可以作为一个后续支持项。⏳
+
+## 项目表单处理
+
+### 动态表单处理
+
+1. 对于动态表单封装`FormListSkeleton`将动态表单增删功能进行内聚
+2. 对于表单间的计分逻辑进行分别处理，避免进行不同的状态模式判断来进行逻辑运算，降低逻辑模块间的耦合。
+  2.1 这里存在可以继续拆解的部分⏳
+3. 对于表单的验证进行统一化配置
+  3.1 这里可以进行组件的提取和规则的拆分⏳
+
 ## 项目配置
 
 ### 项目路径别名设置
@@ -42,14 +72,7 @@ yarn dev
 ```js
 alias: [
       { find: '@', replacement: path.resolve(__dirname, '../src') },
-      { find: "components", replacement: path.resolve(__dirname, '../src/components') },
-      { find: "pages", replacement: path.resolve(__dirname, '../src/pages') },
-      { find: "hooks", replacement: path.resolve(__dirname, '../src/hooks') },
-      { find: "types", replacement: path.resolve(__dirname, '../src/types') },
-      { find: "utils", replacement: path.resolve(__dirname, '../src/utils') },
-      { find: "stores", replacement: path.resolve(__dirname, '../src/stores') },
-      { find: "client", replacement: path.resolve(__dirname, '../src/client') },
-      { find: "service", replacement: path.resolve(__dirname, '../src/service') },
+      // ……
     ]
 ```
 
@@ -113,13 +136,18 @@ npm run lint:fix
 
 因为在`React Router V6`中不再支持`<Redirect />`对页面进行路由重定义，所以使用了`React Router`文档推荐的`Context` + `Navigate`的组合方案，需要进行较多的内容自定义和页面跳转。
 
-页面权限采用`Session` + `LocalStorage`的组合方案，支持本地信息持久化存储。
+页面权限采取`sessionid`的方式来进行验证，即每次登录或者新开页面伴随使用`sessionid`来获取用户信息的过程。
+
+> 为什么不做前端持久化存储来实现鉴权
+>
+> 前端持久化存储存在用户或者非法插件修改的可能，对于需要进行管理员和普通用户区别的软件，采取这样的方法能带来更好的安全保障。
+
 
 ### Axios封装
 
-对于Axios进行基于TS的二次封装，并且加入关于错误的`Antd Message`提示。
+对于`Axios`进行基于TS的二次封装，支持对于数据的拦截和`cancelToken`的处理。
 
-```js
+```ts
 class http {
   instance: AxiosInstance
 
@@ -130,58 +158,23 @@ class http {
   }
 
   cancel() {
-    const source = axios.CancelToken.source();
-    return source;
+    //……
   }
 
   requestInterceptors() {
-    this.instance.interceptors.request.use(
-      function (config: AxiosRequestConfig) {
-        // Do something before request is sent
-        return config;
-      },
-      function (error: AxiosError) {
-        // Do something with request error
-        return Promise.reject(error);
-      });
+    //……
   }
 
   responseInterceptors() {
-    this.instance.interceptors.response.use(
-      function (response: AxiosResponse) {
-        // Any status code that lie within the range of 2xx cause this function to trigger
-        // Do something with response data
-        return response.data;
-      },
-      function (error: AxiosError) {
-        message.error(error.message);
-        return Promise.reject(error);
-      });
+    // ……
   }
 
-  get<V>(url: string, params?: any, config?: AxiosRequestConfig) {
+  get<V = undefined>(url: string, params?: any, config?: AxiosRequestConfig) {
     return this.instance.get<V>(url, {
       params: params,
       ...(config ?? {}),
     });
   }
-  post<V>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.post<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    });
-  }
-  put<V>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.put<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    })
-  }
-  delete<V>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.put<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    })
-  }
+  // ……
 }
 ```
