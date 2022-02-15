@@ -8,48 +8,110 @@ import MoralForm, { MoralFormValue } from './components/moral-form';
 import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 
-import { Col, Form, message, Row } from 'antd';
+import { Col, Form, message, Modal, Row } from 'antd';
 import FormSubmitBanner from './components/form-submit-banner';
+import { HandleApplicationFormType, postApplicationForm } from '@/service/application-form';
+
+export interface ApplicationValue {
+  moral: MoralFormValue;
+  practice: PracticeFormValue;
+  academic: AcademicFormValue;
+}
 
 const ApplicationForm: React.FC = () => {
 
   const [moralForm] = Form.useForm();
   const [practiceForm] = Form.useForm();
   const [academicForm] = Form.useForm();
+  const [loading, setLoading] = React.useState(false);
+  const [modalStatus, setModalStatus] = React.useState<{
+    visible: boolean;
+    type: HandleApplicationFormType;
+  }>({
+    visible: false,
+    type: 'submit',
+  });
 
-  const getFormValue = () => {
+  const messageData = {
+    save: {
+      title: '保存',
+      desc: '保存的信息不会提交，在进行下次编辑时仍可使用'
+    },
+    submit: {
+      title: '提交',
+      desc: '提交的信息会作为审核信息，在审核开始前你仍可更改'
+    },
+  };
+
+  const getFormValue = (): ApplicationValue => {
     return {
-      moral: moralForm.getFieldsValue(true) as MoralFormValue,
-      practice: practiceForm.getFieldsValue(true) as PracticeFormValue,
-      academic: academicForm.getFieldsValue(true) as AcademicFormValue,
+      moral: moralForm.getFieldsValue(true),
+      practice: practiceForm.getFieldsValue(true),
+      academic: academicForm.getFieldsValue(true),
     };
   }
 
   const submitForm = async () => {
-    await Promise.all([
+    const formValue = await Promise.all([
       moralForm.validateFields(),
       practiceForm.validateFields(),
       academicForm.validateFields()
-    ]).then().catch(err => {
+    ]).then(([moral, practice, academic]) => {
+      const value: ApplicationValue = {
+        moral, practice, academic
+      };
+      return value;
+    }).catch(err => {
       message.error(err.errorFields[0].errors[0]);
+    });
+
+    if (!formValue) return;
+
+    setModalStatus({
+      type: 'submit',
+      visible: true,
+    });
+  };
+
+  const saveForm = () => {
+    setModalStatus({
+      type: 'save',
+      visible: true,
     })
+  };
 
+  const handleForm = async () => {
     try {
-      const value = getFormValue();
-      console.log(value)
+      setLoading(true);
+      await postApplicationForm(modalStatus.type, getFormValue());
     } catch (error) {
-
+      message.error(`${messageData[modalStatus.type]}失败: ${error.message}`)
     } finally {
-
+      setLoading(false);
+      setModalStatus({
+        type: 'save',
+        visible: false,
+      });
     }
-  }
-
-  const saveForm = async () => {
-
   }
 
   return (
     <React.Fragment>
+      <Modal
+        title={messageData[modalStatus.type].title}
+        visible={modalStatus.visible}
+        onOk={handleForm}
+        okText="确认"
+        cancelText="取消"
+        closable={false}
+        cancelButtonProps={{
+          disabled: loading
+        }}
+        onCancel={() => setModalStatus({...modalStatus, visible: false})}
+        confirmLoading={loading}
+      >
+        {messageData[modalStatus.type].desc}
+      </Modal>
       <FormSubmitBanner
         save={saveForm}
         submit={submitForm}

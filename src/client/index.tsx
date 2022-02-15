@@ -38,25 +38,25 @@ class http {
       });
   }
 
-  get<V>(url: string, params?: any, config?: AxiosRequestConfig) {
+  get<V = undefined>(url: string, params?: any, config?: AxiosRequestConfig) {
     return this.instance.get<V>(url, {
       params: params,
       ...(config ?? {}),
     });
   }
-  post<V>(url: string, params: any, config?: AxiosRequestConfig) {
+  post<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
     return this.instance.post<V>(url, {
       data: params,
       ...(config ?? {}),
     });
   }
-  put<V>(url: string, params: any, config?: AxiosRequestConfig) {
+  put<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
     return this.instance.put<V>(url, {
       data: params,
       ...(config ?? {}),
     })
   }
-  delete<V>(url: string, params: any, config?: AxiosRequestConfig) {
+  delete<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
     return this.instance.put<V>(url, {
       data: params,
       ...(config ?? {}),
