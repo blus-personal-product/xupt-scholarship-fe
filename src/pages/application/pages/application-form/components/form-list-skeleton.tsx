@@ -9,6 +9,7 @@ import { Alert, Button, Card, Form } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { FormListFieldData, FormListProps } from 'antd/lib/form/FormList';
 import { TextLoop } from 'react-text-loop-next';
+import EmptyForm from './empty-form';
 
 type IProps = {
   listId?: string;
@@ -60,7 +61,13 @@ const FormListSkeleton: React.FC<IProps> = (props) => {
             return (
               <React.Fragment>
                 {
-                  fields.map(field => {
+                  !fields.length
+                  ? (
+                    <EmptyForm
+                      title={itemTitle}
+                    />
+                  )
+                  :fields.map(field => {
                     return (
                       <Card
                         title={`${itemTitle} ${field.name + 1}`}

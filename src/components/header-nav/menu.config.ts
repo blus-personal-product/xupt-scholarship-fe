@@ -1,12 +1,12 @@
-export interface IMenus {
+export interface IMenu {
   key: string;
   title: string;
-  path?: string;
+  path: string;
   type?: 'group' | 'sub_menu';
-  children?: IMenus[];
+  children?: IMenu[];
 }
 
-export const getMenus = (): IMenus[] => [
+export const getMenus = (): IMenu[] => [
   {
     key: 'home',
     path: '/',
@@ -15,7 +15,19 @@ export const getMenus = (): IMenus[] => [
   {
     key: 'apply',
     path: '/apply',
-    title: '申请'
+    title: '申请奖学金',
+    children: [
+      {
+        key: 'form',
+        path: '/form',
+        title: '申请表单'
+      },
+      {
+        key: 'progress',
+        path: '',
+        title: '申请列表'
+      }
+    ]
   }
 ];
 
@@ -24,5 +36,5 @@ export const getMenus = (): IMenus[] => [
  * @param searchKey 
  * @param menus 
  */
-export const getTitle = (searchKey: string, menus: IMenus[]): string => 
+export const getTitle = (searchKey: string, menus: IMenu[]): string => 
   menus.find(item => item.key === searchKey)?.title || ''
