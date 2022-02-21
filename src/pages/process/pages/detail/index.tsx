@@ -3,12 +3,12 @@
  */
 import * as React from 'react';
 
-const Progress:React.FC = () => {
+const ProcessDetail:React.FC = () => {
   return (
     <React.Fragment>
-
+      progress detail
     </React.Fragment>
   )
 };
 
-export default Progress;
+export default ProcessDetail;

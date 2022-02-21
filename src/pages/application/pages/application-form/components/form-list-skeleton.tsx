@@ -5,7 +5,7 @@
  * 支持进行表单的alert的控制展示
  */
 import * as React from 'react';
-import { Alert, Button, Card, Form } from 'antd';
+import { Alert, Button, Card, Form, Popover } from 'antd';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { FormListFieldData, FormListProps } from 'antd/lib/form/FormList';
 import { TextLoop } from 'react-text-loop-next';
@@ -33,7 +33,21 @@ const FormListSkeleton: React.FC<IProps> = (props) => {
         children={alertMessage}
       />
     )
-  ), [alertMessage])
+  ), [alertMessage]);
+
+  const template = React.useMemo(() => {
+    return (
+      <ol style={{
+        padding: '4px 6px',
+      }}>
+        {
+          Array.isArray(alertMessage)
+            ? alertMessage.map(msg => <li key={msg}>{msg}</li>)
+            : alertMessage
+        }
+      </ol>
+    );
+  }, [alertMessage])
 
   return (
     <Card
@@ -41,15 +55,17 @@ const FormListSkeleton: React.FC<IProps> = (props) => {
       id={listId}>
       {
         !!alertMessage && (
-          <Alert
-            type="info"
-            showIcon
-            message={AlertMessage}
-            style={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}
-          />
+          <Popover content={template} title="注意事项">
+            <Alert
+              type="info"
+              showIcon
+              message={AlertMessage}
+              style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            />
+          </Popover>
         )
       }
       <Form.List
@@ -62,32 +78,32 @@ const FormListSkeleton: React.FC<IProps> = (props) => {
               <React.Fragment>
                 {
                   !fields.length
-                  ? (
-                    <EmptyForm
-                      title={itemTitle}
-                    />
-                  )
-                  :fields.map(field => {
-                    return (
-                      <Card
-                        title={`${itemTitle} ${field.name + 1}`}
-                        type="inner"
-                        key={field.name}
-                        extra={
-                          <Button
-                            type="primary"
-                            danger
-                            shape="circle"
-                            onClick={() => remove(field.name)}
-                            icon={<DeleteOutlined />}
-                            size="small"
-                          />
-                        }
-                      >
-                        {children(field)}
-                      </Card>
+                    ? (
+                      <EmptyForm
+                        title={itemTitle}
+                      />
                     )
-                  })
+                    : fields.map(field => {
+                      return (
+                        <Card
+                          title={`${itemTitle} ${field.name + 1}`}
+                          type="inner"
+                          key={field.name}
+                          extra={
+                            <Button
+                              type="primary"
+                              danger
+                              shape="circle"
+                              onClick={() => remove(field.name)}
+                              icon={<DeleteOutlined />}
+                              size="small"
+                            />
+                          }
+                        >
+                          {children(field)}
+                        </Card>
+                      )
+                    })
                 }
                 <Button
                   type="dashed"
