@@ -20,14 +20,36 @@ export const getMenus = (): IMenu[] => [
       {
         key: 'form',
         path: '/form',
-        title: '申请表单'
+        title: '发起申请'
       },
       {
         key: 'progress',
         path: '',
-        title: '申请列表'
+        title: '申请进度'
       }
     ]
+  },
+  {
+    key: 'process',
+    path: '/process',
+    title: '评定流程',
+    children: [
+      {
+        key: 'handle',
+        path: '',
+        title: '流程管理/查看'
+      },
+      {
+        key: 'detail',
+        path: '/detail',
+        title: '评定记录'
+      }
+    ]
+  },
+  {
+    key: 'user',
+    path: '/user',
+    title: "用户中心"
   }
 ];
 
@@ -36,5 +58,5 @@ export const getMenus = (): IMenu[] => [
  * @param searchKey 
  * @param menus 
  */
-export const getTitle = (searchKey: string, menus: IMenu[]): string => 
+export const getTitle = (searchKey: string, menus: IMenu[]): string =>
   menus.find(item => item.key === searchKey)?.title || ''
