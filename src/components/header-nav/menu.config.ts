@@ -47,6 +47,11 @@ export const getMenus = (): IMenu[] => [
     ]
   },
   {
+    key: 'upload',
+    path: '/upload',
+    title: '上传学生名单'
+  },
+  {
     key: 'user',
     path: '/user',
     title: "用户中心"
