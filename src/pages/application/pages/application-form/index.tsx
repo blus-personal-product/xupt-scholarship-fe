@@ -8,9 +8,22 @@ import MoralForm, { MoralFormValue } from './components/moral-form';
 import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 import style from './style/layout.module.less';
-import { Form, message, Modal } from 'antd';
+import { Form, message, Modal, Spin } from 'antd';
 import FormSubmitBanner from './components/form-submit-banner';
 import { HandleApplicationFormType, postApplicationForm } from '@/service/application-form';
+import { useParams } from 'react-router-dom';
+import { getApplicationForm } from '@/service/application-form';
+
+const messageData = {
+  save: {
+    title: '保存',
+    desc: '保存的信息不会提交，在进行下次编辑时仍可使用'
+  },
+  submit: {
+    title: '提交',
+    desc: '提交的信息会作为审核信息，在审核开始前你仍可更改'
+  },
+};
 
 export interface ApplicationValue {
   moral: MoralFormValue;
@@ -20,10 +33,14 @@ export interface ApplicationValue {
 
 const ApplicationForm: React.FC = () => {
 
+  const applyId = (+(useParams<{ applyId: string }>()?.applyId || '')) || -1;
+
   const [moralForm] = Form.useForm();
   const [practiceForm] = Form.useForm();
   const [academicForm] = Form.useForm();
+  const [modalLoading, setModalLoading] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  const [permission, setPermission] = React.useState<FormPermission>(applyId === -1 ? 'read' : 'create')
   const [modalStatus, setModalStatus] = React.useState<{
     visible: boolean;
     type: HandleApplicationFormType;
@@ -32,15 +49,23 @@ const ApplicationForm: React.FC = () => {
     type: 'submit',
   });
 
-  const messageData = {
-    save: {
-      title: '保存',
-      desc: '保存的信息不会提交，在进行下次编辑时仍可使用'
-    },
-    submit: {
-      title: '提交',
-      desc: '提交的信息会作为审核信息，在审核开始前你仍可更改'
-    },
+
+  React.useEffect(() => {
+    if (applyId !== -1) {
+      loadApplyForm();
+    }
+  }, [applyId]);
+
+
+  const loadApplyForm = async () => {
+    try {
+      setLoading(true);
+      const res = await getApplicationForm(applyId);
+    } catch (error) {
+      message.error(error.message)
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getFormValue = (): ApplicationValue => {
@@ -82,12 +107,12 @@ const ApplicationForm: React.FC = () => {
 
   const handleForm = async () => {
     try {
-      setLoading(true);
+      setModalLoading(true);
       await postApplicationForm(modalStatus.type, getFormValue());
     } catch (error) {
       message.error(`${messageData[modalStatus.type]}失败: ${error.message}`)
     } finally {
-      setLoading(false);
+      setModalLoading(false);
       setModalStatus({
         type: 'save',
         visible: false,
@@ -96,7 +121,9 @@ const ApplicationForm: React.FC = () => {
   }
 
   return (
-    <React.Fragment>
+    <Spin
+      spinning={loading}
+    >
       <Modal
         title={messageData[modalStatus.type].title}
         visible={modalStatus.visible}
@@ -105,16 +132,17 @@ const ApplicationForm: React.FC = () => {
         cancelText="取消"
         closable={false}
         cancelButtonProps={{
-          disabled: loading
+          disabled: modalLoading
         }}
-        onCancel={() => setModalStatus({...modalStatus, visible: false})}
-        confirmLoading={loading}
+        onCancel={() => setModalStatus({ ...modalStatus, visible: false })}
+        confirmLoading={modalLoading}
       >
         {messageData[modalStatus.type].desc}
       </Modal>
       <FormSubmitBanner
         save={saveForm}
         submit={submitForm}
+        permission={permission}
       />
       <div
         className={style['form-page-layout']}
@@ -138,7 +166,7 @@ const ApplicationForm: React.FC = () => {
           </section>
         </ApplicationProvider>
       </div>
-    </React.Fragment>
+    </Spin>
   );
 };
 

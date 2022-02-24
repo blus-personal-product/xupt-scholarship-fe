@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import * as queryString from 'query-string';
 
 class http {
   instance: AxiosInstance
@@ -18,6 +19,7 @@ class http {
     this.instance.interceptors.request.use(
       function (config: AxiosRequestConfig) {
         // Do something before request is sent
+        console.log(config)
         return config;
       },
       function (error: AxiosError) {
@@ -39,28 +41,17 @@ class http {
   }
 
   get<V = undefined>(url: string, params?: any, config?: AxiosRequestConfig) {
-    return this.instance.get<V>(url, {
-      params: params,
-      ...(config ?? {}),
-    });
+    const queryUrl = queryString.stringifyUrl({url: url, query: params});
+    return this.instance.get<V, V, AxiosRequestConfig>(queryUrl, config);
   }
   post<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.post<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    });
+    return this.instance.post<V, V, AxiosRequestConfig>(url, params, config);
   }
   put<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.put<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    })
+    return this.instance.put<V, V, AxiosRequestConfig>(url, params, config);
   }
   delete<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.put<V>(url, {
-      data: params,
-      ...(config ?? {}),
-    })
+    return this.instance.put<V, V, AxiosRequestConfig>(url, params, config);
   }
 }
 

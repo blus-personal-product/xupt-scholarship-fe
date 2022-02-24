@@ -38,7 +38,9 @@ const RoutesCenter: React.FC = () => {
             <Route path="apply"
             >
               <Route index element={<ApplicationList />} />
-              <Route path="form" element={<ApplicationForm />} />
+              <Route path="form" element={<ApplicationForm />} >
+                <Route path=":applyId" element={<ApplicationForm />} />
+              </Route>
             </Route>
             <Route path="upload" element={<UploadStudentList />} />
             {/* 评定流程处理 */}

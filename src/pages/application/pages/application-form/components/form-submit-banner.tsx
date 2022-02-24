@@ -4,12 +4,13 @@ import { HEADER_NAV_HEIGHT } from '@/config/header';
 import style from '../style/header.module.less';
 
 interface IProps {
+  permission: FormPermission;
   submit: () => void;
   save: () => void;
 }
 
 const FormSubmitBanner: React.FC<IProps> = (props) => {
-  const { submit, save } = props;
+  const { submit, save, permission } = props;
   return (
     <Anchor
       className={style['form-header-banner']}
