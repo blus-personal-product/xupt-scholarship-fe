@@ -60,7 +60,6 @@ const HeaderNav: React.FC = () => {
   const updateKeys: MenuProps['onClick'] = (e) => {
     setSelectedKeys(e.keyPath)
   }
-  console.log(matchKeys, selectKeys)
   // 避免初始化进入导致的页面导航不匹配
   React.useEffect(() => {
     if (matchKeys && matchKeys.join('/') !== selectKeys.join('/')) {

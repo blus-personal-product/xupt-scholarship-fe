@@ -6,6 +6,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 const ApplicationForm = React.lazy(() => import('pages/application/pages/application-form'));
 const ApplicationList = React.lazy(() => import('pages/application/pages/application-list'));
 const HandleProcess = React.lazy(() => import('pages/process/pages/handle-process'));
+const UploadStudentList = React.lazy(() => import('pages/upload-student-list'));
 const ProcessDetail = React.lazy(() => import('pages/process/pages/detail'));
 const UserCenter = React.lazy(() => import('pages/user-center'));
 const ForgetPassword = React.lazy(() => import('pages/forget-password'));
@@ -37,8 +38,11 @@ const RoutesCenter: React.FC = () => {
             <Route path="apply"
             >
               <Route index element={<ApplicationList />} />
-              <Route path="form" element={<ApplicationForm />} />
+              <Route path="form" element={<ApplicationForm />} >
+                <Route path=":applyId" element={<ApplicationForm />} />
+              </Route>
             </Route>
+            <Route path="upload" element={<UploadStudentList />} />
             {/* 评定流程处理 */}
             <Route path="process">
               <Route index element={<HandleProcess />} />

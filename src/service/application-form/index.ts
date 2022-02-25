@@ -1,3 +1,4 @@
+import { IGETApplicationFormRes } from './types';
 import http from '@/client';
 import { ApplicationValue } from '@/pages/application/pages/application-form';
 
@@ -12,4 +13,9 @@ export const postApplicationForm = (type: HandleApplicationFormType, formValue: 
   } else {
     return http.post('/application/form/submit', formValue);
   }
+};
+
+
+export const getApplicationForm = (applyId: number) => {
+  return http.get<IGETApplicationFormRes>(`/application/form/${applyId}`);
 };
