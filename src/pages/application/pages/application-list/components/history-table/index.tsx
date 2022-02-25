@@ -1,88 +1,59 @@
 import * as React from 'react';
-import { Table, Tag, Space, TableProps } from 'antd';
+import { Table, Tag, Space, TableProps, Button } from 'antd';
+import * as I from './interface';
+import { Link } from 'react-router-dom';
+import { DeleteOutlined, EditTwoTone } from '@ant-design/icons';
 
-const columns: TableProps<{
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}>['columns'] = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: text => <a>{text}</a>,
-    },
-    {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
-    },
-    {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
-    },
-    {
-      title: 'Tags',
-      key: 'tags',
-      dataIndex: 'tags',
-      render: (tags: string[]) => (
-        <>
-          {tags.map(tag => {
-            let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Space size="middle">
-          <a>Invite {record.name}</a>
-          <a>Delete</a>
-        </Space>
-      ),
-    },
-  ];
-
-const data = [
+const columns: TableProps<I.HistoryTableData>['columns'] = [
   {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    title: '表单ID',
+    dataIndex: 'id',
+    key: 'id',
   },
   {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
+    title: '处理状态',
+    dataIndex: 'handle_state',
+    key: 'handle_state',
+    render: (state: I.IHandleStatus) => <Tag>{I.TypesMap.get(state)}</Tag>
   },
   {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
+    title: '验证状态',
+    dataIndex: 'validate_state',
+    key: 'validate_state',
+    render: (state: I.IValidateStatus) => <Tag>{I.TypesMap.get(state)}</Tag>
+  },
+  {
+    title: '更新时间',
+    key: 'time',
+    dataIndex: 'time',
+  },
+  {
+    title: '操作',
+    key: 'action',
+    render: (_, record) => (
+      <Space size="middle">
+        <Link
+          type="link"
+          to={`/apply/form/${record.id}`}>
+          <EditTwoTone />
+        </Link>
+        <Button
+          type="link"
+          danger
+          icon={
+            <DeleteOutlined />
+          }
+        />
+      </Space>
+    ),
   },
 ];
 
-const HistoryTable:React.FC = () => {
+
+const HistoryTable: React.FC = () => {
+  const [tableData, setTableData] = React.useState<I.HistoryTableData[]>([])
   return (
-    <Table columns={columns} dataSource={data} />
+    <Table columns={columns} dataSource={tableData} />
   )
 };
 
