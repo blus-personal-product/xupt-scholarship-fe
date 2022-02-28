@@ -16,6 +16,13 @@ interface IProps extends React.PropsWithChildren<{}> {
   formProps?: FormItemProps;
 }
 
+const normFile:FormItemProps['getValueFromEvent'] = (e) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e && e.fileList;
+};
+
 const UploadDragger: React.FC<IProps> = (props) => {
   const { children, formProps } = props;
   const [fileList, setFileList] = React.useState<UploadFile[]>([])
@@ -33,6 +40,8 @@ const UploadDragger: React.FC<IProps> = (props) => {
   }
   return (
     <Form.Item
+      valuePropName="fileList"
+      getValueFromEvent={normFile}
       {...formProps}
     >
       <Upload.Dragger
@@ -44,7 +53,7 @@ const UploadDragger: React.FC<IProps> = (props) => {
           <InboxOutlined />
         </p>
         {children}
-      </Upload.Dragger>,
+      </Upload.Dragger>
     </Form.Item>
   );
 };
