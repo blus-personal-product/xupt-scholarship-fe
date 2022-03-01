@@ -7,6 +7,8 @@ import * as React from 'react';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import FormListSkeleton from '../../form-list-skeleton';
 import moment from 'moment';
+import { UploadFile } from 'antd/lib/upload/interface';
+import UploadDragger from '@/components/upload-dragger';
 
 interface IProps extends FormItemProps {
 
@@ -17,13 +19,15 @@ export interface DissertationFormValue {
   name: string;
   id_number: string;
   time: DatePickerProps['value'];
+  files: UploadFile[];
 }
 
 export const dissertationDefaultFormValue: DissertationFormValue = {
   level: 'CCF_A',
   name: '',
   time: moment(),
-  id_number: ''
+  id_number: '',
+  files: []
 };
 
 const DissertationForm: React.FC<IProps> = (props) => {
@@ -87,6 +91,12 @@ const DissertationForm: React.FC<IProps> = (props) => {
                 disabledDate={disabledFormCurrentDate}
               />
             </Form.Item>
+            <UploadDragger
+              formProps={{
+                label: "文件",
+                name: [field.name, "files"]
+              }}
+            />
           </React.Fragment>
         )
       }

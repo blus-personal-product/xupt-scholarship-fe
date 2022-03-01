@@ -5,6 +5,8 @@ import { Form, Card, Cascader, Input, DatePicker, Radio, FormItemProps } from 'a
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
+import UploadDragger from '@/components/upload-dragger';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 export interface CadreFormItemValue {
   level: [C.SocialCadreLevel, string] | [];
@@ -15,6 +17,7 @@ export interface ActivityFormItemValue {
   level: C.SocialActivityLevel;
   name: string;
   time: RangePickerProps<moment.MomentInput>['value'];
+  files: UploadFile[];
 }
 
 export interface PracticeSocialFormValue {
@@ -30,7 +33,8 @@ export const practiceSocialFormDefaultValue: PracticeSocialFormValue = {
   activity: [{
     level: 'college_activities',
     name: '',
-    time: [moment(), moment()]
+    time: [moment(), moment()],
+    files: [],
   }]
 }
 
@@ -152,6 +156,12 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                   placeholder={["活动开始时间", "活动终止时间"]}
                 />
               </Form.Item>
+              <UploadDragger
+                formProps={{
+                  label: "文件",
+                  name: [field.name, "files"]
+                }}
+              />
             </React.Fragment>
           )
         }

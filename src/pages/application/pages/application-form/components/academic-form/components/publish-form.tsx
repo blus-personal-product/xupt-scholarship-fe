@@ -7,7 +7,8 @@ import * as React from 'react';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import FormListSkeleton from '../../form-list-skeleton';
 import moment from 'moment';
-import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
+import { UploadFile } from 'antd/lib/upload/interface';
+import UploadDragger from '@/components/upload-dragger';
 
 interface IProps extends FormItemProps {
 
@@ -19,6 +20,7 @@ export interface PublishFormValue {
   time: DatePickerProps['value'];
   publish_house_name: string;
   fonts_count: number;
+  files: UploadFile[];
 }
 
 export const publishDefaultFormValue: PublishFormValue = {
@@ -26,7 +28,8 @@ export const publishDefaultFormValue: PublishFormValue = {
   name: '',
   time: moment(),
   fonts_count: 1,
-  publish_house_name: ''
+  publish_house_name: '',
+  files: []
 };
 
 const PublishForm: React.FC<IProps> = (props) => {
@@ -104,6 +107,12 @@ const PublishForm: React.FC<IProps> = (props) => {
                 </Form.Item>
               </Space>
             </Form.Item>
+            <UploadDragger
+              formProps={{
+                label: "文件",
+                name: [field.name, "files"]
+              }}
+            />
           </React.Fragment>
         )
       }

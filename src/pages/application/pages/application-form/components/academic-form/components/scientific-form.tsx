@@ -9,6 +9,8 @@ import FormListSkeleton from '../../form-list-skeleton';
 import moment from 'moment';
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
+import { UploadFile } from 'antd/lib/upload/interface';
+import UploadDragger from '@/components/upload-dragger';
 
 interface IProps extends FormItemProps {
 
@@ -21,6 +23,7 @@ export interface ScientificFormValue extends CooperateFormValue {
   funds_actually_received: number;
   funds_due: number;
   distribute: number;
+  files: UploadFile[];
 }
 
 export const scientificDefaultFormValue: ScientificFormValue = {
@@ -31,7 +34,8 @@ export const scientificDefaultFormValue: ScientificFormValue = {
   partners: 1,
   distribute: 0,
   funds_due: 0,
-  funds_actually_received: 0
+  funds_actually_received: 0,
+  files: []
 };
 
 /**
@@ -135,6 +139,12 @@ const ScientificForm: React.FC<IProps> = (props) => {
             </Form.Item>
             <CooperateForm
               field={field}
+            />
+            <UploadDragger
+              formProps={{
+                label: "文件",
+                name: [field.name, "files"]
+              }}
             />
           </React.Fragment>
         )
