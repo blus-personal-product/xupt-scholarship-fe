@@ -47,7 +47,7 @@ const getMatchedKeys = (pathname: string, menus: IMenu[]) => {
   return !!keys.length ? keys : [key];
 }
 
-const HeaderNav: React.FC = () => {
+const PageNav: React.FC = () => {
   const { pathname } = useLocation();
 
   const menus = React.useMemo(() => getMenus(), []);
@@ -69,7 +69,7 @@ const HeaderNav: React.FC = () => {
 
   return (
     <Menu
-      mode="horizontal"
+      mode="inline"
       selectedKeys={selectKeys}
       onClick={updateKeys}
       theme="light"
@@ -82,4 +82,4 @@ const HeaderNav: React.FC = () => {
   )
 };
 
-export default HeaderNav;
+export default PageNav;
