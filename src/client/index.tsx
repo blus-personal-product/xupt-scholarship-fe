@@ -19,7 +19,6 @@ class http {
     this.instance.interceptors.request.use(
       function (config: AxiosRequestConfig) {
         // Do something before request is sent
-        console.log(config)
         return config;
       },
       function (error: AxiosError) {

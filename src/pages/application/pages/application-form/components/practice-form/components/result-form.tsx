@@ -7,6 +7,8 @@ import { FormListFieldData } from 'antd/lib/form/FormList';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
+import UploadDragger from '@/components/upload-dragger';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 interface IProps extends FormItemProps {
 
@@ -18,6 +20,7 @@ export interface PracticeResultFormValue extends CooperateFormValue {
   name: string;
   order: number;
   partners: number;
+  files: UploadFile[];
 }
 
 export const practiceResultDefaultFormValue: PracticeResultFormValue = {
@@ -25,7 +28,8 @@ export const practiceResultDefaultFormValue: PracticeResultFormValue = {
   time: moment(),
   name: '',
   order: 1,
-  partners: 1
+  partners: 1,
+  files: []
 }
 
 
@@ -113,6 +117,12 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
                 }
               }
             </Form.Item>
+            <UploadDragger
+              formProps={{
+                label: "文件",
+                name: [field.name, "files"]
+              }}
+            />
           </React.Fragment>
         )
       }

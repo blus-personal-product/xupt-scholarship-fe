@@ -49,7 +49,6 @@ const ApplicationForm: React.FC = () => {
     type: 'submit',
   });
 
-
   React.useEffect(() => {
     if (applyId !== -1) {
       loadApplyForm();
@@ -69,14 +68,15 @@ const ApplicationForm: React.FC = () => {
   };
 
   const getFormValue = (): ApplicationValue => {
-    return {
+    const value: ApplicationValue = {
       moral: moralForm.getFieldsValue(true),
       practice: practiceForm.getFieldsValue(true),
       academic: academicForm.getFieldsValue(true),
     };
+    return value;
   }
 
-  const submitForm = async () => {
+  const validateForm = async () => {
     const formValue = await Promise.all([
       moralForm.validateFields(),
       practiceForm.validateFields(),
@@ -141,7 +141,7 @@ const ApplicationForm: React.FC = () => {
       </Modal>
       <FormSubmitBanner
         save={saveForm}
-        submit={submitForm}
+        submit={validateForm}
         permission={permission}
       />
       <div

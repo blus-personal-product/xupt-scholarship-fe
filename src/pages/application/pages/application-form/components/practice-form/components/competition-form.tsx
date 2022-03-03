@@ -5,11 +5,14 @@ import { FormItemProps, Form, DatePicker, Cascader, Input, DatePickerProps } fro
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
+import UploadDragger from '@/components/upload-dragger';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 export interface PracticeCompetitionFormValue extends CooperateFormValue {
   level: [C.CompetitionScoreItem['type'], C.CompetitionLevelScoreItem['level']] | [];
   name: string;
   time: DatePickerProps['value'];
+  files: UploadFile[];
 }
 
 export const practiceCompetitionDefaultFormValue: PracticeCompetitionFormValue = {
@@ -17,7 +20,8 @@ export const practiceCompetitionDefaultFormValue: PracticeCompetitionFormValue =
   name: '',
   time: moment(),
   order: 1,
-  partners: 1
+  partners: 1,
+  files: []
 }
 
 interface IProps extends FormItemProps {
@@ -78,6 +82,12 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
             </Form.Item>
             <CooperateForm
               field={field}
+            />
+            <UploadDragger
+              formProps={{
+                label: "文件",
+                name: [field.name, "files"]
+              }}
             />
           </React.Fragment>
         )

@@ -6,16 +6,19 @@ import { Form, Input, Select, DatePicker, Card, FormProps } from 'antd';
 import { moralScoreList, MoralScoreItem } from '../../config/moral.config';
 import FormHeader from '../form-header';
 import { FormValue } from '../../types/form';
-import { validateMessages, disabledFormCurrentDate, requiredRule, baseFormConf } from '@/config/form';
+import { disabledFormCurrentDate, requiredRule, baseFormConf } from '@/config/form';
 import FormListSkeleton from '../form-list-skeleton';
 import useScoreMap from '../../hooks/use-score-map';
 import { useApplicationContext } from '../../context/application.context';
+import UploadDragger from '@/components/upload-dragger';
+import { UploadFile } from 'antd/lib/upload/interface';
 
 type MoralFormItemValue = {
   level: MoralScoreItem['level'];
   name: string;
   info: string;
   time: string;
+  files: UploadFile[];
 }
 
 export type MoralFormValue = FormValue<MoralFormItemValue>;
@@ -27,6 +30,7 @@ const defaultFormValue: MoralFormValue = {
       name: '',
       info: '',
       time: '',
+      files: [],
     }
   ]
 }
@@ -69,6 +73,8 @@ const MoralForm: React.FC<IProps> = (props) => {
       setScore(currScore);
     }
   }
+
+
   return (
     <section id="moral-form">
       <FormHeader
@@ -133,6 +139,12 @@ const MoralForm: React.FC<IProps> = (props) => {
                       placeholder="请输入奖项相关信息或者其他说明（非必填项）"
                     />
                   </Form.Item>
+                  <UploadDragger
+                    formProps={{
+                      label: "文件",
+                      name: [field.name, "files"]
+                    }}
+                  />
                 </React.Fragment>
               )
             }
