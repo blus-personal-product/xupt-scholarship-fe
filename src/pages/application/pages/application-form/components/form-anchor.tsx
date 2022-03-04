@@ -17,8 +17,8 @@ const FormAnchor: React.FC = () => {
         showInkInFixed
         targetOffset={targetOffset}
         className={style['left-anchor-nav']}
-        // 50 是pageHeader的高度
-        offsetTop={HEADER_NAV_HEIGHT + 48 + 4}
+        // 98 是pageHeader的高度 + top 10
+        offsetTop={118}
       >
         <Link href="#moral-form" title="思想品德" />
         <Link href="#practice-form" title="实践活动">

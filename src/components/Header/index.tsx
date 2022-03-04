@@ -3,7 +3,10 @@ import * as React from 'react';
 import UserControllers from '../user-controlers';
 import style from './style.module.less';
 
-const Header: React.FC = () => {
+interface IProps {
+}
+
+const Header: React.FC<IProps> = (props) => {
   return (
     <Layout.Header
       className={style['header']}

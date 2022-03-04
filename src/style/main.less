@@ -2,6 +2,9 @@
 @import 'antd/dist/antd.less';
 @import './reset.less';
 
+// header 48px + footer 70px
+@content-height: calc(100vh - 118px);
+
 body {
   background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   background-size: 400% 400%;
@@ -10,11 +13,9 @@ body {
 }
 
 .base-layout {
-  min-height: 100vh;
 }
 .app .base-layout .layout-content {
-  // header 48px + footer 70px
-  min-height: calc(100vh - 118px);
+  min-height: @content-height;
 }
 
 
