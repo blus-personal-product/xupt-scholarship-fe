@@ -8,11 +8,11 @@ import MoralForm, { MoralFormValue } from './components/moral-form';
 import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 import style from './style/layout.module.less';
-import { Form, message, Modal, Spin } from 'antd';
-import FormSubmitBanner from './components/form-submit-banner';
+import { Button, Form, message, Modal, Spin } from 'antd';
 import { HandleApplicationFormType, postApplicationForm } from '@/service/application-form';
 import { useParams } from 'react-router-dom';
 import { getApplicationForm } from '@/service/application-form';
+import { usePageHeaderContext } from '@/context/page-header';
 
 const messageData = {
   save: {
@@ -35,6 +35,7 @@ const ApplicationForm: React.FC = () => {
 
   const applyId = (+(useParams<{ applyId: string }>()?.applyId || '')) || -1;
 
+  const { updatePageHeaderState } = usePageHeaderContext();
   const [moralForm] = Form.useForm();
   const [practiceForm] = Form.useForm();
   const [academicForm] = Form.useForm();
@@ -76,7 +77,7 @@ const ApplicationForm: React.FC = () => {
     return value;
   }
 
-  const validateForm = async () => {
+  const submitForm = async () => {
     const formValue = await Promise.all([
       moralForm.validateFields(),
       practiceForm.validateFields(),
@@ -120,6 +121,25 @@ const ApplicationForm: React.FC = () => {
     }
   }
 
+
+  React.useEffect(() => {
+    updatePageHeaderState({
+      title: '申请表单',
+      extra: [
+        <Button
+          key="1"
+          onClick={saveForm}
+        >保存</Button>,
+        <Button
+          type="primary"
+          key="2"
+          onClick={submitForm}
+        >提交</Button>,
+      ],
+      subTitle: '',
+    })
+  }, []);
+
   return (
     <Spin
       spinning={loading}
@@ -139,11 +159,6 @@ const ApplicationForm: React.FC = () => {
       >
         {messageData[modalStatus.type].desc}
       </Modal>
-      <FormSubmitBanner
-        save={saveForm}
-        submit={validateForm}
-        permission={permission}
-      />
       <div
         className={style['form-page-layout']}
       >
