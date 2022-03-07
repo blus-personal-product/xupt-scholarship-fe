@@ -1,5 +1,6 @@
 import { PageHeader, PageHeaderProps, Statistic } from 'antd';
 import * as React from 'react';
+import style from '../style/header.module.less';
 
 interface IProps extends PageHeaderProps {
   title: string;
@@ -11,6 +12,7 @@ const FormHeader: React.FC<IProps> = (props) => {
   return (
     <PageHeader
       {...resetProps}
+      className={style['form-score-header']}
       title={title}
       extra={[
         <Statistic
