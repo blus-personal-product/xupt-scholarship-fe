@@ -5,7 +5,8 @@ import PageNav from '@/components/page-nav';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import { PageHeaderProvider } from '@/context/page-header';
-import AuthPageHeader from './page-headear';
+import PageHeader from './page-header';
+import style from './style.module.less'
 
 const PageLayout = () => {
   const [crumbTitle, setCrumbTitle] = React.useState<string[]>([]);
@@ -21,10 +22,12 @@ const PageLayout = () => {
             className="layout-content"
           >
             <PageHeaderProvider>
-              <AuthPageHeader
+              <PageHeader
                 crumbTitle={crumbTitle}
               />
-              <Outlet />
+              <div className={style['main-content-box']}>
+                <Outlet />
+              </div>
             </PageHeaderProvider>
           </Layout.Content>
           <Footer />
