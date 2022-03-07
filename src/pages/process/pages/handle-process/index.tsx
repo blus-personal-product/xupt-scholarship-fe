@@ -8,7 +8,9 @@ import ApplyProcessSteps from './components/apply-process-steps';
 const HandleProcess: React.FC = () => {
   return (
     <React.Fragment>
-      <ApplyProcessSteps />
+      <ApplyProcessSteps
+        currentStep="first_class_announcement"
+      />
       <Card
         title="当前流程状态"
       ></Card>
