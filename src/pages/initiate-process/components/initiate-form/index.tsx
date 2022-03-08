@@ -4,12 +4,15 @@ import { Form } from 'antd';
 import * as React from 'react';
 import CardFormItem from './components/card-form-item';
 import style from '../../style.module.less';
-import StepFooter from './components/step-footer';
+import { useLastForm } from '../../hooks/use-last-form';
 
 const InitiateForm: React.FC = () => {
+  const [form, onValuesChange] = useLastForm('initiate');
   return (
     <Form
       className={style['initiate-form']}
+      form={form}
+      onValuesChange={onValuesChange}
     >
       {
         ProcessList.map(process => (
@@ -22,7 +25,6 @@ const InitiateForm: React.FC = () => {
           </React.Fragment>
         ))
       }
-      <StepFooter />
     </Form>
   )
 };

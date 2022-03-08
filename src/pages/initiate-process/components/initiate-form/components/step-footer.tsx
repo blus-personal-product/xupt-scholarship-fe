@@ -11,7 +11,7 @@ const StepFooter: React.FC = () => {
     >
       {
         step !== 0 && (
-          <Button onClick={prev}>上一步</Button>
+          <Button className={style['step-prev-button']} onClick={prev}>上一步</Button>
         )
       }
       {
