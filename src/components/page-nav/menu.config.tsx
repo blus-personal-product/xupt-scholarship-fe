@@ -43,12 +43,12 @@ export const getMenus = (): IMenu[] => [
         path: '',
         title: '流程管理/查看'
       },
-      {
-        key: 'detail',
-        path: '/detail',
-        title: '评定记录'
-      }
     ]
+  },
+  {
+    key: 'initiate',
+    path: '/initiate-process',
+    title: '发起评定流程'
   },
   {
     key: 'upload',
@@ -68,14 +68,14 @@ export const getMenus = (): IMenu[] => [
  * @param menus 
  */
 export const getTitle = (searchKeys: string[], menus: IMenu[]): string[] => {
-  let tempChildMenus:IMenu[] = [];
+  let tempChildMenus: IMenu[] = [];
   return searchKeys.map((key, index) => {
     if (index === 0) {
       const matched = menus.find(item => item.key === key);
       tempChildMenus = matched?.children || [];
       return matched?.title || '';
     }
-    return tempChildMenus.find(item => item.key === key)?.title || ''; 
+    return tempChildMenus.find(item => item.key === key)?.title || '';
   })
 }
 

@@ -137,7 +137,10 @@ const ApplicationForm: React.FC = () => {
         >提交</Button>,
       ],
       subTitle: '',
-    })
+    });
+    return () => {
+      updatePageHeaderState({})
+    }
   }, []);
 
   return (

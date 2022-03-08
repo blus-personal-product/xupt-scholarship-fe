@@ -7,7 +7,7 @@ const ApplicationForm = React.lazy(() => import('pages/application/pages/applica
 const ApplicationList = React.lazy(() => import('pages/application/pages/application-list'));
 const HandleProcess = React.lazy(() => import('pages/process/pages/handle-process'));
 const UploadStudentList = React.lazy(() => import('pages/upload-student-list'));
-const ProcessDetail = React.lazy(() => import('pages/process/pages/detail'));
+const InitiateProcess = React.lazy(() => import('@/pages/initiate-process'));
 const UserCenter = React.lazy(() => import('pages/user-center'));
 const ForgetPassword = React.lazy(() => import('pages/forget-password'));
 const Home = React.lazy(() => import('pages/home'));
@@ -22,9 +22,9 @@ const RoutesCenter: React.FC = () => {
       <AuthProvider>
         <Routes>
           {/* 注册登录 */}
-          <Route path="/sign" element={<Sign />} />
+          <Route path="sign" element={<Sign />} />
           {/* 忘记密码 */}
-          <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="forget-password" element={<ForgetPassword />} />
           {/* 首页 */}
           <Route path="/" element={
             <RequireAuth>
@@ -46,8 +46,9 @@ const RoutesCenter: React.FC = () => {
             {/* 评定流程处理 */}
             <Route path="process">
               <Route index element={<HandleProcess />} />
-              <Route path="detail" element={<ProcessDetail />} />
             </Route>
+            {/* 发起评定流程 */}
+            <Route path="initiate-process" element={<InitiateProcess />} />
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
           </Route>
