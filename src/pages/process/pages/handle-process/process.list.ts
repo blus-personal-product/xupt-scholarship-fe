@@ -112,7 +112,7 @@ const getLabelStyle = (status: StepStatus) => {
 
 export const CurrentDate: [string, string] = [moment('2011-1-01').format('YYYY-MM-DD'), moment().add(1, "days").format('YYYY-MM-DD')]
 
-export const ProcessList = [
+export const ProcessList:Omit<ProcessItem,"date" | "status" | "itemStyle">[] = [
   {
     step: 1,
     title: "部署动员阶段",

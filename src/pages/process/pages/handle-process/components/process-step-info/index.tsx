@@ -1,4 +1,4 @@
-import { Card, Descriptions } from 'antd';
+import { Card, Descriptions, Empty } from 'antd';
 import * as React from 'react';
 import { ProcessStep, CurrentDate } from '../../process.list';
 import style from '../../style.module.less';
@@ -26,28 +26,37 @@ const ProcessStepInfo: React.FC<IProps> = (props) => {
   return (
     <Card
       className={style['process-step-card']}
+      title={
+        <div
+          className={style['card-box-title']}
+        >{
+            !processInfoList.length ? "当前处理流程" : null
+        }</div>
+      }
     >
       {
-        processInfoList.map(info => (
-          <Descriptions
-            key={info.step}
-            title={
-              <div
-                className={style['card-title']}
-              >{title}</div>
-            }
-            bordered
-            column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
-          >
-            <Descriptions.Item label="当前流程">{info.step}</Descriptions.Item>
-            <Descriptions.Item label="处理时长">{info.date[0]}</Descriptions.Item>
-            <Descriptions.Item label="处理人">{info.manager.map(m => m.name).join(',')}</Descriptions.Item>
-            <Descriptions.Item label="预期处理截至时间">{info.date[1]}</Descriptions.Item>
-            <Descriptions.Item label="当前处理比例">{info.processingRatio}</Descriptions.Item>
-            <Descriptions.Item label="日处理速率">{info.dailyProcessingRate}</Descriptions.Item>
-            <Descriptions.Item label="流程描述">{info.desc}</Descriptions.Item>
-          </Descriptions>
-        ))
+        !processInfoList.length
+          ? <Empty />
+          : processInfoList.map(info => (
+            <Descriptions
+              key={info.step}
+              title={
+                <div
+                  className={style['card-title']}
+                >{title}</div>
+              }
+              bordered
+              column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+            >
+              <Descriptions.Item label="当前流程">{info.step}</Descriptions.Item>
+              <Descriptions.Item label="处理时长">{info.date[0]}</Descriptions.Item>
+              <Descriptions.Item label="处理人">{info.manager.map(m => m.name).join(',')}</Descriptions.Item>
+              <Descriptions.Item label="预期处理截至时间">{info.date[1]}</Descriptions.Item>
+              <Descriptions.Item label="当前处理比例">{info.processingRatio}</Descriptions.Item>
+              <Descriptions.Item label="日处理速率">{info.dailyProcessingRate}</Descriptions.Item>
+              <Descriptions.Item label="流程描述">{info.desc}</Descriptions.Item>
+            </Descriptions>
+          ))
       }
     </Card>
   );
