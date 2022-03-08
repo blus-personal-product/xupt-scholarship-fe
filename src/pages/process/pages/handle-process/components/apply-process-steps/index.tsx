@@ -1,14 +1,12 @@
 import * as React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { Card } from 'antd';
-import { LinksProcessList, ProcessItem, getProcessList, ProcessStep, StepStatusInfo } from './process.list';
-import style from './style.module.less';
-import ProcessStatusCard from '../process-status-card';
-import ReactDOM from 'react-dom';
-
+import { LinksProcessList, ProcessItem, getProcessList, ProcessStep, StepStatusInfo } from '../../process.list';
+import style from '../../style.module.less';
 
 interface IProps {
   currentStep: ProcessStep;
+  title: string;
 }
 
 /**
@@ -61,10 +59,11 @@ const renderToolTipHtml = (data: ProcessItem) => {
 
 
 const ApplyProcessSteps: React.FC<IProps> = (props) => {
+  const { title } = props;
   const processList = React.useMemo(() => getProcessList(), []);
   const chartOptions = React.useMemo(() => ({
     title: {
-      text: '奖学金流程'
+      text: title,
     },
     tooltip: {
       formatter: (params: any) => {
@@ -101,9 +100,11 @@ const ApplyProcessSteps: React.FC<IProps> = (props) => {
         }
       }
     ]
-  }), [])
+  }), [processList, LinksProcessList]);
   return (
-    <Card className={style['process-step-card']}>
+    <Card
+      className={style['process-step-card']}
+    >
       <ReactECharts
         option={chartOptions}
       >
