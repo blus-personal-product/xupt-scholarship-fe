@@ -1,9 +1,9 @@
 import UploadDragger from '@/components/upload-dragger';
-import { Form, Input, Upload } from 'antd';
+import { Form } from 'antd';
 import * as React from 'react';
 import { useLastForm } from '../../hooks/use-last-form';
 
-const UploadFile:React.FC = () => {
+const UploadFile: React.FC = () => {
   const [form, onValuesChange] = useLastForm('upload');
   return (
     <Form
