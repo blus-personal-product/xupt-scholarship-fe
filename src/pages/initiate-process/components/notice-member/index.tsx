@@ -11,6 +11,7 @@ const NoticeMember: React.FC = () => {
     >
       <Form.Item
         label="通知成员"
+        
       >
         <Input />
       </Form.Item>

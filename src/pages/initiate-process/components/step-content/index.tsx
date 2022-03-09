@@ -11,11 +11,11 @@ const StepContent: React.FC = () => {
     switch (step) {
       case 2:
         return (
-          <UploadFile />
+          <NoticeMember />
         );
       case 1:
         return (
-          <NoticeMember />
+          <UploadFile />
         );
       default:
         return (
