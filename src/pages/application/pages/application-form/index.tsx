@@ -8,10 +8,10 @@ import MoralForm, { MoralFormValue } from './components/moral-form';
 import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 import style from './style/layout.module.less';
-import { Button, Form, message, Modal, Spin } from 'antd';
-import { HandleApplicationFormType, postApplicationForm } from '@/service/application-form';
+import { Button, Card, Form, message, Modal, Spin } from 'antd';
+import { HandleApplicationFormType, postApplicationForm } from '@/service/application';
 import { useParams } from 'react-router-dom';
-import { getApplicationForm } from '@/service/application-form';
+import { getApplicationForm } from '@/service/application';
 import { usePageHeaderContext } from '@/context/page-header';
 
 const messageData = {
@@ -175,13 +175,14 @@ const ApplicationForm: React.FC = () => {
           >
             <FormAnchor />
           </section>
-          <section
+          <Card
             className={style['application-form-card']}
+            hoverable
           >
             <MoralForm />
             <PracticeForm />
             <AcademicForm />
-          </section>
+          </Card>
         </ApplicationProvider>
       </div>
     </Spin>

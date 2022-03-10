@@ -3,6 +3,7 @@ import { Card, DatePicker, Form, Input, Mentions, Space, Tag } from 'antd';
 import style from '../../../style.module.less';
 import * as React from 'react';
 import { disabledFormFeatureDate } from '@/config/form';
+import MentionUser from '@/components/mention-user';
 
 interface IProps {
   name: ProcessStep;
@@ -56,13 +57,7 @@ const CardFormItem: React.FC<IProps> = (props) => {
         name={[name, ",mentions"]}
         label="通知成员"
       >
-        <Mentions
-          autoSize
-          placeholder="通过@来加入通知成员，例如：@张三"
-        >
-          <Mentions.Option value="sample">
-          </Mentions.Option>
-        </Mentions>
+        <MentionUser />
       </Form.Item>
     </Card>
   )

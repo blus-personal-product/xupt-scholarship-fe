@@ -7,6 +7,7 @@ import Header from '@/components/header';
 import { PageHeaderProvider } from '@/context/page-header';
 import PageHeader from './page-header';
 import style from './style.module.less'
+import { MentionListProvider } from '@/context/mention-list';
 
 const PageLayout = () => {
   const [crumbTitle, setCrumbTitle] = React.useState<string[]>([]);
@@ -22,12 +23,14 @@ const PageLayout = () => {
             className="layout-content"
           >
             <PageHeaderProvider>
-              <PageHeader
-                crumbTitle={crumbTitle}
-              />
-              <div className={style['main-content-box']}>
-                <Outlet />
-              </div>
+              <MentionListProvider>
+                <PageHeader
+                  crumbTitle={crumbTitle}
+                />
+                <div className={style['main-content-box']}>
+                  <Outlet />
+                </div>
+              </MentionListProvider>
             </PageHeaderProvider>
           </Layout.Content>
           <Footer />
