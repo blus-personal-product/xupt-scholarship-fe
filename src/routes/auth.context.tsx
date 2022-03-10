@@ -25,6 +25,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
     setUser(data);
     navigate(fromPath ?? dashboardPage, { replace: true });
   };
+  Math.min
   const signOut: AuthContextType['signOut'] = () => {
     setUser({} as IUser);
     navigate(signPagePath, { replace: true });

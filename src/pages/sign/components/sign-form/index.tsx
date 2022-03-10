@@ -7,7 +7,7 @@ import { Form, Input, Checkbox, message } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import * as sign from '@/service/sign';
+import * as sign from '@/service/user/sign';
 
 import style from './sign-form.module.less';
 

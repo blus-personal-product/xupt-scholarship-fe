@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AuthProvider, RequireAuth } from './auth.context';
-import { Spin } from 'antd';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import PageSpin from '@/components/page-spin';
 
 const ApplicationForm = React.lazy(() => import('pages/application/pages/application-form'));
 const ApplicationList = React.lazy(() => import('pages/application/pages/application-list'));
@@ -18,7 +18,7 @@ const NotFound = React.lazy(() => import('pages/not-found'));
 const RoutesCenter: React.FC = () => {
 
   return (
-    <React.Suspense fallback={<Spin />}>
+    <React.Suspense fallback={<PageSpin />}>
       <AuthProvider>
         <Routes>
           {/* 注册登录 */}

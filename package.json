@@ -34,7 +34,8 @@
         "react-router-dom": "6",
         "react-text-loop-next": "^0.0.3",
         "redux": "^4.1.2",
-        "redux-devtools": "^3.7.0"
+        "redux-devtools": "^3.7.0",
+        "redux-logger": "^3.0.6"
     },
     "devDependencies": {
         "@commitlint/config-conventional": "^16.0.0",
