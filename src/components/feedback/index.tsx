@@ -1,5 +1,5 @@
 import { requiredRule, validateMessages } from '@/config/form';
-import { BugOutlined } from '@ant-design/icons';
+import { BugTwoTone } from '@ant-design/icons';
 import { Button, Card, Divider, Form, Input, message, Modal, Select, SelectProps, Typography } from 'antd';
 import * as React from 'react';
 import StatusBadge from '../status-badge';
@@ -52,7 +52,7 @@ const FeedBack: React.FC = () => {
         className={style['feedback-button']}
         shape="circle"
         disabled={visible}
-        icon={<BugOutlined />}
+        icon={<BugTwoTone />}
         onClick={() => setVisible(!visible)}
       >
         <div className={style['feedback-button-text']} >问题反馈</div>

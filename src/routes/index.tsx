@@ -46,9 +46,10 @@ const RoutesCenter: React.FC = () => {
             {/* 评定流程处理 */}
             <Route path="process">
               <Route index element={<HandleProcess />} />
-            </Route>
-            {/* 发起评定流程 */}
+              {/* 发起评定流程 */}
             <Route path="initiate-process" element={<InitiateProcess />} />
+            </Route>
+            
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
           </Route>

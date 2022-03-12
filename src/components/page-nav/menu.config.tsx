@@ -1,11 +1,13 @@
+import { AppstoreTwoTone, AreaChartOutlined, CloudTwoTone, ContainerOutlined, ContainerTwoTone, FormOutlined, InteractionTwoTone, SwapOutlined, ToolTwoTone } from "@ant-design/icons";
 import { Menu } from "antd";
-import React from "react";
+import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 export interface IMenu {
   key: string;
   title: string;
   path: string;
+  icon?: ReactNode;
   type?: 'group' | 'sub_menu';
   children?: IMenu[];
 }
@@ -14,22 +16,26 @@ export const getMenus = (): IMenu[] => [
   {
     key: 'home',
     path: '/',
-    title: '个人面板'
+    title: '个人面板',
+    icon: <AppstoreTwoTone />
   },
   {
     key: 'apply',
     path: '/apply',
     title: '申请奖学金',
+    icon: <ContainerTwoTone />,
     children: [
       {
         key: 'form',
         path: '/form',
-        title: '发起申请'
+        title: '发起申请',
+        icon: <FormOutlined />
       },
       {
         key: 'progress',
         path: '',
-        title: '申请进度'
+        title: '申请进度',
+        icon: <SwapOutlined />
       }
     ]
   },
@@ -37,28 +43,33 @@ export const getMenus = (): IMenu[] => [
     key: 'process',
     path: '/process',
     title: '评定流程',
+    icon: <InteractionTwoTone />,
     children: [
       {
         key: 'handle',
         path: '',
-        title: '流程管理/查看'
+        title: '流程管理/查看',
+        icon: <AreaChartOutlined />
+      },
+      {
+        key: 'initiate',
+        path: '/initiate-process',
+        title: '发起评定流程',
+        icon: <ContainerOutlined />,
       },
     ]
   },
   {
-    key: 'initiate',
-    path: '/initiate-process',
-    title: '发起评定流程'
-  },
-  {
     key: 'upload',
     path: '/upload',
-    title: '上传学生名单'
+    title: '上传学生名单',
+    icon: <CloudTwoTone />,
   },
   {
     key: 'user',
     path: '/user',
-    title: "用户中心"
+    title: "用户中心",
+    icon:  <ToolTwoTone />,
   }
 ];
 
@@ -83,10 +94,10 @@ export const renderMenu = (menus: IMenu[]) => {
   return menus.map(menu => {
     if (menu.children) {
       return (
-        <Menu.SubMenu key={menu.key} title={menu.title}>
+        <Menu.SubMenu key={menu.key} title={menu.title} icon={menu.icon} >
           {
             menu.children.map((item) => (
-              <Menu.Item key={item.key}>
+              <Menu.Item key={item.key} icon={item.icon}>
                 <Link to={`${menu.path}${item.path}`}>{item.title}</Link>
               </Menu.Item>
             ))
@@ -95,7 +106,7 @@ export const renderMenu = (menus: IMenu[]) => {
       )
     }
     return (
-      <Menu.Item key={menu.key}>
+      <Menu.Item key={menu.key} icon={menu.icon}>
         <Link to={menu.path || '/'}>{menu.title}</Link>
       </Menu.Item>
     )
