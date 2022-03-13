@@ -3,13 +3,14 @@
  */
 import * as React from 'react';
 import * as ahooks from 'ahooks';
-import { Form, Input, Checkbox, message } from 'antd';
+import { Form, Input, message } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import storage from '@/utils/storage';
 import * as sign from '@/service/user/sign';
 
 import style from './sign-form.module.less';
+import { AUTH_CODE, EXPIRED_TIME } from '@/config/auth';
 
 
 export interface ISignFormProps {
@@ -20,7 +21,6 @@ export interface ISignFormProps {
 const LoginInitValue: sign.ILoginFormValue = {
   email: '',
   password: '',
-  remember: false,
 };
 
 const RegisterInitValue: sign.IRegisterFormValue = {
@@ -34,7 +34,6 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
   const navigate = useNavigate();
   const { type, setLoading } = props;
   const [form] = Form.useForm();
-
   const fromPath = (location as any).state?.from?.pathname || "/";
 
   const { run: submitForm } = ahooks.useDebounceFn(async () => {
@@ -42,11 +41,17 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
     try {
       const formValue = form.getFieldsValue(true);
       setLoading(true);
+      let currentCode = '';
       if (type === 'login') {
-        await sign.postLogin(formValue);
+        currentCode = await sign.postLogin(formValue);
       } else {
-        await sign.postRegister(formValue);
+        currentCode = await sign.postRegister(formValue);
       }
+      storage.set({
+        key: AUTH_CODE,
+        value: currentCode,
+        expired: EXPIRED_TIME,
+      });
       navigate(fromPath, { replace: true });
     } catch (error) {
       message.error("登陆失败");
@@ -67,12 +72,17 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
       initValue: RegisterInitValue
     };
 
+  React.useEffect(() => {
+    return () => setLoading(false);
+  })
+
   return (
     <div className={style['sign-form']}>
       <Form
         form={form}
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 12 }}
+        requiredMark={false}
         initialValues={formInfo.initValue}
       >
         <Form.Item
@@ -98,7 +108,7 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
           rules={[{
             pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/,
             required: true,
-            message: '密码长度需为8-16位，且最少包含一个大写字母，一个小写字母以及一个数字',
+            message: type === 'login' ? '密码长度需为8-16位，大写字母、小写字母以及数字组成' : '密码由大写字母、小写字母以及数字组成',
           },]}
         >
           <Input.Password
@@ -106,17 +116,6 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
             iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
           />
         </Form.Item>
-        {
-          type === 'login' && (
-            <Form.Item
-              name="remember"
-              valuePropName="checked"
-              wrapperCol={{ offset: 6, span: 12 }}
-            >
-              <Checkbox>下次登录的时候记住我</Checkbox>
-            </Form.Item>
-          )
-        }
         {
           type === 'register' && (
             <Form.Item
