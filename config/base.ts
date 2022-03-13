@@ -52,7 +52,7 @@ export default {
     proxy: {
       '/api': {
         target: 'http://localhost:8096/',
-        changeOrigin: true,
+        // changeOrigin: true,
         rewrite: (path) => path.replace(/\/api/, ''),
         configure: (proxy, options) => {
           // proxy 是 'http-proxy' 的实例
