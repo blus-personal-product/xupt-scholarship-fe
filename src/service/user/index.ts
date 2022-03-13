@@ -11,3 +11,9 @@ export interface IMentionUser {
 export const getMentionUserList = () => {
   return http.get<IMentionUser[]>("/user/list");
 }
+
+export type IUserInfo = IUser;
+
+export const getUserInfo = () => {
+  return  http.get<IUserInfo>("/user");
+}

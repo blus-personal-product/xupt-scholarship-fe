@@ -1,11 +1,13 @@
+import { AUTH_CODE } from '@/config/auth';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as queryString from 'query-string';
-
+import storage from '@/utils/storage';
 class http {
   instance: AxiosInstance
 
   constructor(props?: AxiosRequestConfig) {
     this.instance = axios.create(props);
+    this.instance.defaults.withCredentials = true;
     this.requestInterceptors();
     this.responseInterceptors();
   }
@@ -19,6 +21,13 @@ class http {
     this.instance.interceptors.request.use(
       function (config: AxiosRequestConfig) {
         // Do something before request is sent
+        const authCode = storage.get({ key: AUTH_CODE });
+        if (authCode !== '') {
+          config.headers = {
+            ...config.headers,
+            Authorization: "Bearer " + authCode,
+          } as any;
+        }
         return config;
       },
       function (error: AxiosError) {
@@ -40,7 +49,7 @@ class http {
   }
 
   get<V = undefined>(url: string, params?: any, config?: AxiosRequestConfig) {
-    const queryUrl = queryString.stringifyUrl({url: url, query: params});
+    const queryUrl = queryString.stringifyUrl({ url: url, query: params });
     return this.instance.get<V, V, AxiosRequestConfig>(queryUrl, config);
   }
   post<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {

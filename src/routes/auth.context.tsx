@@ -5,6 +5,10 @@
  */
 import * as React from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import storage from '@/utils/storage';
+import { AUTH_CODE } from '@/config/auth';
+import * as api from '@/service/user/index';
+import { message, Spin } from 'antd';
 
 export interface AuthContextType {
   user: IUser;
@@ -21,11 +25,27 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
 
   const navigate = useNavigate();
   const [user, setUser] = React.useState<IUser>({} as IUser);
+  const [loading, setLoading] = React.useState(false);
+  const getUserInfo = async () => {
+    try {
+      setLoading(true);
+      const userInfo = await api.getUserInfo();
+      setUser(userInfo)
+    } catch (error) {
+      message.error("获取当前登录用户信息失败");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  React.useEffect(() => {
+    getUserInfo();
+  }, [])
+
   const signIn: AuthContextType['signIn'] = (data, fromPath) => {
     setUser(data);
     navigate(fromPath ?? dashboardPage, { replace: true });
   };
-  Math.min
   const signOut: AuthContextType['signOut'] = () => {
     setUser({} as IUser);
     navigate(signPagePath, { replace: true });
@@ -38,7 +58,9 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
         signOut
       }}
     >
-      {props.children}
+      <Spin spinning={loading}>
+        {props.children}
+      </Spin>
     </AuthContext.Provider>
   )
 };
@@ -55,11 +77,12 @@ export const useAuth = () => {
  * @param props children
  */
 export const RequireAuth: React.FC<React.PropsWithChildren<{}>> = (props) => {
-  // const { user } = useAuth();
-  // const location = useLocation();
-  // if (!user.email) {
-  //   return <Navigate to="/sign" state={{ from: location }} replace />
-  // }
+  const { user } = useAuth();
+  const code = storage.get({ key: AUTH_CODE });
+  const location = useLocation();
+  if ((!user.email) || (!code)) {
+    return <Navigate to="/sign" state={{ from: location }} replace />
+  }
   return (
     <React.Fragment>
       {props.children}
