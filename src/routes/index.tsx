@@ -24,7 +24,7 @@ const RoutesCenter: React.FC = () => {
           {/* 注册登录 */}
           <Route path="sign" element={<Sign />} />
           {/* 忘记密码 */}
-          <Route path="forget-password" element={<ForgetPassword />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
           {/* 首页 */}
           <Route path="/" element={
             <RequireAuth>
