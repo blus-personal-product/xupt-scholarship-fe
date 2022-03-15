@@ -21,7 +21,7 @@ class http {
     this.instance.interceptors.request.use(
       function (config: AxiosRequestConfig) {
         // Do something before request is sent
-        const authCode = storage.get({ key: AUTH_CODE });
+        const authCode = storage.get({ key: AUTH_CODE, flag: false });
         if (authCode !== '') {
           config.headers = {
             ...config.headers,

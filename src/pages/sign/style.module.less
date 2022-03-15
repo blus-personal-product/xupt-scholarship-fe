@@ -1,0 +1,117 @@
+@import '../../style/reset.less';
+
+.sign {
+  display: flex;
+  height: 100vh;
+  .sign-left-box {
+    max-width: 480px;
+    min-width: 400px;
+    width: 30%;
+    background-image: url("/sign-home.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+
+    .sign-box-mask {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      top: 0;
+      left: 0;
+      background: linear-gradient(-45deg, rgba(57, 90, 255, 0) 0%, @primary-color 100%);
+
+      .sign-title-box {
+        position: absolute;
+        left: 24px;
+        top: 20px;
+      }
+
+      .sign-info-box {
+        position: absolute;
+        left: 42px;
+        top: 172px;
+        width: 320px;
+        height: 163px;
+        color: #fff;
+        font-size: 32px;
+
+        .sign-info-detail:nth-of-type(2) {
+          position: absolute;
+          top: 48px;
+          left: 30px;
+          color: #fa8c16;
+        }
+
+        .sign-info-detail:nth-of-type(3) {
+          position: absolute;
+          top: 96px;
+          left: 60px;
+        }
+      }
+
+      .sign-info-desc {
+        position: absolute;
+        color: #fff;
+        text-shadow: 2px #ccc;
+        font-size: 16px;
+        left: 42.5px;
+        top: 360px;
+        width: 300px;
+        height: 22px;
+      }
+
+      .sign-info-footer {
+        position: absolute;
+        bottom: 28px;
+        left: 36px;
+        color: rgba(218, 224, 242, 1);
+        font-size: 16px;
+        text-shadow: #ccc 1px 0 10px;
+        ;
+      }
+    }
+  }
+
+  .sign-form-page {
+    position: relative;
+    top: 0;
+    right: 0;
+    width: 100%;
+    background-color: #fff;
+    width: 100%;
+    min-width: 980px;
+    .sign-form-header {
+      position: absolute;
+      left: 24%;
+      div {
+        position: absolute;
+        left: 60px;
+        top: 160px;
+        width: 224px;
+        height: 47px;
+        color: @primary-color;
+        font-size: 32px;
+      }
+
+      p {
+        position: absolute;
+        left: 60px;
+        top: 210px;
+        width: 360px;
+        height: 24px;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 16px;
+      }
+    }
+
+    .sign-tab-card {
+      position: absolute;
+      top: 280px;
+      left: calc(24% + 60px);
+      width: calc(100% - 120px);
+      max-width: 420px;
+      min-width: 320px;
+    }
+  }
+}
