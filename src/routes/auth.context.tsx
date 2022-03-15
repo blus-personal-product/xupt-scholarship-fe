@@ -31,6 +31,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const [user, setUser] = React.useState<IUser>({} as IUser);
   const [loading, setLoading] = React.useState(false);
   const code = storage.get({ key: AUTH_CODE, flag: false });
+
   const getUserInfo = async () => {
     try {
       setLoading(true);
