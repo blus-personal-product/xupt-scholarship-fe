@@ -3,15 +3,16 @@
  */
 import * as React from 'react';
 import * as aHooks from 'ahooks';
-import { Button, Form, Input, message } from 'antd';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
-import { useLocation } from 'react-router-dom';
+import { Button, Form, Input, message, Typography } from 'antd';
+import { EyeInvisibleOutlined, EyeTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
+import { Link, useLocation } from 'react-router-dom';
 import storage from '@/utils/storage';
 import * as sign from '@/service/user/sign';
 import { useAuth } from '@/routes/auth.context';
-
+import * as verifyApi from '@/service/captcha/index';
 import style from '@/pages/sign/style.module.less';
 import { AUTH_CODE, EXPIRED_TIME } from '@/config/auth';
+import VerifyCode from '@/components/verify-code';
 
 
 export interface ISignFormProps {
@@ -33,13 +34,24 @@ const RegisterInitValue: sign.IRegisterFormValue = {
 const SignForm: React.FC<ISignFormProps> = (props) => {
   const location = useLocation();
   const { type, setLoading } = props;
+  const [captchaCode, setCaptchaCode] = React.useState<string | undefined>(undefined);
   const [form] = Form.useForm();
+  const [verifyForm] = Form.useForm();
   const { signIn } = useAuth();
   const fromPath = (location as any).state?.from?.pathname || "/";
 
   const { run: submitForm } = aHooks.useDebounceFn(async () => {
     await form.validateFields();
     try {
+      const verifyValue = verifyForm.getFieldsValue(true);
+      const verifyRes = await verifyApi.postVerifyCaptchaCode({
+        code: captchaCode || '',
+        input_code: verifyValue.verify_code,
+      });
+
+      if (!verifyRes) {
+        throw new Error("验证码错误");
+      }
       const formValue = form.getFieldsValue(true);
       setLoading(true);
       let currentCode = '';
@@ -60,7 +72,7 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
       await signIn(fromPath);
       message.success("登录成功");
     } catch (error) {
-      message.error("登陆失败");
+      message.error(error?.message || "登陆失败");
     } finally {
       setLoading(false);
     }
@@ -154,8 +166,25 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
               </Form.Item>
             )
           }
-          <Form.Item
-          >
+          <VerifyCode
+            form={verifyForm}
+            captchaCode={captchaCode}
+            setCaptchaCode={setCaptchaCode}
+          />
+          {
+            type === 'login' && (
+              <Form.Item>
+                <div className={style['forget-password-label']}>
+                  <Typography.Text type="secondary">初始密码：Jxj + 学号</Typography.Text>
+                  <Link className={style['forget-password']} to="/forget-password">
+                    <QuestionCircleOutlined className={style['forget-icon']} />
+                      忘记密码
+                    </Link>
+                </div>
+              </Form.Item>
+            )
+          }
+          <Form.Item>
             <Button
               className={style['sign-submit-btn']}
               onClick={submitForm}

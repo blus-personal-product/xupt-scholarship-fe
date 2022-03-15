@@ -34,7 +34,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
     try {
       setLoading(true);
       const userInfo = await api.getUserInfo();
-      console.log(userInfo);
       setUser(userInfo);
     } catch (error) {
       message.error("获取当前登录用户信息失败");
