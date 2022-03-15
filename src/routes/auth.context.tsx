@@ -30,6 +30,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const navigate = useNavigate();
   const [user, setUser] = React.useState<IUser>({} as IUser);
   const [loading, setLoading] = React.useState(false);
+  const code = storage.get({ key: AUTH_CODE, flag: false });
   const getUserInfo = async () => {
     try {
       setLoading(true);
@@ -43,7 +44,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   }
 
   React.useEffect(() => {
-    if ((!NotNeedAuthList.includes(pathname) && (!user.email))) {
+    if ((!NotNeedAuthList.includes(pathname)) && (!user.email) && code) {
       getUserInfo();
     }
   }, [pathname])
@@ -58,7 +59,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   };
   const signOut: AuthContextType['signOut'] = () => {
     setUser({} as IUser);
-    storage.del({ key: AUTH_CODE });
+    storage.del({ key: AUTH_CODE, flag: false });
     navigate(signPagePath, { replace: true });
   }
   return (

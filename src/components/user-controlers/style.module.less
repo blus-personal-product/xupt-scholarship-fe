@@ -1,5 +1,5 @@
 .control-box {
-line-height: 48px;
+  line-height: 48px;
   padding: 0 12px;
 
   &:hover {
@@ -11,8 +11,28 @@ line-height: 48px;
     color: #fff;
     font-size: 18px;
   }
+
   .user-avatar {
     margin-bottom: 4px;
+    background: #fff;
+    box-shadow: 1px 1px 2px #aaa;
+    margin-right: 10px;
+  }
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: all 1s;
+  .search-input {
+    width: 240px;
+  }
+}
+
+.user-info {
+  span {
+    color: #fff;
   }
 }
 
@@ -27,6 +47,7 @@ line-height: 48px;
     background-color: #e6f7ff;
     cursor: pointer;
   }
+
   li:first-child {
     border-top: 0;
   }
