@@ -2,25 +2,25 @@ import * as React from 'react';
 
 export type ProcessFormType = 'initiate' | 'notice' | 'upload';
 
-interface FormContextValue {
+interface FormValueContextValue {
   initiate: any;
   notice: any;
   upload: any;
 }
 
-interface FormContext extends FormContextValue {
+interface FormValueContext extends FormValueContextValue {
   updateFormValue: (type: ProcessFormType, value: any) => void;
 }
 
-const FormContext = React.createContext({} as FormContext);
+const FormValueContext = React.createContext({} as FormValueContext);
 
-export const useProcessFormContext = () => React.useContext(FormContext);
+export const useProcessFormValueContext = () => React.useContext(FormValueContext);
 
 interface IProps extends React.PropsWithChildren<{}> {
 
 }
 
-function reducer(state: FormContextValue, action: { type: ProcessFormType, value: any }): FormContextValue {
+function reducer(state: FormValueContextValue, action: { type: ProcessFormType, value: any }): FormValueContextValue {
   switch (action.type) {
     case 'initiate':
       return {
@@ -42,7 +42,7 @@ function reducer(state: FormContextValue, action: { type: ProcessFormType, value
   }
 }
 
-export const ProcessFormProvider: React.FC<IProps> = (props) => {
+export const ProcessFormValueProvider: React.FC<IProps> = (props) => {
   const [formState, dispatch] = React.useReducer(reducer, {
     initiate: null,
     notice: null,
@@ -53,13 +53,13 @@ export const ProcessFormProvider: React.FC<IProps> = (props) => {
     dispatch({ type, value })
   }
   return (
-    <FormContext.Provider
+    <FormValueContext.Provider
       value={{
         ...formState,
         updateFormValue
       }}
     >
       {props.children}
-    </FormContext.Provider>
+    </FormValueContext.Provider>
   )
 }

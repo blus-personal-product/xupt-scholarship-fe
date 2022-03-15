@@ -1,14 +1,14 @@
 import { useStepContext } from '@/pages/initiate-process/context/step';
 import { Steps } from 'antd';
 import * as React from 'react';
-import style from '../../../style.module.less'
+import style from '../style.module.less'
 const { Step } = Steps;
 
 const StepHeader: React.FC = () => {
   const { step } = useStepContext();
   return (
     <Steps
-      current={step}
+      current={step.index}
       className={style['steps-page-header']}
     >
       <Step

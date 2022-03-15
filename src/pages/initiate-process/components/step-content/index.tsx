@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ProcessFormProvider } from '../../context/form';
+import { ProcessFormValueProvider } from '../../context/form-value';
 import { useStepContext } from '../../context/step';
 import InitiateForm from '../initiate-form';
 import NoticeMember from '../notice-member';
@@ -7,8 +7,9 @@ import UploadFile from '../upload-file';
 
 const StepContent: React.FC = () => {
   const { step } = useStepContext();
+  const stepIndex = step.index;
   const ContentComponent = React.useMemo(() => {
-    switch (step) {
+    switch (stepIndex) {
       case 2:
         return (
           <NoticeMember />
@@ -22,13 +23,13 @@ const StepContent: React.FC = () => {
           <InitiateForm />
         );
     }
-  }, [step])
+  }, [stepIndex]);
   return (
-    <ProcessFormProvider>
+    <ProcessFormValueProvider>
       {
         ContentComponent
       }
-    </ProcessFormProvider>
+    </ProcessFormValueProvider>
   );
 };
 

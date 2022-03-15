@@ -1,9 +1,9 @@
 import { ProcessStep } from '@/pages/process/pages/handle-process/process.list';
-import { Card, DatePicker, Form, Input, Mentions, Space, Tag } from 'antd';
+import { Card, DatePicker, Form, Input,  Space, Tag } from 'antd';
 import style from '../../../style.module.less';
 import * as React from 'react';
-import { disabledFormFeatureDate } from '@/config/form';
-import MentionUser from '@/components/mention-user';
+import { disabledFormFeatureDate, requiredRule } from '@/config/form';
+import UserSelector from '@/components/user-select';
 
 interface IProps {
   name: ProcessStep;
@@ -29,6 +29,7 @@ const CardFormItem: React.FC<IProps> = (props) => {
         <Form.Item
           name={[name, "date"]}
           label="起始时间"
+          rules={requiredRule}
         >
           <DatePicker.RangePicker
             placeholder={["流程开始时间", "流程截止时间"]}
@@ -57,7 +58,7 @@ const CardFormItem: React.FC<IProps> = (props) => {
         name={[name, ",mentions"]}
         label="通知成员"
       >
-        <MentionUser />
+        <UserSelector />
       </Form.Item>
     </Card>
   )

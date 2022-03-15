@@ -5,6 +5,7 @@ import * as React from 'react';
 import CardFormItem from './components/card-form-item';
 import style from '../../style.module.less';
 import { useLastForm } from '../../hooks/use-last-form';
+import { validateMessages } from '@/config/form';
 
 const InitiateForm: React.FC = () => {
   const [form, onValuesChange] = useLastForm('initiate');
@@ -12,6 +13,9 @@ const InitiateForm: React.FC = () => {
     <Form
       className={style['initiate-form']}
       form={form}
+      colon={false}
+      requiredMark={false}
+      validateMessages={validateMessages}
       onValuesChange={onValuesChange}
     >
       {
@@ -26,7 +30,7 @@ const InitiateForm: React.FC = () => {
         ))
       }
     </Form>
-  )
+  );
 };
 
 export default InitiateForm;
