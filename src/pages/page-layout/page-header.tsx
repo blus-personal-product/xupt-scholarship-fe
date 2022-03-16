@@ -2,6 +2,7 @@ import { usePageHeaderContext } from '@/context/page-header';
 import { Breadcrumb, PageHeader } from 'antd';
 import style from './style.module.less';
 import * as React from 'react';
+import { cx } from '@/utils';
 
 interface IProps {
   crumbTitle: string[];
@@ -9,11 +10,15 @@ interface IProps {
 
 const AuthPageHeader: React.FC<IProps> = (props) => {
   const { crumbTitle } = props;
-  const { title, subTitle, extra } = usePageHeaderContext();
+  const { children, ...resetProps } = usePageHeaderContext();
   return (
     <PageHeader
-      className={style['page-header']}
-      title={title}
+      className={
+        cx(
+          style['page-header'],
+          children ? '' : style['sticky-header']
+        )
+      }
       breadcrumbRender={() => (
         <Breadcrumb>
           {
@@ -23,9 +28,8 @@ const AuthPageHeader: React.FC<IProps> = (props) => {
           }
         </Breadcrumb>
       )}
-      subTitle={subTitle}
-      extra={extra}
-    />
+      {...resetProps}
+    >{children}</PageHeader>
   );
 };
 

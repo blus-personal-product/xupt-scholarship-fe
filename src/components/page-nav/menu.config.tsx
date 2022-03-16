@@ -17,25 +17,25 @@ export const getMenus = (): IMenu[] => [
     key: 'home',
     path: '/',
     title: '个人面板',
-    icon: <AppstoreTwoTone />
+    icon: <AppstoreTwoTone twoToneColor="rgba(57, 90, 255, 1)" />
   },
   {
     key: 'apply',
     path: '/apply',
     title: '申请奖学金',
-    icon: <ContainerTwoTone />,
+    icon: <ContainerTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
     children: [
       {
         key: 'form',
         path: '/form',
         title: '发起申请',
-        icon: <FormOutlined />
+        icon: <FormOutlined twoToneColor="rgba(57, 90, 255, 1)" />
       },
       {
         key: 'progress',
         path: '',
         title: '申请进度',
-        icon: <SwapOutlined />
+        icon: <SwapOutlined twoToneColor="rgba(57, 90, 255, 1)" />
       }
     ]
   },
@@ -43,19 +43,19 @@ export const getMenus = (): IMenu[] => [
     key: 'process',
     path: '/process',
     title: '评定流程',
-    icon: <InteractionTwoTone />,
+    icon: <InteractionTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
     children: [
       {
         key: 'handle',
         path: '',
         title: '流程管理/查看',
-        icon: <AreaChartOutlined />
+        icon: <AreaChartOutlined twoToneColor="rgba(57, 90, 255, 1)" />
       },
       {
         key: 'initiate',
         path: '/initiate-process',
         title: '发起评定流程',
-        icon: <ContainerOutlined />,
+        icon: <ContainerOutlined twoToneColor="rgba(57, 90, 255, 1)" />,
       },
     ]
   },
@@ -63,13 +63,13 @@ export const getMenus = (): IMenu[] => [
     key: 'upload',
     path: '/upload',
     title: '上传学生名单',
-    icon: <CloudTwoTone />,
+    icon: <CloudTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
   },
   {
     key: 'user',
     path: '/user',
     title: "用户中心",
-    icon:  <ToolTwoTone />,
+    icon:  <ToolTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
   }
 ];
 
