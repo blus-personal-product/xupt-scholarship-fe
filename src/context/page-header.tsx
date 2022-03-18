@@ -1,9 +1,11 @@
+import { PageHeaderProps } from 'antd';
 import * as React from 'react';
 
-interface PageHeaderState {
+export interface PageHeaderState extends PageHeaderProps {
   title?: string;
   subTitle?: string;
   extra?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 interface PageHeaderContext extends PageHeaderState {
@@ -14,20 +16,22 @@ const PageHeaderContext = React.createContext<PageHeaderContext>({} as PageHeade
 
 export const usePageHeaderContext = () => React.useContext(PageHeaderContext);
 
-export const PageHeaderProvider:React.FC<React.PropsWithChildren<{}>> = (props) => {
+export const PageHeaderProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const [pageHeaderState, setPageHeaderState] = React.useState<PageHeaderState>({
     title: '',
     subTitle: '',
-    extra: null
+    extra: null,
+    children: null,
   });
   const updatePageHeaderState = (state: PageHeaderState) => {
     setPageHeaderState({
       title: '',
       subTitle: '',
       extra: null,
+      children: null,
       ...state,
     })
-  }
+  };
   return (
     <PageHeaderContext.Provider
       value={{
