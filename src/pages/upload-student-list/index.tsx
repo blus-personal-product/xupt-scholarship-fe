@@ -14,6 +14,7 @@ const UploadStudentList: React.FC = () => {
       />
       <StudentEditTable
         tableData={data}
+        updateStudentData={setData}
       />
     </React.Fragment>
   );
