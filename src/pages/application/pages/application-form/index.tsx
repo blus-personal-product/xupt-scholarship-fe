@@ -9,9 +9,9 @@ import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 import style from './style/layout.module.less';
 import { Button, Card, Form, message, Modal, Spin } from 'antd';
-import { HandleApplicationFormType, postApplicationForm } from '@/service/application';
+import { HandleApplicationFormType, postApplicationForm } from '@/service/apply';
 import { useParams } from 'react-router-dom';
-import { getApplicationForm } from '@/service/application';
+import { getApplicationForm } from '@/service/apply';
 import { usePageHeaderContext } from '@/context/page-header';
 
 const messageData = {
