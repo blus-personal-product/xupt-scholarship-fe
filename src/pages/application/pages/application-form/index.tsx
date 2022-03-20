@@ -9,7 +9,7 @@ import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 import style from './style/layout.module.less';
 import { Button, Card, Form, message, Modal, Spin } from 'antd';
-import { HandleApplicationFormType, postApplicationForm } from '@/service/apply';
+import { HandleApplicationFormType, postApplicationForm, putApplicationForm } from '@/service/apply';
 import { useParams } from 'react-router-dom';
 import { getApplicationForm } from '@/service/apply';
 import { usePageHeaderContext } from '@/context/page-header';
@@ -41,7 +41,8 @@ const ApplicationForm: React.FC = () => {
   const [academicForm] = Form.useForm();
   const [modalLoading, setModalLoading] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [permission, setPermission] = React.useState<FormPermission>(applyId === -1 ? 'read' : 'create')
+  const [permission, setPermission] = React.useState<FormPermission>(applyId === -1 ? 'create' : 'read');
+  const disabled = React.useMemo(() => ['edit', 'invisible'].includes(permission), [permission]);
   const [modalStatus, setModalStatus] = React.useState<{
     visible: boolean;
     type: HandleApplicationFormType;
@@ -61,6 +62,10 @@ const ApplicationForm: React.FC = () => {
     try {
       setLoading(true);
       const res = await getApplicationForm(applyId);
+      setPermission(res.editable ? 'edit' : 'read');
+      moralForm.setFieldsValue(res.form.moral);
+      practiceForm.setFieldsValue(res.form.practice);
+      academicForm.setFieldsValue(res.form.academic);
     } catch (error) {
       message.error(error.message)
     } finally {
@@ -109,7 +114,12 @@ const ApplicationForm: React.FC = () => {
   const handleForm = async () => {
     try {
       setModalLoading(true);
-      await postApplicationForm(modalStatus.type, getFormValue());
+      if (applyId === -1) {
+        await postApplicationForm(modalStatus.type, getFormValue());
+      } else {
+        await putApplicationForm(modalStatus.type, getFormValue(), applyId)
+      }
+      message.success("操作成功");
     } catch (error) {
       message.error(`${messageData[modalStatus.type]}失败: ${error.message}`)
     } finally {
@@ -125,7 +135,7 @@ const ApplicationForm: React.FC = () => {
   React.useEffect(() => {
     updatePageHeaderState({
       title: '申请表单',
-      extra: [
+      extra: disabled ? [] : [
         <Button
           key="1"
           onClick={saveForm}

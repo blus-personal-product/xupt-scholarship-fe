@@ -1,3 +1,4 @@
+import { ApplicationValue } from "..";
 
 /**
  * 获取合作项目的得分情况

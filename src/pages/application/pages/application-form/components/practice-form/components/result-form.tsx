@@ -4,11 +4,12 @@ import * as U from '@/utils';
 import { DatePicker, DatePickerProps, Form, FormItemProps, Input, Select } from 'antd';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { FormListFieldData } from 'antd/lib/form/FormList';
-import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
 import UploadDragger from '@/components/upload-dragger';
 import { UploadFile } from 'antd/lib/upload/interface';
+import { FORMAT_DATE } from '@/config/time';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 interface IProps extends FormItemProps {
 
@@ -25,7 +26,7 @@ export interface PracticeResultFormValue extends CooperateFormValue {
 
 export const practiceResultDefaultFormValue: PracticeResultFormValue = {
   level: 'international',
-  time: moment(),
+  time: FORMAT_DATE,
   name: '',
   order: 1,
   partners: 1,
@@ -89,7 +90,7 @@ const PracticeResultForm: React.FC<IProps> = (props) => {
               name={[field.name, "time"]}
               rules={requiredRule}
             >
-              <DatePicker
+              <FmtDatePicker
                 disabledDate={disabledFormCurrentDate}
               />
             </Form.Item>

@@ -4,19 +4,24 @@ import { Form, FormItemProps, message, Upload } from 'antd';
 import * as React from 'react';
 import { InboxOutlined } from '@ant-design/icons';
 import { UploadFile } from 'antd/lib/upload/interface';
+import { AUTH_CODE } from '@/config/auth';
+import storage from '@/utils/storage';
 
-const dragProps: DraggerProps = {
-  name: 'file',
-  multiple: true,
-  method: "POST",
-  action: 'http://localhost:8096/upload/single',
+const dragProps = (): DraggerProps => {
+  const authCode = storage.get({ key: AUTH_CODE, flag: false });
+  return {
+    name: 'file',
+    multiple: true,
+    method: "POST",
+    action: 'http://127.0.0.2:8096/upload',
+  };
 };
 
 interface IProps extends React.PropsWithChildren<{}> {
   formProps?: FormItemProps;
 }
 
-const normFile:FormItemProps['getValueFromEvent'] = (e) => {
+const normFile: FormItemProps['getValueFromEvent'] = (e) => {
   if (Array.isArray(e)) {
     return e;
   }
@@ -45,7 +50,7 @@ const UploadDragger: React.FC<IProps> = (props) => {
       {...formProps}
     >
       <Upload.Dragger
-        {...dragProps}
+        {...dragProps()}
         fileList={fileList}
         onChange={onChange}
       >

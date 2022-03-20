@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Anchor } from 'antd';
-import { HEADER_NAV_HEIGHT } from '@/config/header';
 import style from '../style/anchor.module.less';
 
 const { Link } = Anchor;
 
+
 const FormAnchor: React.FC = () => {
   const [targetOffset, setTargetOffset] = useState<number | undefined>(undefined);
-
   useEffect(() => {
     setTargetOffset(window.innerHeight / 2);
   }, []);

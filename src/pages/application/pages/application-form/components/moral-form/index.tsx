@@ -12,6 +12,7 @@ import useScoreMap from '../../hooks/use-score-map';
 import { useApplicationContext } from '../../context/application.context';
 import UploadDragger from '@/components/upload-dragger';
 import { UploadFile } from 'antd/lib/upload/interface';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 type MoralFormItemValue = {
   level: MoralScoreItem['level'];
@@ -125,7 +126,7 @@ const MoralForm: React.FC<IProps> = (props) => {
                     name={[field.name, 'time']}
                     rules={requiredRule}
                   >
-                    <DatePicker
+                    <FmtDatePicker
                       allowClear
                       disabledDate={disabledFormCurrentDate}
                       placeholder="请输入奖项颁布时间（必填）"

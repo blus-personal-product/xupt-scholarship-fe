@@ -4,6 +4,7 @@ import style from '../../../style.module.less';
 import * as React from 'react';
 import { disabledFormFeatureDate, requiredRule } from '@/config/form';
 import UserSelector from '@/components/user-select';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 interface IProps {
   name: ProcessStep;
@@ -31,7 +32,8 @@ const CardFormItem: React.FC<IProps> = (props) => {
           label="起始时间"
           rules={requiredRule}
         >
-          <DatePicker.RangePicker
+          <FmtDatePicker
+            type="range"
             placeholder={["流程开始时间", "流程截止时间"]}
             disabledDate={disabledFormFeatureDate}
           />

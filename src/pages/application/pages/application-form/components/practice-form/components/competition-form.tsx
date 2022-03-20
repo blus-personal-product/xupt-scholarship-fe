@@ -2,11 +2,12 @@ import * as React from 'react';
 import * as C from '../../../config/practice.config';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { FormItemProps, Form, DatePicker, Cascader, Input, DatePickerProps } from 'antd';
-import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
 import UploadDragger from '@/components/upload-dragger';
 import { UploadFile } from 'antd/lib/upload/interface';
+import { FORMAT_DATE } from '@/config/time';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 export interface PracticeCompetitionFormValue extends CooperateFormValue {
   level: [C.CompetitionScoreItem['type'], C.CompetitionLevelScoreItem['level']] | [];
@@ -18,7 +19,7 @@ export interface PracticeCompetitionFormValue extends CooperateFormValue {
 export const practiceCompetitionDefaultFormValue: PracticeCompetitionFormValue = {
   level: [],
   name: '',
-  time: moment(),
+  time: FORMAT_DATE,
   order: 1,
   partners: 1,
   files: []
@@ -76,7 +77,7 @@ const PracticeCompetitionForm: React.FC<IProps> = (props) => {
               name={[field.name, "time"]}
               rules={requiredRule}
             >
-              <DatePicker
+              <FmtDatePicker
                 disabledDate={disabledFormCurrentDate}
               />
             </Form.Item>

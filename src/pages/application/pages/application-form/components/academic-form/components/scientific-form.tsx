@@ -11,6 +11,8 @@ import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
 import { UploadFile } from 'antd/lib/upload/interface';
 import UploadDragger from '@/components/upload-dragger';
+import { FORMAT_DATE } from '@/config/time';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 interface IProps extends FormItemProps {
 
@@ -29,7 +31,7 @@ export interface ScientificFormValue extends CooperateFormValue {
 export const scientificDefaultFormValue: ScientificFormValue = {
   level: 'bureau',
   name: '',
-  time: [moment(), moment()],
+  time: [FORMAT_DATE, FORMAT_DATE],
   order: 1,
   partners: 1,
   distribute: 0,
@@ -92,7 +94,8 @@ const ScientificForm: React.FC<IProps> = (props) => {
               name={[field.name, "time"]}
               rules={requiredRule}
             >
-              <DatePicker.RangePicker
+              <FmtDatePicker
+                type="range"
                 disabledDate={disabledFormCurrentDate}
               />
             </Form.Item>
