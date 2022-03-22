@@ -10,7 +10,7 @@ interface StepContext {
   prev: () => void;
 }
 
-const FormStepType:ProcessFormType[] = ['initiate', 'upload', 'notice'];
+const FormStepType:ProcessFormType[] = ['initiate', 'upload'];
 
 const getFormType = (index :number ) => {
   return FormStepType[index];

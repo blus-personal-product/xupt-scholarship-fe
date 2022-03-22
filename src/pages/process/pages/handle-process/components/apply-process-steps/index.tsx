@@ -58,7 +58,7 @@ const renderToolTipHtml = (data: ProcessItem) => {
 }
 
 
-const ApplyProcessSteps: React.FC<IProps> = (props) => {
+export const ApplyProcessCharts: React.FC<IProps> = (props) => {
   const { title } = props;
   const processList = React.useMemo(() => getProcessList(), []);
   const chartOptions = React.useMemo(() => ({
@@ -102,13 +102,19 @@ const ApplyProcessSteps: React.FC<IProps> = (props) => {
     ]
   }), [processList, LinksProcessList]);
   return (
+    <ReactECharts
+      option={chartOptions}
+    >
+    </ReactECharts>
+  );
+}
+
+const ApplyProcessSteps: React.FC<IProps> = (props) => {
+  return (
     <Card
       className={style['process-step-card']}
     >
-      <ReactECharts
-        option={chartOptions}
-      >
-      </ReactECharts>
+      <ApplyProcessCharts {...props} />
     </Card>
   );
 };

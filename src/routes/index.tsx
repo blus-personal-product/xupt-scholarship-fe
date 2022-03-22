@@ -7,7 +7,7 @@ const ApplicationForm = React.lazy(() => import('pages/application/pages/applica
 const ApplicationList = React.lazy(() => import('pages/application/pages/application-list'));
 const HandleProcess = React.lazy(() => import('pages/process/pages/handle-process'));
 const UploadStudentList = React.lazy(() => import('pages/upload-student-list'));
-const InitiateProcess = React.lazy(() => import('@/pages/initiate-process'));
+const InitiateProcess = React.lazy(() => import('@/pages/process/pages/initiate-process'));
 const UserCenter = React.lazy(() => import('pages/user-center'));
 const ForgetPassword = React.lazy(() => import('pages/forget-password'));
 const Home = React.lazy(() => import('@/pages/dash-board'));

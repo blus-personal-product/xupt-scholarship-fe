@@ -28,11 +28,6 @@ function reducer(state: FormInstanceContextValue, action: { type: ProcessFormTyp
         ...state,
         initiate: action.value,
       };
-    case 'notice':
-      return {
-        ...state,
-        notice: action.value,
-      };
     case 'upload':
       return {
         ...state,

@@ -11,10 +11,17 @@ interface IProps extends Record<string, any> {
 const FmtDatePicker: React.FC<IProps> = (props) => {
   const { type, className, ...resetProps } = props;
   const value = type === 'normal'
-    ? (resetProps.value ? moment(resetProps.value, DATE_FORMAT_NORMAL) : FORMAT_DATE)
+    ? (resetProps.value ? moment(resetProps.value, DATE_FORMAT_NORMAL) : undefined)
     : (
       Array.isArray(resetProps.value)
-        ? [moment(resetProps.value[0], DATE_FORMAT_NORMAL), moment(resetProps.value[1], DATE_FORMAT_NORMAL)]
+        ? (
+          resetProps.value.length > 0
+            ? [
+              moment(resetProps.value[0], DATE_FORMAT_NORMAL),
+              moment(resetProps.value[1], DATE_FORMAT_NORMAL)
+            ]
+            : undefined
+        )
         : [FORMAT_DATE, FORMAT_DATE]
     );
   return (
