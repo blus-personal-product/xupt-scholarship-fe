@@ -1,9 +1,14 @@
 import UploadDragger from '@/components/upload-dragger';
 import { Card, Form } from 'antd';
+import { UploadFile } from 'antd/lib/upload/interface';
 import * as React from 'react';
 import { useLastForm } from '../../hooks/use-last-form';
 
-const initFormValue = {
+export interface UploadFormValue {
+  files: UploadFile[];
+}
+
+const uploadFormValue = {
   files: []
 }
 
@@ -20,7 +25,7 @@ const UploadFile: React.FC = () => {
     >
       <Form
         form={form}
-        initialValues={initFormValue}
+        initialValues={uploadFormValue}
         onValuesChange={onValuesChange}
       >
         <Form.Item

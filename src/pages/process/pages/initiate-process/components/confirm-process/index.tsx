@@ -36,7 +36,6 @@ const ConfirmProcess: React.FC = () => {
         <Typography className={textIndent}>
           流程包含12个阶段，分别是{processSteps}。
           流程顺序执行如下图，当前支持同时执行学科办审核、复查和年级公示两个部分同时进行进行。
-          对于已发起并且正式开始的流程，在任意流程
         </Typography>
         <ApplyProcessCharts title="" currentStep="deployment_mobilization_phase" />
         <Title level={4}>

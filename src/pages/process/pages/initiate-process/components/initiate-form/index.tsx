@@ -13,7 +13,7 @@ type DefaultStepValue = {
   mentions?: string[];
 };
 
-type InitiateFormValue = {
+export type InitiateFormValue = {
   [step in ProcessStep]: DefaultStepValue;
 };
 const defaultValue: DefaultStepValue = {
