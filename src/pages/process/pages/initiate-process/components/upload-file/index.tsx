@@ -1,4 +1,4 @@
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
 import { Card, Form } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import * as React from 'react';

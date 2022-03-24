@@ -15,7 +15,7 @@ const DashBoard: React.FC = () => {
   const HeaderProps = React.useMemo<PageHeaderState>(() => ({
     title: user.name,
     avatar: { src: user.avatar, style: { border: '1px solid #aaa' } },
-    subTitle: user.student_id + user.manager_id,
+    subTitle: user.user_id,
     tags: <Tag color="geekblue">{user.identity || '学生'}</Tag>,
     children: (
       <Descriptions>

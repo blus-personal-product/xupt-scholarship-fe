@@ -19,7 +19,7 @@ const StepFooter: React.FC = () => {
     const form = getFormInstance(step.type);
     try {
       setLoading(true);
-      // await form.validateFields();
+      await form.validateFields();
       next();
     } catch (error) {
       console.error(error);

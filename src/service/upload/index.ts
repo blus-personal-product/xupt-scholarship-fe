@@ -13,3 +13,17 @@ export const postUploadApplyFileList = (fileList: UploadFile[]) => {
   })
   return client.postFormData<string[]>("/upload", formData)
 }
+
+export const postUploadSingleFile = async (type: UploadFileType,file: UploadFile) => {
+  const formData = new FormData();
+  formData.append('file', file as any);
+  const url:string = await client.postFormData<string>(`/upload/single/${type}`, formData);
+  return url.slice(1);
+}
+
+/**
+ * 头像上传
+ */
+export const postAvatar = async (file: UploadFile) => {
+  return await postUploadSingleFile("avatar", file);
+}

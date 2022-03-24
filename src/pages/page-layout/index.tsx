@@ -1,19 +1,30 @@
 import * as React from 'react';
 import { Outlet } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, Modal } from 'antd';
 import PageNav from '@/components/page-nav';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
+import UpdateUserInfo from '@/components/update-user-info';
 import { PageHeaderProvider } from '@/context/page-header';
 import PageHeader from './page-header';
 import style from './style.module.less'
 import { UserListProvider } from '@/context/user-list';
+import { useAuth } from '@/routes/auth.context';
 
 const PageLayout = () => {
   const [crumbTitle, setCrumbTitle] = React.useState<string[]>([]);
+  const { user } = useAuth();
   return (
     <Layout className="base-layout">
       <Header />
+      <Modal
+      footer={null}
+      title="完善用户信息"
+      visible={!user.name}>
+        <UpdateUserInfo
+          formValue={user}
+        />
+      </Modal>
       <Layout className="site-layout">
         <PageNav
           updateCrumbTitle={setCrumbTitle}

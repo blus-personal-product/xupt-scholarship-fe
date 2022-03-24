@@ -1,7 +1,7 @@
 /**
  * 获奖信息表
  */
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { DATE_FORMAT_NORMAL, FORMAT_DATE } from '@/config/time';
 import { Cascader, DatePickerProps, Form, Input } from 'antd';

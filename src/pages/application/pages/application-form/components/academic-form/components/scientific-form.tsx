@@ -10,7 +10,7 @@ import moment from 'moment';
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
 import { UploadFile } from 'antd/lib/upload/interface';
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
 import { FORMAT_DATE } from '@/config/time';
 import FmtDatePicker from '@/components/fmt-date-picker';
 

@@ -10,7 +10,7 @@ import { disabledFormCurrentDate, requiredRule, baseFormConf } from '@/config/fo
 import FormListSkeleton from '../form-list-skeleton';
 import useScoreMap from '../../hooks/use-score-map';
 import { useApplicationContext } from '../../context/application.context';
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
 import { UploadFile } from 'antd/lib/upload/interface';
 import FmtDatePicker from '@/components/fmt-date-picker';
 

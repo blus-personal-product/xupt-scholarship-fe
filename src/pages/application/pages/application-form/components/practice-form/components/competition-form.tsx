@@ -4,7 +4,7 @@ import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import { FormItemProps, Form, DatePicker, Cascader, Input, DatePickerProps } from 'antd';
 import FormListSkeleton from '../../form-list-skeleton';
 import CooperateForm, { CooperateFormValue } from '../../cooperate-form';
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { FORMAT_DATE } from '@/config/time';
 import FmtDatePicker from '@/components/fmt-date-picker';
