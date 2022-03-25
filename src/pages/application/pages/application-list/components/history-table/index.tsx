@@ -64,7 +64,12 @@ const HistoryTable: React.FC = () => {
   const getTableData = async () => {
     try {
       setLoading(true);
-      const applyList = await api.getApplicationList();
+      const applyList = await api.getApplicationList({
+        page_count: 10,
+        page_index: 1,
+        is_check: true,
+        last_date: ''
+      });
       const tableData: I.HistoryTableData[] = (applyList || []).map(item => ({
         key: item.id,
         id: item.id,

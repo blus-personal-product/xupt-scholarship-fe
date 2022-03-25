@@ -36,7 +36,11 @@ const CardFormItem: React.FC<IProps> = (props) => {
             ({ getFieldValue }) => {
               let disableDate = disabledFormFeatureDate;
               if (processIndex > 0) {
-                const preIndexDate = getFieldValue(ProcessList[processIndex - 1].name).date || [];
+                let preIndexDate = getFieldValue(ProcessList[processIndex - 1].name).date || [];
+                // 学科办审核、复查和年纪公示同时进行
+                if (name === 'examination_and_review_of_the_discipline_office') {
+                  preIndexDate = getFieldValue(ProcessList[processIndex - 2].name).date || [];
+                }
                 if (preIndexDate.length > 0) {
                   disableDate = (current) => {
                     return current && current < preIndexDate[1];
@@ -95,7 +99,7 @@ const CardFormItem: React.FC<IProps> = (props) => {
         />
       </Form.Item>
       <Form.Item
-        name={[name, ",mentions"]}
+        name={[name, "mentions"]}
         label="通知成员"
       >
         <UserSelector />

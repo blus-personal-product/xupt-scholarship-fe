@@ -29,6 +29,13 @@ export type ApplicationItem = {
   status: IHandleStatus,
 }
 
-export const getApplicationList = () => {
-  return http.get<ApplicationItem[]>(`/apply/form/list`);
+type GETApplicationListParams = {
+  page_count: number;
+  page_index: number;
+  is_check: boolean;
+  last_date: string;
+}
+
+export const getApplicationList = (params:GETApplicationListParams) => {
+  return http.get<ApplicationItem[]>(`/apply/form/list`, params);
 }
