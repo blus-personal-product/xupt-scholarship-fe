@@ -5,8 +5,10 @@ import { Form, Card, Cascader, Input, DatePicker, Radio, FormItemProps } from 'a
 import { RangePickerProps } from 'antd/lib/date-picker/generatePicker';
 import moment from 'moment';
 import FormListSkeleton from '../../form-list-skeleton';
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
 import { UploadFile } from 'antd/lib/upload/interface';
+import { FORMAT_DATE } from '@/config/time';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 export interface CadreFormItemValue {
   level: [C.SocialCadreLevel, string] | [];
@@ -33,7 +35,7 @@ export const practiceSocialFormDefaultValue: PracticeSocialFormValue = {
   activity: [{
     level: 'college_activities',
     name: '',
-    time: [moment(), moment()],
+    time: [FORMAT_DATE, FORMAT_DATE],
     files: [],
   }]
 }
@@ -151,7 +153,8 @@ const PracticeSocialForm: React.FC<IProps> = (props) => {
                 name={[field.name, "time"]}
                 rules={requiredRule}
               >
-                <DatePicker.RangePicker
+                <FmtDatePicker
+                  type="range"
                   disabledDate={disabledFormCurrentDate}
                   placeholder={["活动开始时间", "活动终止时间"]}
                 />

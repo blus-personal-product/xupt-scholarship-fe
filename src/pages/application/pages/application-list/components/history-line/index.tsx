@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Card, Empty, Timeline } from 'antd';
+import Style from '../../style.module.less';
 
 interface ITimeLine {
   time: number;

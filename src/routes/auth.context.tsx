@@ -85,6 +85,11 @@ export const useAuth = () => {
   return React.useContext(AuthContext);
 };
 
+/**管理员不可访问 */
+const ManagerDisabledPage = ["/apply/form"]
+const StudentDisabledPage = ["/upload", "/process/initiate-process"]
+const StudentManagerDisabledPage = ["/process/initiate-process"]
+
 /**
  * 需要验证的页面
  * @param props children
@@ -93,6 +98,17 @@ export const RequireAuth: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const { user } = useAuth();
   const code = storage.get({ key: AUTH_CODE, flag: false });
   const location = useLocation();
+  const { pathname } = location;
+  const visible = [
+    user.identity === "manager" && ManagerDisabledPage.includes(pathname),
+    user.identity === "student" && StudentDisabledPage.includes(pathname),
+    user.identity === "student,manager" && StudentManagerDisabledPage.includes(pathname)
+  ].includes(true);
+  if (visible) {
+    message.warn("您没有查看该页面的权限");
+    return <Navigate to="/" replace />
+  }
+
   if ((!user.email) && (!code)) {
     return <Navigate to="/sign" state={{ from: location }} replace />
   }

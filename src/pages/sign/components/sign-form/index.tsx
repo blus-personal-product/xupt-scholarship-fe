@@ -3,7 +3,7 @@
  */
 import * as React from 'react';
 import * as aHooks from 'ahooks';
-import { Button, Form, Input, message, Typography } from 'antd';
+import { Button, Form, Input, message, Radio, Tooltip, Typography } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, QuestionCircleOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import storage from '@/utils/storage';
@@ -29,6 +29,7 @@ const RegisterInitValue: sign.IRegisterFormValue = {
   email: '',
   password: '',
   confirm_password: '',
+  identity: 'student',
 };
 
 const SignForm: React.FC<ISignFormProps> = (props) => {
@@ -80,17 +81,23 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
     wait: 500
   });
 
-  const formInfo = type === 'login' ? {
-    submitText: "登录",
-    initValue: LoginInitValue
-  } : {
-      submitText: "注册",
-      initValue: RegisterInitValue
-    };
+  const formInfo = React.useMemo(() =>
+    type === 'login' ? {
+      submitText: "登录",
+      initValue: LoginInitValue
+    } : {
+        submitText: "注册",
+        initValue: RegisterInitValue
+      },
+    [type]
+  );
 
   React.useEffect(() => {
     return () => setLoading(false);
-  })
+  }, []);
+  React.useEffect(() => {
+    form.setFieldsValue(formInfo.initValue);
+  }, [type]);
 
   return (
     <React.Fragment>
@@ -99,9 +106,33 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
           form={form}
           requiredMark={false}
           initialValues={formInfo.initValue}
-          layout="vertical"
+          layout={"vertical"}
         >
+          {
+            type === 'register' && (
+              <Form.Item
+                className={style['sign-form-item']}
+                name="identity"
+                label="身份选择"
+                required
+                rules={[{
+                  required: true,
+                  message: "请选择对应的身份信息"
+                }]}
+                tooltip="学生管理人员即参与申请奖学金的同时还身为奖学金部分流程的评定管理人员"
+              >
+                <Radio.Group value={formInfo}>
+                  <Radio.Button value="student">学生</Radio.Button>
+                  <Radio.Button value="manager">管理人员</Radio.Button>
+                  <Radio.Button value="student,manager">
+                    学生管理人员
+                  </Radio.Button>
+                </Radio.Group>
+              </Form.Item>
+            )
+          }
           <Form.Item
+            className={style['sign-form-item']}
             label="邮箱"
             name="email"
             required
@@ -117,6 +148,7 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
             />
           </Form.Item>
           <Form.Item
+            className={style['sign-form-item']}
             label="密码"
             name="password"
             hasFeedback
@@ -135,6 +167,7 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
           {
             type === 'register' && (
               <Form.Item
+                className={style['sign-form-item']}
                 name="confirm_password"
                 label="确认密码"
                 dependencies={['password']}
@@ -173,7 +206,9 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
           />
           {
             type === 'login' && (
-              <Form.Item>
+              <Form.Item
+                className={style['sign-form-item']}
+              >
                 <div className={style['forget-password-label']}>
                   <Typography.Text type="secondary">初始密码：Jxj + 学号</Typography.Text>
                   <Link className={style['forget-password']} to="/forget-password">

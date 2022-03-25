@@ -1,14 +1,15 @@
 /**
  * 公开发表论文表单
  */
-import { FormItemProps, Form, Select, Input, DatePicker, DatePickerProps } from 'antd';
+import { FormItemProps, Form, Select, Input,  DatePickerProps } from 'antd';
 import * as C from '../../../config/academic.config';
 import * as React from 'react';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import FormListSkeleton from '../../form-list-skeleton';
-import moment from 'moment';
 import { UploadFile } from 'antd/lib/upload/interface';
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
+import { FORMAT_DATE } from '@/config/time';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 interface IProps extends FormItemProps {
 
@@ -25,7 +26,7 @@ export interface DissertationFormValue {
 export const dissertationDefaultFormValue: DissertationFormValue = {
   level: 'CCF_A',
   name: '',
-  time: moment(),
+  time: FORMAT_DATE,
   id_number: '',
   files: []
 };
@@ -87,7 +88,7 @@ const DissertationForm: React.FC<IProps> = (props) => {
               rules={requiredRule}
               name={[field.name, "time"]}
             >
-              <DatePicker
+              <FmtDatePicker
                 disabledDate={disabledFormCurrentDate}
               />
             </Form.Item>

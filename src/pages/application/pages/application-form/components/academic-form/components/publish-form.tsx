@@ -6,9 +6,10 @@ import * as C from '../../../config/academic.config';
 import * as React from 'react';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
 import FormListSkeleton from '../../form-list-skeleton';
-import moment from 'moment';
 import { UploadFile } from 'antd/lib/upload/interface';
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
+import { FORMAT_DATE } from '@/config/time';
+import FmtDatePicker from '@/components/fmt-date-picker';
 
 interface IProps extends FormItemProps {
 
@@ -26,7 +27,7 @@ export interface PublishFormValue {
 export const publishDefaultFormValue: PublishFormValue = {
   level: 'authoritative_press',
   name: '',
-  time: moment(),
+  time: FORMAT_DATE,
   fonts_count: 1,
   publish_house_name: '',
   files: []
@@ -90,7 +91,7 @@ const PublishForm: React.FC<IProps> = (props) => {
                   name={[field.name, "time"]}
                   rules={requiredRule}
                 >
-                  <DatePicker
+                  <FmtDatePicker
                     disabledDate={disabledFormCurrentDate}
                   />
                 </Form.Item>

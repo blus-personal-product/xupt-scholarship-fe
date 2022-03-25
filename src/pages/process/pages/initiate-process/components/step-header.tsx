@@ -1,4 +1,4 @@
-import { useStepContext } from '@/pages/initiate-process/context/step';
+import { useStepContext } from '@/pages/process/pages/initiate-process/context/step';
 import { Steps } from 'antd';
 import * as React from 'react';
 import style from '../style.module.less'
@@ -17,7 +17,7 @@ const StepHeader: React.FC = () => {
       <Step
         title="上传相关公开文件"
       />
-      <Step title="确定通知成员"></Step>
+      <Step title="确认发起流程"></Step>
     </Steps>
   )
 }

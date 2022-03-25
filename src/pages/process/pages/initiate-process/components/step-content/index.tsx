@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ProcessFormValueProvider } from '../../context/form-value';
 import { useStepContext } from '../../context/step';
 import InitiateForm from '../initiate-form';
-import NoticeMember from '../notice-member';
+import ConfirmProcess from '../confirm-process';
 import UploadFile from '../upload-file';
 
 const StepContent: React.FC = () => {
@@ -12,7 +12,7 @@ const StepContent: React.FC = () => {
     switch (stepIndex) {
       case 2:
         return (
-          <NoticeMember />
+          <ConfirmProcess />
         );
       case 1:
         return (

@@ -1,3 +1,4 @@
+import { CompleteUserInfoValue } from '@/components/update-user-info';
 import http from '@/client'
 
 export interface IUserItem {
@@ -17,4 +18,8 @@ export type IUserInfo = IUser;
 
 export const getUserInfo = () => {
   return  http.get<IUserInfo>("/user");
+}
+
+export const postUpdateUserInfo = (data: CompleteUserInfoValue) => {
+  return http.post<number>("/user/update/user/info", data)
 }

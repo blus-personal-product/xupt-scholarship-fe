@@ -4,7 +4,6 @@ import { ProcessFormType } from './form-value';
 
 interface FormInstanceContextValue {
   initiate: any;
-  notice: any;
   upload: any;
 }
 
@@ -28,11 +27,6 @@ function reducer(state: FormInstanceContextValue, action: { type: ProcessFormTyp
         ...state,
         initiate: action.value,
       };
-    case 'notice':
-      return {
-        ...state,
-        notice: action.value,
-      };
     case 'upload':
       return {
         ...state,
@@ -46,7 +40,6 @@ function reducer(state: FormInstanceContextValue, action: { type: ProcessFormTyp
 export const ProcessFormInstanceProvider: React.FC<IProps> = (props) => {
   const [formInstance, dispatch] = React.useReducer(reducer, {
     initiate: null,
-    notice: null,
     upload: null,
   });
 

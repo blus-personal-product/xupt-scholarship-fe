@@ -5,14 +5,10 @@ import HistoryTable from './components/history-table';
 
 const ApplicationList: React.FC = () => {
   return (
-    <Row>
-      <Col span={8}>
-        <HistoryLine />
-      </Col>
-      <Col span={16}>
-        <HistoryTable />
-      </Col>
-    </Row>
+    <React.Fragment>
+      <HistoryLine />
+      <HistoryTable />
+    </React.Fragment>
   );
 };
 

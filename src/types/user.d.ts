@@ -1,9 +1,8 @@
 interface IUser {
   name: string;
   email: string;
-  identity: string;
+  user_id: string;
   avatar: string;
   phone: string;
-  student_id: string;
-  manager_id: string;
+  identity: "student" | "manager" | "student,manager";
 }

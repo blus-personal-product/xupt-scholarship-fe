@@ -19,6 +19,7 @@ export const postLogin = function (params: ILoginFormValue) {
 
 export interface IRegisterFormValue extends IBaseFormValue {
   confirm_password: string;
+  identity: IUser['identity'];
 }
 
 /**

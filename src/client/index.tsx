@@ -39,6 +39,9 @@ class http {
   responseInterceptors() {
     this.instance.interceptors.response.use(
       function (response: AxiosResponse) {
+        if (response.data.code === 1) {
+          return new Error(response.data.message);
+        }
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
         return response.data.data;
@@ -60,6 +63,13 @@ class http {
   }
   delete<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
     return this.instance.put<V, V, AxiosRequestConfig>(url, params, config);
+  }
+  postFormData<V = undefined>(url: string, file: FormData) {
+    return this.instance.post<V, any, AxiosRequestConfig>(url, file as any, {
+      headers: {
+        'Content-Type': 'multipart/form-data;charset=UTF-8'
+      }
+    })
   }
 }
 

@@ -1,11 +1,12 @@
 /**
  * 获奖信息表
  */
-import UploadDragger from '@/components/upload-dragger';
+import UploadDragger from '@/components/upload-file';
 import { disabledFormCurrentDate, requiredRule } from '@/config/form';
-import { Cascader, DatePicker, DatePickerProps, Form, Input, Select } from 'antd';
+import { DATE_FORMAT_NORMAL, FORMAT_DATE } from '@/config/time';
+import { Cascader, DatePickerProps, Form, Input } from 'antd';
+import FmtDatePicker from '@/components/fmt-date-picker';
 import { UploadFile } from 'antd/lib/upload/interface';
-import moment from 'moment';
 import * as React from 'react';
 import * as C from '../../../config/academic.config';
 import FormListSkeleton from '../../form-list-skeleton';
@@ -20,7 +21,7 @@ export interface AwardFormValue {
 export const awardDefaultFormValue: AwardFormValue = {
   level: [],
   name: '',
-  time: moment(),
+  time: FORMAT_DATE,
   files: [],
 }
 
@@ -71,8 +72,9 @@ const AwardForm: React.FC = () => {
               rules={requiredRule}
               name={[field.name, "time"]}
             >
-              <DatePicker
+              <FmtDatePicker
                 disabledDate={disabledFormCurrentDate}
+                format={DATE_FORMAT_NORMAL}
               />
             </Form.Item>
             <UploadDragger
