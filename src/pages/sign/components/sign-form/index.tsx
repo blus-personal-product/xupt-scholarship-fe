@@ -21,12 +21,12 @@ export interface ISignFormProps {
 }
 
 const LoginInitValue: sign.ILoginFormValue = {
-  email: 'ssaaaaasss',
+  email: '',
   password: '',
 };
 
 const RegisterInitValue: sign.IRegisterFormValue = {
-  email: 'sssss',
+  email: '',
   password: '',
   confirm_password: '',
   identity: 'student',

@@ -8,15 +8,22 @@ import ProcessInfo from './components/process-info-card';
 import QuickStart from './components/quick-start-card';
 import style from './style.module.less';
 
+
+const IdentityMap:Record<IUser['identity'], string> = {
+  student: "学生",
+  manager:"管理员",
+  'student,manager': "学生管理员"
+}
+
 const DashBoard: React.FC = () => {
   const { updatePageHeaderState } = usePageHeaderContext();
   const { user } = useAuth();
-
+  console.log(user.identity)
   const HeaderProps = React.useMemo<PageHeaderState>(() => ({
     title: user.name,
     avatar: { src: user.avatar, style: { border: '1px solid #aaa' } },
     subTitle: user.user_id,
-    tags: <Tag color="geekblue">{user.identity || '学生'}</Tag>,
+    tags: <Tag color="geekblue">{IdentityMap[user.identity] || "游客"}</Tag>,
     children: (
       <Descriptions>
         <Descriptions.Item label="邮件地址">{user.email}</Descriptions.Item>
@@ -25,7 +32,7 @@ const DashBoard: React.FC = () => {
         <Descriptions.Item label="具体部门/专业">empty</Descriptions.Item>
         <Descriptions.Item label="奖学金状态">
           No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
-          </Descriptions.Item>
+        </Descriptions.Item>
       </Descriptions>
     ),
   }), [user]);

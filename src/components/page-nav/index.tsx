@@ -4,6 +4,7 @@ import { Layout, Menu, MenuProps } from 'antd';
 import { useLocation } from 'react-router-dom';
 import * as hooks from '@/hooks'
 import style from './style.module.less';
+import { useAuth } from '@/routes/auth.context';
 
 
 interface IProps {
@@ -13,12 +14,13 @@ interface IProps {
 const PageNav: React.FC<IProps> = (props) => {
   const { updateCrumbTitle } = props;
   const { pathname } = useLocation();
-
-  const menus = React.useMemo(() => getMenus(), []);
+  const {user} = useAuth();
+  const menus = React.useMemo(() =>getMenus(), []);
   const matchKeys = React.useMemo(() => getMatchedKeys(pathname, menus), [menus, pathname]);
   const [selectKeys, setSelectedKeys] = React.useState<string[]>(!!matchKeys.length ? matchKeys : ['home']);
   const titleList = React.useMemo(() => getTitle(selectKeys, menus), [menus, selectKeys,]);
   hooks.useDocumentTitle(titleList.join('-'), [titleList]);
+  const NavMenu = React.useMemo(() => renderMenu(menus, user.identity), [menus, user.identity]);
 
   const updateKeys: MenuProps['onClick'] = (e) => {
     setSelectedKeys(e.keyPath)
@@ -49,11 +51,11 @@ const PageNav: React.FC<IProps> = (props) => {
         className={style['page-menu']}
       >
         {
-          renderMenu(menus)
+          NavMenu
         }
       </Menu>
     </Layout.Sider>
   )
 };
 
-export default PageNav;
+export default React.memo(PageNav);

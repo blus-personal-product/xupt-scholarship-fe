@@ -3,6 +3,7 @@ import { Menu } from "antd";
 import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
+
 export interface IMenu {
   key: string;
   title: string;
@@ -10,6 +11,8 @@ export interface IMenu {
   icon?: ReactNode;
   type?: 'group' | 'sub_menu';
   children?: IMenu[];
+  blockList?: IUser['identity'][];
+
 }
 
 export const getMenus = (): IMenu[] => [
@@ -29,6 +32,7 @@ export const getMenus = (): IMenu[] => [
         key: 'form',
         path: '/form',
         title: '发起申请',
+        blockList: ["manager"],
         icon: <FormOutlined twoToneColor="rgba(57, 90, 255, 1)" />
       },
       {
@@ -55,6 +59,7 @@ export const getMenus = (): IMenu[] => [
         key: 'initiate',
         path: '/initiate-process',
         title: '发起评定流程',
+        blockList: ["student", "student,manager"],
         icon: <ContainerOutlined twoToneColor="rgba(57, 90, 255, 1)" />,
       },
     ]
@@ -63,13 +68,14 @@ export const getMenus = (): IMenu[] => [
     key: 'upload',
     path: '/upload',
     title: '上传学生名单',
+    blockList: ["student"],
     icon: <CloudTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
   },
   {
     key: 'user',
     path: '/user',
     title: "用户中心",
-    icon:  <ToolTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
+    icon: <ToolTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
   }
 ];
 
@@ -90,14 +96,17 @@ export const getTitle = (searchKeys: string[], menus: IMenu[]): string[] => {
   })
 }
 
-export const renderMenu = (menus: IMenu[]) => {
+export const renderMenu = (menus: IMenu[], identity: IUser['identity']) => {
   return menus.map(menu => {
     if (menu.children) {
       return (
         <Menu.SubMenu key={menu.key} title={menu.title} icon={menu.icon} >
           {
             menu.children.map((item) => (
-              <Menu.Item key={item.key} icon={item.icon}>
+              <Menu.Item key={item.key}
+                disabled={(item.blockList || []).includes(identity)}
+                icon={item.icon}
+              >
                 <Link to={`${menu.path}${item.path}`}>{item.title}</Link>
               </Menu.Item>
             ))
@@ -106,7 +115,11 @@ export const renderMenu = (menus: IMenu[]) => {
       )
     }
     return (
-      <Menu.Item key={menu.key} icon={menu.icon}>
+      <Menu.Item
+        disabled={(menu.blockList || []).includes(identity)}
+        key={menu.key}
+        icon={menu.icon}
+      >
         <Link to={menu.path || '/'}>{menu.title}</Link>
       </Menu.Item>
     )

@@ -65,7 +65,7 @@ const HistoryTable: React.FC = () => {
     try {
       setLoading(true);
       const applyList = await api.getApplicationList();
-      const tableData: I.HistoryTableData[] = applyList.map(item => ({
+      const tableData: I.HistoryTableData[] = (applyList || []).map(item => ({
         key: item.id,
         id: item.id,
         create_at: item.create_at,
@@ -74,6 +74,7 @@ const HistoryTable: React.FC = () => {
       }));
       setTableData(tableData);
     } catch (error) {
+      console.log(error);
       message.error("获取申请列表失败");
     } finally {
       setLoading(false);

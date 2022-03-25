@@ -4,5 +4,5 @@ interface IUser {
   user_id: string;
   avatar: string;
   phone: string;
-  identity: "student" | "manager" | "student,manger";
+  identity: "student" | "manager" | "student,manager";
 }
