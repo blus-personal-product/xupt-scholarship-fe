@@ -1,7 +1,8 @@
 import reactRefresh from '@vitejs/plugin-react-refresh';
 import path from 'path';
+import { UserConfigExport } from 'vite';
 
-export default {
+const config: UserConfigExport = {
   plugins: [
     reactRefresh(),
   ],
@@ -16,8 +17,6 @@ export default {
     }
   },
   resolve: {
-    modules: ['node_modules'],
-    mainFiles: ['index'],
     mainFields: ['browser', 'module', 'main'],
     extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
     alias: [
@@ -30,6 +29,24 @@ export default {
       { find: "stores", replacement: path.resolve(__dirname, '../src/stores') },
       { find: "client", replacement: path.resolve(__dirname, '../src/client') },
       { find: "service", replacement: path.resolve(__dirname, '../src/service') },
+    ]
+  },
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'antd',
+      'react-router-dom',
+      '@ant-design/icons',
+      'moment',
+      'echarts',
+      'echarts-for-react',
+      'xlsx',
+      'ahooks',
+      'query-string',
+      'pinyin',
+      'react-text-loop-next',
+      'axios',
     ]
   },
   build: {
@@ -61,3 +78,5 @@ export default {
     }
   }
 };
+
+export default config;
