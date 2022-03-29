@@ -40,7 +40,10 @@ class http {
     this.instance.interceptors.response.use(
       function (response: AxiosResponse) {
         if (response.data.code === 1) {
-          return new Error(response.data.message);
+          return Promise.reject(new Error(response.data.message));
+        }
+        if (response.status === 401) {
+          storage.del({ key: AUTH_CODE, flag: false });
         }
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
