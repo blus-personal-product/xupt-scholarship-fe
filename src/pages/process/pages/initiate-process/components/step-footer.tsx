@@ -6,6 +6,8 @@ import { useProcessFormInstanceContext } from '../context/form-instance';
 import style from '../style.module.less';
 import { InitiateFormValue } from './initiate-form';
 import { UploadFormValue } from './upload-file';
+import moment from 'moment';
+import { DATE_FORMAT_NORMAL } from '@/config/time';
 
 const StepFooter: React.FC = () => {
   const { step, next, prev } = useStepContext();
@@ -32,14 +34,21 @@ const StepFooter: React.FC = () => {
     try {
       setLoading(true);
       const initiateValue: InitiateFormValue = getFormInstance('initiate').getFieldsValue(true);
+      Object.keys(initiateValue).map((key) => {
+        const tempKey = key as keyof InitiateFormValue;
+        const [start, end] = initiateValue[tempKey].date || [];
+        initiateValue[tempKey].date = [
+          moment(start).format(DATE_FORMAT_NORMAL),
+          moment(end).format(DATE_FORMAT_NORMAL)]
+      });
       const uploadValue: UploadFormValue = getFormInstance('upload').getFieldsValue(true);
-      await api.postInitProcess({
+      const processId = await api.postInitProcess({
         upload: uploadValue,
         form: initiateValue,
       });
       message.success("创建成功");
     } catch (error) {
-      message.error("提交失败");
+      message.error(error.message);
     } finally {
       setLoading(false);
     }

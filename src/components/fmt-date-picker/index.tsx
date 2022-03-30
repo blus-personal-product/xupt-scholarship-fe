@@ -22,7 +22,7 @@ const FmtDatePicker: React.FC<IProps> = (props) => {
             ]
             : undefined
         )
-        : [FORMAT_DATE, FORMAT_DATE]
+        : undefined
     );
   return (
     <React.Fragment>

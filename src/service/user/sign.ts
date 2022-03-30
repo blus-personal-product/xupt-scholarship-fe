@@ -29,3 +29,7 @@ export interface IRegisterFormValue extends IBaseFormValue {
 export const postRegister = function (params: IRegisterFormValue) {
   return http.post<string>("/sign/register", params);
 }
+
+export const getSignOut = function () {
+  return http.get("/sign/out");
+}
