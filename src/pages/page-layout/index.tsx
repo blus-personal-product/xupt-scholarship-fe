@@ -9,8 +9,7 @@ import { PageHeaderProvider } from '@/context/page-header';
 import PageHeader from './page-header';
 import style from './style.module.less'
 import { UserListProvider } from '@/context/user-list';
-import { useAuth } from '@/routes/auth.context';
-import ProcessProvider from '@/context/process-status';
+import { useAuth } from '@/context/auth.context';
 
 const PageLayout = () => {
   const [crumbTitle, setCrumbTitle] = React.useState<string[]>([]);
@@ -36,14 +35,12 @@ const PageLayout = () => {
           >
             <PageHeaderProvider>
               <UserListProvider>
-                <ProcessProvider>
                   <PageHeader
                     crumbTitle={crumbTitle}
                   />
                   <div className={style['main-content-box']}>
                     <Outlet />
                   </div>
-                </ProcessProvider>
               </UserListProvider>
             </PageHeaderProvider>
           </Layout.Content>

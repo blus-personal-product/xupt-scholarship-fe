@@ -8,7 +8,7 @@ import { EyeInvisibleOutlined, EyeTwoTone, QuestionCircleOutlined } from '@ant-d
 import { Link, useLocation } from 'react-router-dom';
 import storage from '@/utils/storage';
 import * as sign from '@/service/user/sign';
-import { useAuth } from '@/routes/auth.context';
+import { useAuth } from '@/context/auth.context';
 import * as verifyApi from '@/service/captcha/index';
 import style from '@/pages/sign/style.module.less';
 import { AUTH_CODE, EXPIRED_TIME } from '@/config/auth';

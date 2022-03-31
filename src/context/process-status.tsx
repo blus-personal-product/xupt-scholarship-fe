@@ -1,4 +1,4 @@
-import { message, Spin } from 'antd';
+import { Spin } from 'antd';
 import * as React from 'react';
 import * as api from '@/service/process';
 
@@ -18,12 +18,14 @@ interface IProps extends React.PropsWithChildren<{}> {
 }
 
 const ProcessProvider: React.FC<IProps> = (props) => {
+
   const [status, setStatus] = React.useState<ProcessStatus>({
     status: 'not_create',
     process_id: -1,
     editable: true,
     createable: true,
   });
+
   const [loading, setLoading] = React.useState(false);
 
   const getProcessStatus = async () => {
@@ -36,7 +38,7 @@ const ProcessProvider: React.FC<IProps> = (props) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   React.useEffect(() => {
     getProcessStatus();
