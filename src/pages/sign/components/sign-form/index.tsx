@@ -55,21 +55,20 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
       }
       const formValue = form.getFieldsValue(true);
       setLoading(true);
-      let currentCode = '';
+      let currentCode = null;
       if (type === 'login') {
         currentCode = await sign.postLogin(formValue);
       } else {
         currentCode = await sign.postRegister(formValue);
       }
-      if (!currentCode) {
-        throw new Error("获取登录凭证失败");
-      }
+
       storage.set({
         key: AUTH_CODE,
         value: currentCode,
         expired: EXPIRED_TIME,
         flag: false,
       });
+      
       await signIn(fromPath);
       message.success("登录成功");
     } catch (error) {

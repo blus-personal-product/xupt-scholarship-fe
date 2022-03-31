@@ -18,7 +18,6 @@ const IdentityMap:Record<IUser['identity'], string> = {
 const DashBoard: React.FC = () => {
   const { updatePageHeaderState } = usePageHeaderContext();
   const { user } = useAuth();
-  console.log(user.identity)
   const HeaderProps = React.useMemo<PageHeaderState>(() => ({
     title: user.name,
     avatar: { src: user.avatar, style: { border: '1px solid #aaa' } },

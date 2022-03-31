@@ -18,7 +18,7 @@ const UserControllers: React.FC = () => {
   const [showSearch, setShowSearch] = React.useState(false);
   const UserMenu = (
     <Menu>
-      <Link to="/user">
+      <Link to="/user" key="user-center" >
         <Menu.Item
           icon={<UserOutlined />}
           key="user-center"

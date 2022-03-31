@@ -8,7 +8,9 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import storage from '@/utils/storage';
 import { AUTH_CODE } from '@/config/auth';
 import * as api from '@/service/user/index';
+import { getSignOut } from '@/service/user/sign';
 import { message, Spin } from 'antd';
+import { convertLegacyProps } from 'antd/lib/button/button';
 
 export interface AuthContextType {
   user: IUser;
@@ -58,10 +60,16 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
       console.error(error);
     }
   };
-  const signOut: AuthContextType['signOut'] = () => {
-    setUser({} as IUser);
-    storage.del({ key: AUTH_CODE, flag: false });
-    navigate(signPagePath, { replace: true });
+  const signOut: AuthContextType['signOut'] = async () => {
+    try {
+      await getSignOut()
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUser({} as IUser);
+      storage.del({ key: AUTH_CODE, flag: false });
+      navigate(signPagePath, { replace: true });
+    }
   }
   return (
     <AuthContext.Provider
