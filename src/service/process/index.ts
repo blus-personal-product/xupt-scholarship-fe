@@ -1,4 +1,5 @@
 import client from '@/client';
+import { ProcessStatus } from '@/context/process-status';
 import { InitiateFormValue } from '@/pages/process/pages/initiate-process/components/initiate-form';
 import { UploadFormValue } from '@/pages/process/pages/initiate-process/components/upload-file';
 
@@ -30,4 +31,11 @@ export const putUpdateProcess = (
  */
 export const getProcessData = (id: number) => {
   return client.get(`/process/${id}`);
+}
+
+/**
+ * 获取process状态
+ */
+export const getProcessStatus = () => {
+  return client.get<ProcessStatus>("/process");
 }
