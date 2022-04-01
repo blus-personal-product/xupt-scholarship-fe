@@ -16,8 +16,8 @@ const PageNav: React.FC<IProps> = (props) => {
   const { updateCrumbTitle } = props;
   const { pathname } = useLocation();
   const { user } = useAuth();
-  const { ...process } = useProcess();
-  const menus = React.useMemo(() => getMenus(process), []);
+  const { process_id } = useProcess();
+  const menus = React.useMemo(() => getMenus(process_id), [process_id]);
   const matchKeys = React.useMemo(() => getMatchedKeys(pathname, menus), [menus, pathname]);
   const [selectKeys, setSelectedKeys] = React.useState<string[]>(!!matchKeys.length ? matchKeys : ['home']);
   const titleList = React.useMemo(() => getTitle(selectKeys, menus), [menus, selectKeys,]);

@@ -30,7 +30,13 @@ export const putUpdateProcess = (
  * 获取process信息
  */
 export const getProcessData = (id: number) => {
-  return client.get(`/process/${id}`);
+  return client.get<{
+    form: InitProcessValue,
+    id: number;
+    create_at: string;
+    edit_at: string;
+    user_id: string;
+  }>(`/process/${id}`);
 }
 
 /**

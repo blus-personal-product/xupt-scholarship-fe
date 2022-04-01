@@ -8,13 +8,19 @@ import StepHeader from './components/step-header';
 import StepContent from './components/step-content';
 import StepFooter from './components/step-footer';
 import { ProcessFormInstanceProvider } from './context/form-instance';
-const InitiateProcess: React.FC = () => {
+import useIsCreate from './hooks/use-is-create';
 
+const InitiateProcess: React.FC = () => {
+  const isCreate = useIsCreate();
   return (
     <StepProvider>
       <ProcessFormInstanceProvider>
         <Card>
-          <StepHeader />
+          {
+            isCreate && (
+              <StepHeader />
+            )
+          }
           <StepContent />
           <StepFooter />
         </Card>

@@ -8,6 +8,9 @@ import { InitiateFormValue } from './initiate-form';
 import { UploadFormValue } from './upload-file';
 import moment from 'moment';
 import { DATE_FORMAT_NORMAL } from '@/config/time';
+import useIsCreate from '../hooks/use-is-create';
+import { CopyOutlined, EditOutlined } from '@ant-design/icons';
+import { useProcess } from '@/context/process-status';
 
 const StepFooter: React.FC = () => {
   const { step, next, prev } = useStepContext();
@@ -16,6 +19,8 @@ const StepFooter: React.FC = () => {
   const [timeOut, setTimeOut] = React.useState(5);
   const timer = React.useRef<any>();
   const stepIndex = step.index;
+  const { process_id } = useProcess();
+  const isCreate = useIsCreate();
 
   const goNextStep = async () => {
     const form = getFormInstance(step.type);
@@ -54,6 +59,33 @@ const StepFooter: React.FC = () => {
     }
   }
 
+  const getProcess = async () => {
+    try {
+      setLoading(true);
+      const { form } = await api.getProcessData(process_id);
+      Object.keys(form.form).map((key) => {
+        const tempKey = key as keyof InitiateFormValue;
+        const [start, end] = form.form[tempKey].date || [];
+        form.form[tempKey].date = [
+          moment(start, DATE_FORMAT_NORMAL),
+          moment(end, DATE_FORMAT_NORMAL)
+        ] as any;
+      });
+      getFormInstance('initiate').setFieldsValue(form.form);
+      getFormInstance('upload').setFieldsValue(form.upload);
+    } catch (error) {
+      message.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  React.useEffect(() => {
+    if (!isCreate && getFormInstance('initiate') && getFormInstance('upload')) {
+      getProcess()
+    }
+  }, [process_id, getFormInstance])
+
   React.useEffect(() => {
     if (timeOut > 0) {
       if (stepIndex === 2) {
@@ -77,25 +109,26 @@ const StepFooter: React.FC = () => {
       className={style['step-footer-banner']}
     >
       {
-        stepIndex !== 0 && (
+        stepIndex !== 0 && isCreate && (
           <Button className={style['step-prev-button']} onClick={prev}>上一步</Button>
         )
       }
       {
-        stepIndex === 2 && (
+        (stepIndex === 2 || !isCreate) && (
           <Button
             type="primary"
             loading={loading}
             onClick={submitProcess}
             disabled={loading}
+            icon={isCreate ? <CopyOutlined /> : <EditOutlined />}
           >
-            {timeOut <= 0 ? '' : `${timeOut} s`}
-            我已知晓，确认创建
+            { isCreate ? timeOut <= 0 ? '' : `${timeOut} s` : ''}
+            我已知晓，确认{isCreate ? "创建" : "修改"}
           </Button>
         )
       }
       {
-        stepIndex !== 2 && (
+        stepIndex !== 2 && isCreate && (
           <Button type="primary" disabled={loading} loading={loading} onClick={goNextStep}>下一步</Button>
         )
       }

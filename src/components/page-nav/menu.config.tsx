@@ -16,7 +16,7 @@ export interface IMenu {
 
 }
 
-export const getMenus = (process: ProcessStatus): IMenu[] => [
+export const getMenus = (process_id: number): IMenu[] => [
   {
     key: 'home',
     path: '/',
@@ -59,7 +59,7 @@ export const getMenus = (process: ProcessStatus): IMenu[] => [
       {
         key: 'initiate',
         path: '/initiate-process',
-        title: process.process_id === -1 ? '发起评定流程' : '本年度评定流程',
+        title: process_id === -1 ? '发起评定流程' : '查看评定流程',
         blockList: ["student", "student,manager"],
         icon: <ContainerOutlined twoToneColor="rgba(57, 90, 255, 1)" />,
       },
