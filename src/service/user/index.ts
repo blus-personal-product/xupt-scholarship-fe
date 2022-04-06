@@ -14,10 +14,10 @@ export const getMentionUserList = () => {
   return http.get<IUserItem[]>("/user/list");
 }
 
-export type IUserInfo = IUser;
+export type IBaseUserInfo = IUser;
 
 export const getUserInfo = () => {
-  return  http.get<IUserInfo>("/user");
+  return  http.get<IBaseUserInfo>("/user");
 }
 
 export const postUpdateUserInfo = (data: CompleteUserInfoValue) => {
