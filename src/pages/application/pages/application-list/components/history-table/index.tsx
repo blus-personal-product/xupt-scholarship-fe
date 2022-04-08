@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { DeleteOutlined, EditTwoTone } from '@ant-design/icons';
 import * as api from '@/service/apply';
 import Style from '../../style.module.less';
+import { useProcess } from '@/context/process-status';
 
 const columns: TableProps<I.HistoryTableData>['columns'] = [
   {
@@ -22,7 +23,7 @@ const columns: TableProps<I.HistoryTableData>['columns'] = [
     title: '处理状态',
     dataIndex: 'handle_state',
     key: 'handle_state',
-    render: (state: I.IHandleStatus) => <Tag>{I.TypesMap.get(state)}</Tag>
+    render: (state: I.IHandleStatus) => <Tag color={state === 'submit' ? 'success' : 'geekblue'}>{I.TypesMap.get(state)}</Tag>
   },
   {
     title: '创建时间',
@@ -60,6 +61,7 @@ const columns: TableProps<I.HistoryTableData>['columns'] = [
 const HistoryTable: React.FC = () => {
   const [tableData, setTableData] = React.useState<I.HistoryTableData[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const { process_id } = useProcess();
 
   const getTableData = async () => {
     try {
@@ -68,7 +70,7 @@ const HistoryTable: React.FC = () => {
         page_count: 10,
         page_index: 1,
         is_check: true,
-        last_date: ''
+        procedure_id: process_id
       });
       const tableData: I.HistoryTableData[] = (applyList || []).map(item => ({
         key: item.id,

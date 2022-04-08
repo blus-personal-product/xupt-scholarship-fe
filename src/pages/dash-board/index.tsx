@@ -1,5 +1,5 @@
 import { PageHeaderState, usePageHeaderContext } from '@/context/page-header';
-import { useAuth } from '@/routes/auth.context';
+import { useAuth } from '@/context/auth.context';
 import { Descriptions, Tag } from 'antd';
 import * as React from 'react';
 import DepartmentCard from './components/department-card';

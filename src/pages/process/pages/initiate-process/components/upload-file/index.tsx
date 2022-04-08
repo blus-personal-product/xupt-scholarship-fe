@@ -17,7 +17,10 @@ const UploadFile: React.FC = () => {
   return (
     <Card
       type="inner"
-      title="上传支持预览的文件"
+      title="流程以及评定依据相关文件"
+      style={{
+        margin: '0 96px',
+      }}
       headStyle={{
         fontWeight: 600
       }}

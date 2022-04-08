@@ -8,7 +8,7 @@ import { EyeInvisibleOutlined, EyeTwoTone, QuestionCircleOutlined } from '@ant-d
 import { Link, useLocation } from 'react-router-dom';
 import storage from '@/utils/storage';
 import * as sign from '@/service/user/sign';
-import { useAuth } from '@/routes/auth.context';
+import { useAuth } from '@/context/auth.context';
 import * as verifyApi from '@/service/captcha/index';
 import style from '@/pages/sign/style.module.less';
 import { AUTH_CODE, EXPIRED_TIME } from '@/config/auth';
@@ -62,13 +62,8 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
         currentCode = await sign.postRegister(formValue);
       }
 
-      storage.set({
-        key: AUTH_CODE,
-        value: currentCode,
-        expired: EXPIRED_TIME,
-        flag: false,
-      });
-      
+      storage.setStg(AUTH_CODE, currentCode, EXPIRED_TIME);
+
       await signIn(fromPath);
       message.success("登录成功");
     } catch (error) {

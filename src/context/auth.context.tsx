@@ -11,6 +11,8 @@ import * as api from '@/service/user/index';
 import { getSignOut } from '@/service/user/sign';
 import { message, Spin } from 'antd';
 import { convertLegacyProps } from 'antd/lib/button/button';
+import { useProcess } from './process-status';
+import useIsCreate from '@/pages/process/pages/initiate-process/hooks/use-is-create';
 
 export interface AuthContextType {
   user: IUser;
@@ -32,7 +34,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const navigate = useNavigate();
   const [user, setUser] = React.useState<IUser>({} as IUser);
   const [loading, setLoading] = React.useState(false);
-  const code = storage.get({ key: AUTH_CODE, flag: false });
+  const code = storage.getStg(AUTH_CODE);
 
   const getUserInfo = async () => {
     try {
@@ -67,7 +69,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
       console.error(error);
     } finally {
       setUser({} as IUser);
-      storage.del({ key: AUTH_CODE, flag: false });
+      storage.delStg(AUTH_CODE);
       navigate(signPagePath, { replace: true });
     }
   }
@@ -94,9 +96,9 @@ export const useAuth = () => {
 };
 
 /**管理员不可访问 */
-const ManagerDisabledPage = ["/apply/form"]
-const StudentDisabledPage = ["/upload", "/process/initiate-process"]
-const StudentManagerDisabledPage = ["/process/initiate-process"]
+const ManagerDisabledPage = ["/apply/form"];
+const getStudentDisabledPage = (isCreateProcess: boolean) => isCreateProcess ? ["/upload", "/process/initiate-process"] : ["/upload"];
+const getStudentManagerDisabledPage = (isCreateProcess: boolean) => isCreateProcess  ?["/process/initiate-process"] : [];
 
 /**
  * 需要验证的页面
@@ -104,14 +106,17 @@ const StudentManagerDisabledPage = ["/process/initiate-process"]
  */
 export const RequireAuth: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const { user } = useAuth();
-  const code = storage.get({ key: AUTH_CODE, flag: false });
+  const isCreate = useIsCreate();
+
+  const code = storage.getStg(AUTH_CODE);
   const location = useLocation();
   const { pathname } = location;
   const visible = [
     user.identity === "manager" && ManagerDisabledPage.includes(pathname),
-    user.identity === "student" && StudentDisabledPage.includes(pathname),
-    user.identity === "student,manager" && StudentManagerDisabledPage.includes(pathname)
+    user.identity === "student" && getStudentDisabledPage(isCreate).includes(pathname),
+    user.identity === "student,manager" && getStudentManagerDisabledPage(isCreate).includes(pathname)
   ].includes(true);
+  console.log(isCreate)
   if (visible) {
     message.warn("您没有查看该页面的权限");
     return <Navigate to="/" replace />

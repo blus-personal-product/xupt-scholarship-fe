@@ -4,11 +4,25 @@ import { useStepContext } from '../../context/step';
 import InitiateForm from '../initiate-form';
 import ConfirmProcess from '../confirm-process';
 import UploadFile from '../upload-file';
+import useIsCreate from '../../hooks/use-is-create';
+import { Divider } from 'antd';
 
 const StepContent: React.FC = () => {
   const { step } = useStepContext();
+  const isCreate = useIsCreate();
   const stepIndex = step.index;
   const ContentComponent = React.useMemo(() => {
+    if (!isCreate) {
+      return (
+        <React.Fragment>
+          <ConfirmProcess />
+          <Divider orientation="left">相关文件</Divider>
+          <UploadFile />
+          <Divider orientation="left">详细创建信息</Divider>
+          <InitiateForm />
+        </React.Fragment>
+      );
+    }
     switch (stepIndex) {
       case 2:
         return (
@@ -23,7 +37,7 @@ const StepContent: React.FC = () => {
           <InitiateForm />
         );
     }
-  }, [stepIndex]);
+  }, [stepIndex, isCreate]);
   return (
     <ProcessFormValueProvider>
       {
@@ -33,4 +47,4 @@ const StepContent: React.FC = () => {
   );
 };
 
-export default StepContent;
+export default React.memo(StepContent);

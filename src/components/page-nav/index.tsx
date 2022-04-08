@@ -4,7 +4,8 @@ import { Layout, Menu, MenuProps } from 'antd';
 import { useLocation } from 'react-router-dom';
 import * as hooks from '@/hooks'
 import style from './style.module.less';
-import { useAuth } from '@/routes/auth.context';
+import { useAuth } from '@/context/auth.context';
+import { useProcess } from '@/context/process-status';
 
 
 interface IProps {
@@ -14,8 +15,9 @@ interface IProps {
 const PageNav: React.FC<IProps> = (props) => {
   const { updateCrumbTitle } = props;
   const { pathname } = useLocation();
-  const {user} = useAuth();
-  const menus = React.useMemo(() =>getMenus(), []);
+  const { user } = useAuth();
+  const { process_id } = useProcess();
+  const menus = React.useMemo(() => getMenus(process_id), [process_id]);
   const matchKeys = React.useMemo(() => getMatchedKeys(pathname, menus), [menus, pathname]);
   const [selectKeys, setSelectedKeys] = React.useState<string[]>(!!matchKeys.length ? matchKeys : ['home']);
   const titleList = React.useMemo(() => getTitle(selectKeys, menus), [menus, selectKeys,]);
@@ -34,7 +36,7 @@ const PageNav: React.FC<IProps> = (props) => {
 
   React.useEffect(() => {
     updateCrumbTitle(titleList);
-  },[titleList]);
+  }, [titleList]);
 
   return (
     <Layout.Sider

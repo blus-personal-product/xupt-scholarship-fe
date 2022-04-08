@@ -1,3 +1,4 @@
+import { ProcessStatus } from "@/context/process-status";
 import { AppstoreTwoTone, AreaChartOutlined, CloudTwoTone, ContainerOutlined, ContainerTwoTone, FormOutlined, InteractionTwoTone, SwapOutlined, ToolTwoTone } from "@ant-design/icons";
 import { Menu } from "antd";
 import React, { ReactNode } from "react";
@@ -15,7 +16,7 @@ export interface IMenu {
 
 }
 
-export const getMenus = (): IMenu[] => [
+export const getMenus = (process_id: number): IMenu[] => [
   {
     key: 'home',
     path: '/',
@@ -58,8 +59,8 @@ export const getMenus = (): IMenu[] => [
       {
         key: 'initiate',
         path: '/initiate-process',
-        title: '发起评定流程',
-        blockList: ["student", "student,manager"],
+        title: process_id === -1 ? '发起评定流程' : '查看评定流程',
+        // blockList: ["student", "student,manager"],
         icon: <ContainerOutlined twoToneColor="rgba(57, 90, 255, 1)" />,
       },
     ]

@@ -33,7 +33,7 @@ type GETApplicationListParams = {
   page_count: number;
   page_index: number;
   is_check: boolean;
-  last_date: string;
+  procedure_id: number;
 }
 
 export const getApplicationList = (params:GETApplicationListParams) => {

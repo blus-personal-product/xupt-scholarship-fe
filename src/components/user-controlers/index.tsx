@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Space, Avatar, Dropdown, Badge, Menu, Input, List } from 'antd';
 import { BellOutlined, LoginOutlined, QuestionCircleOutlined, SearchOutlined, UserOutlined, } from '@ant-design/icons';
 import style from './style.module.less';
-import { useAuth } from '@/routes/auth.context';
+import { useAuth } from '@/context/auth.context';
 import { Link } from 'react-router-dom';
 
 const data = [

@@ -9,7 +9,7 @@ import { PageHeaderProvider } from '@/context/page-header';
 import PageHeader from './page-header';
 import style from './style.module.less'
 import { UserListProvider } from '@/context/user-list';
-import { useAuth } from '@/routes/auth.context';
+import { useAuth } from '@/context/auth.context';
 
 const PageLayout = () => {
   const [crumbTitle, setCrumbTitle] = React.useState<string[]>([]);
@@ -18,9 +18,9 @@ const PageLayout = () => {
     <Layout className="base-layout">
       <Header />
       <Modal
-      footer={null}
-      title="完善用户信息"
-      visible={!user.name}>
+        footer={null}
+        title="完善用户信息"
+        visible={!user.name}>
         <UpdateUserInfo
           formValue={user}
         />
@@ -35,12 +35,12 @@ const PageLayout = () => {
           >
             <PageHeaderProvider>
               <UserListProvider>
-                <PageHeader
-                  crumbTitle={crumbTitle}
-                />
-                <div className={style['main-content-box']}>
-                  <Outlet />
-                </div>
+                  <PageHeader
+                    crumbTitle={crumbTitle}
+                  />
+                  <div className={style['main-content-box']}>
+                    <Outlet />
+                  </div>
               </UserListProvider>
             </PageHeaderProvider>
           </Layout.Content>
