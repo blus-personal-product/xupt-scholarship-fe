@@ -19,7 +19,7 @@ const StepFooter: React.FC = () => {
   const [timeOut, setTimeOut] = React.useState(5);
   const timer = React.useRef<any>();
   const stepIndex = step.index;
-  const { process_id } = useProcess();
+  const { process_id, createable, editable } = useProcess();
   const isCreate = useIsCreate();
 
   const goNextStep = async () => {
@@ -114,12 +114,12 @@ const StepFooter: React.FC = () => {
         )
       }
       {
-        (stepIndex === 2 || !isCreate) && (
+        (stepIndex === 2 || !isCreate) && (createable || editable) && (
           <Button
             type="primary"
             loading={loading}
             onClick={submitProcess}
-            disabled={loading}
+            disabled={loading || !(isCreate ? createable : editable)}
             icon={isCreate ? <CopyOutlined /> : <EditOutlined />}
           >
             { isCreate ? timeOut <= 0 ? '' : `${timeOut} s` : ''}

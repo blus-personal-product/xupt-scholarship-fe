@@ -21,7 +21,7 @@ class http {
     this.instance.interceptors.request.use(
       function (config: AxiosRequestConfig) {
         // Do something before request is sent
-        const authCode = storage.get({ key: AUTH_CODE, flag: false });
+        const authCode = storage.getStg(AUTH_CODE);
         if (authCode !== '') {
           config.headers = {
             ...config.headers,
@@ -43,7 +43,7 @@ class http {
           return Promise.reject(new Error(response.data.message));
         }
         if (response.status === 401) {
-          storage.del({ key: AUTH_CODE, flag: false });
+          storage.delStg(AUTH_CODE);
           return Promise.reject(new Error("没有权限"));
         }
         // Any status code that lie within the range of 2xx cause this function to trigger

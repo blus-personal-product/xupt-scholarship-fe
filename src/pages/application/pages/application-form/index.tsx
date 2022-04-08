@@ -16,12 +16,21 @@ import { usePageHeaderContext } from '@/context/page-header';
 
 const messageData = {
   save: {
-    title: '保存',
+    title: '保存注意事项：',
     desc: '保存的信息不会提交，在进行下次编辑时仍可使用'
   },
   submit: {
-    title: '提交',
-    desc: '提交的信息会作为审核信息，在审核开始前你仍可更改'
+    title: '提交注意事项：',
+    desc: (
+      <div>
+        提交当前表单前建议您阅读以下事项：
+        <ol style={{ marginLeft: 30 }}>
+          <li>提交的信息会作为审核信息，在审核开始前你仍可更改;</li>
+          <li>提交的表单会覆盖之前的提交记录;</li>
+          <li>在同一年的奖学金评定记录中，只会用最后一次提交的申请表单来作为奖学金评定的依据，其他保存的申请表单在非『创建环节』不支持修改状态为「提交」;</li>
+        </ol>
+      </div>
+    )
   },
 };
 

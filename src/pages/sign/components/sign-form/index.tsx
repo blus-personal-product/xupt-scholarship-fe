@@ -62,13 +62,8 @@ const SignForm: React.FC<ISignFormProps> = (props) => {
         currentCode = await sign.postRegister(formValue);
       }
 
-      storage.set({
-        key: AUTH_CODE,
-        value: currentCode,
-        expired: EXPIRED_TIME,
-        flag: false,
-      });
-      
+      storage.setStg(AUTH_CODE, currentCode, EXPIRED_TIME);
+
       await signIn(fromPath);
       message.success("登录成功");
     } catch (error) {

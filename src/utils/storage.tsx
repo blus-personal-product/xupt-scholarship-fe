@@ -1,7 +1,8 @@
 /**
- * @class Storag 浏览器Storag类
+ * BaseStorage
  */
 class BaseStorage {
+  /**写入时间 */
   writeTime: number
   constructor() {
     this.writeTime = Number(new Date())
@@ -11,87 +12,191 @@ class BaseStorage {
   }
 }
 
-type SetProps =  { key: string; value: any; expired: number; flag?: boolean; }
+interface StorageBaseProps {
+  isLocal: boolean;
+}
 
-type GetProps =  { key: string; flag?: boolean; }
+/**设置存储 */
+interface SetProps extends StorageBaseProps {
+  key: string;
+  value: string;
+  expired: number;
+}
 
-type DelProps = GetProps;
+/**获取存储 */
+interface GetProps extends StorageBaseProps {
+  key: string;
+}
+
+interface IsOutExpiredProps {
+  value: any;
+  writeTime: number;
+  expired: number;
+}
 
 /**
- * @class lstorages get&set storage
+ * 删除存储
+ */
+type DelProps = GetProps;
+
+
+type SetFunc = (key: string, value: any, expired: number) => void;
+type DelFunc = (key: string) => string;
+
+/**
+ * @class storage 存储器
  */
 class Storages extends BaseStorage {
+  /**存储前缀 */
+  private prefix: string;
+  constructor(prefixOfKey?: string) {
+    super();
+    this.prefix = prefixOfKey || '';
+  }
+  // >>> LocalStorage
   /**
-   * @method set - Stored value
-   * @param {object} param0
-   * @param {string} param0.key - Key name
-   * @param {*} param0.value - Stored value
-   * @param {number} param0.expired - Storage time, unit: millisecond
-   * @param {boolean} param0.flag - Whether it is localstorage storage
+   * get LocalStorage by key
    */
-  set({ key, value, expired, flag = true }: SetProps) {
+  getLtg<T>(key: string) {
+    return this.getStorage<T>({
+      key,
+      isLocal: true,
+    });
+  }
+  /**
+   * set LocalStorage by key, value and expired
+   */
+  setLtg: SetFunc = (key, value, expired) => {
+    this.setStorage({
+      key,
+      value,
+      expired,
+      isLocal: true
+    });
+  }
+  /**
+   * del LocalStorage by key
+   */
+  delLtg: DelFunc = (key: string) => {
+    this.delStorage({
+      key,
+      isLocal: true
+    });
+    return key;
+  }
+  // >>>> sessionStorage
+  /**
+   * get SessionStorage by key
+   * @param key 
+   */
+  getStg<T>(key: string) {
+    return this.getStorage<T>({
+      key,
+      isLocal: false,
+    });
+  }
+
+  /**
+  * set SessionStorage by key, value and expired
+  */
+  setStg: SetFunc = (key, value, expired) => {
+    this.setStorage({
+      key,
+      value,
+      expired,
+      isLocal: false
+    });
+  }
+  /**
+   * del SessionStorage by key
+   */
+  delStg: DelFunc = (key: string) => {
+    this.delStorage({
+      key,
+      isLocal: false
+    });
+    return key;
+  }
+
+  /**
+   * set the storage value use some props
+   * @param params {SetProps}
+   */
+  private setStorage(params: SetProps) {
+    const {
+      value, expired, isLocal, key,
+    } = params;
+    const sKey = this.prefix + key;
     let data = {
       value,
-      writeTime: this.writeTime, // 写入时间，继承自 Stroage
+      writeTime: this.writeTime,
       expired,
     }
-    // 值是数组，不能直接存储，需要转换 JSON.stringify
-    if (flag) {
-      localStorage.setItem(key, JSON.stringify(data))
+    if (isLocal) {
+      localStorage.setItem(sKey, JSON.stringify(data))
     } else {
-      sessionStorage.setItem(key, JSON.stringify(data))
+      sessionStorage.setItem(sKey, JSON.stringify(data))
     }
   }
 
   /**
-   * @method get - Get value
-   * @param {object} param0
-   * @param {string} param0.key - Key name
-   * @param {boolean} param0.flag - Whether it is localstorage storage
+   * get the value by key in the storage
+   * @param params {GetProps}
    */
-  get({ key, flag = true }: GetProps) {
+  private getStorage<V = null>(params: GetProps): (V | null) {
+    const { isLocal, key } = params;
+    const sKey = this.prefix + key;
     let dataJSON = null
-    if (flag) {
-      dataJSON = localStorage.getItem(key)
+    if (isLocal) {
+      dataJSON = localStorage.getItem(sKey)
     } else {
-      dataJSON = sessionStorage.getItem(key)
+      dataJSON = sessionStorage.getItem(sKey)
     }
-    // 当目标不存在时直接结束
+
     if (this.isNotExist(dataJSON)) {
       return null
     }
     let data = JSON.parse(dataJSON as any)
-    // 当数据的存在周期未定义时，它被认为是永久的
+
     if (this.isNotExist(data.expired)) {
       return data.value
     }
-    // 数据声明期结束时释放数据
+
     if (this.isOutPeriod(data)) {
-      this.del({ key: key, flag: flag })
+      this.delStorage({ key: sKey, isLocal })
       return null
     }
     return data.value
   }
 
   /**
-   * @method del - Delete value
-   * @param {object} param0
-   * @param {string} param0.key - Key name
-   * @param {boolean} param0.flag - Whether it is localstorage storage
+   * del the matched key from storage
+   * @param params {DelProps} 
    */
-  del({ key, flag = true }: DelProps) {
-    if (flag) {
-      localStorage.removeItem(key)
+  private delStorage(params: DelProps) {
+    const { isLocal, key } = params;
+    const sKey = this.prefix + key;
+    if (isLocal) {
+      localStorage.removeItem(sKey)
     } else {
-      sessionStorage.removeItem(key)
+      sessionStorage.removeItem(sKey)
     }
   }
 
   /**
-   * @method isOutPeriod - Determine whether it is expired
-   * @param {object} obj - The storage object stored, not the key name
+   * Calculate storage occupancy and remaining space (unit: byte)
    */
-  isOutPeriod(obj: { value: any; writeTime: number; expired: number }) {
+  getStorageUsedSize(): Promise<StorageEstimate> {
+    if ('storage' in navigator && 'estimate' in navigator.storage) {
+      return navigator.storage.estimate()
+    }
+    return Promise.reject(null);
+  }
+
+  /**
+   * Determine whether it is expired
+   */
+  private isOutPeriod(obj: IsOutExpiredProps): boolean {
     if (!obj.value) {
       return true
     }
@@ -100,4 +205,4 @@ class Storages extends BaseStorage {
   }
 }
 
-export default new Storages();
+export default new Storages('st');

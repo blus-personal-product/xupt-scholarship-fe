@@ -60,7 +60,7 @@ export const getMenus = (process_id: number): IMenu[] => [
         key: 'initiate',
         path: '/initiate-process',
         title: process_id === -1 ? '发起评定流程' : '查看评定流程',
-        blockList: ["student", "student,manager"],
+        // blockList: ["student", "student,manager"],
         icon: <ContainerOutlined twoToneColor="rgba(57, 90, 255, 1)" />,
       },
     ]
