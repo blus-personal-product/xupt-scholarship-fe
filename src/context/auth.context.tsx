@@ -116,7 +116,6 @@ export const RequireAuth: React.FC<React.PropsWithChildren<{}>> = (props) => {
     user.identity === "student" && getStudentDisabledPage(isCreate).includes(pathname),
     user.identity === "student,manager" && getStudentManagerDisabledPage(isCreate).includes(pathname)
   ].includes(true);
-  console.log(isCreate)
   if (visible) {
     message.warn("您没有查看该页面的权限");
     return <Navigate to="/" replace />

@@ -20,8 +20,8 @@ const RoutesCenter: React.FC = () => {
 
   return (
     <React.Suspense fallback={<PageSpin />}>
-      <ProcessProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <ProcessProvider>
           <Routes>
             {/* 注册登录 */}
             <Route path="sign" element={<Sign />} />
@@ -56,8 +56,8 @@ const RoutesCenter: React.FC = () => {
             </Route>
             <Route path="*" element={<Navigate to="/sign" />} />
           </Routes>
-        </AuthProvider>
-      </ProcessProvider>
+        </ProcessProvider>
+      </AuthProvider>
     </React.Suspense>
   );
 };

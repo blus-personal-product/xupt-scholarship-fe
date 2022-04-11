@@ -1,6 +1,7 @@
 import { Spin } from 'antd';
 import * as React from 'react';
 import * as api from '@/service/process';
+import { useAuth } from './auth.context';
 
 export interface ProcessStatus {
   status: "not_create" | "pre_start" | "opened";
@@ -18,7 +19,7 @@ interface IProps extends React.PropsWithChildren<{}> {
 }
 
 const ProcessProvider: React.FC<IProps> = (props) => {
-
+  const { user } = useAuth();
   const [status, setStatus] = React.useState<ProcessStatus>({
     status: 'not_create',
     process_id: -1,
@@ -41,8 +42,10 @@ const ProcessProvider: React.FC<IProps> = (props) => {
   };
 
   React.useEffect(() => {
-    getProcessStatus();
-  }, []);
+    if (user.email) {
+      getProcessStatus();
+    }
+  }, [user.email]);
 
   return (
     <ProcessContext.Provider
