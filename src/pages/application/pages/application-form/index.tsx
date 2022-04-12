@@ -9,10 +9,12 @@ import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 import style from './style/layout.module.less';
 import { Button, Card, Form, message, Modal, Spin } from 'antd';
-import { HandleApplicationFormType, postApplicationForm, putApplicationForm } from '@/service/apply';
-import { useParams } from 'react-router-dom';
+import { getApplicationStatus, HandleApplicationFormType, postApplicationForm, putApplicationForm } from '@/service/apply';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getApplicationForm } from '@/service/apply';
 import { usePageHeaderContext } from '@/context/page-header';
+import { useAuth } from '@/context/auth.context';
+import { getRoutePath } from '@/utils';
 
 const messageData = {
   save: {
@@ -43,7 +45,9 @@ export interface ApplicationValue {
 const ApplicationForm: React.FC = () => {
 
   const applyId = (+(useParams<{ applyId: string }>()?.applyId || '')) || -1;
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useAuth();
   const { updatePageHeaderState } = usePageHeaderContext();
   const [moralForm] = Form.useForm();
   const [practiceForm] = Form.useForm();
@@ -61,11 +65,27 @@ const ApplicationForm: React.FC = () => {
   });
 
   React.useEffect(() => {
+    if (user.identity !== 'manager' && applyId === -1) {
+      loadApplyStatus();
+    }
     if (applyId !== -1) {
       loadApplyForm();
     }
   }, [applyId]);
 
+  const loadApplyStatus = async () => {
+    try {
+      setLoading(true);
+      const res = await getApplicationStatus();
+      if (res && typeof res === 'number') {
+        navigate(getRoutePath(location.pathname, res));
+      }
+    } catch (error) {
+      console.error(error.message)
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const loadApplyForm = async () => {
     try {
@@ -130,7 +150,7 @@ const ApplicationForm: React.FC = () => {
       }
       message.success("操作成功");
     } catch (error) {
-      message.error(`${messageData[modalStatus.type]}失败: ${error.message}`)
+      message.error(`失败: ${error.message}`)
     } finally {
       setModalLoading(false);
       setModalStatus({

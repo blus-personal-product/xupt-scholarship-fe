@@ -80,7 +80,7 @@ const MoralForm: React.FC<IProps> = (props) => {
     <section id="moral-form">
       <FormHeader
         title="思想品德成绩"
-        score={score}
+        expectScore={score}
       />
       <Form
         {...baseFormConf}

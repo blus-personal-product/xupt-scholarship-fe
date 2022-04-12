@@ -103,7 +103,7 @@ const AcademicForm: React.FC<IProps> = (props) => {
     <section id="academic-form">
       <FormHeader
         title="学术成果"
-        score={score}
+        expectScore={score}
       />
       <Form
         {...baseFormConf}

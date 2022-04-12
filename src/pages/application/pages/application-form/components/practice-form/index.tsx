@@ -13,7 +13,6 @@ import PracticeResultForm,
   practiceResultDefaultFormValue,
   isCooperationLevel
 } from './components/result-form';
-import PracticeFormProvider from '../../context/practice.context';
 import { getCooperationScore } from '../../utils/index';
 import { competitionScoreList, resultScoreList, SocialScoreList } from '../../config/practice.config';
 import useScoreMap from '../../hooks/use-score-map';
@@ -111,11 +110,9 @@ const PracticeForm: React.FC<IProps> = (props) => {
 
   return (
     <section id="practice-form">
-      <PracticeFormProvider
-      >
         <FormHeader
           title="实践活动成绩"
-          score={score}
+          expectScore={score}
         />
         <Form
           {...baseFormConf}
@@ -128,7 +125,6 @@ const PracticeForm: React.FC<IProps> = (props) => {
           <PracticeSocialForm />
           <PracticeCompetitionForm />
         </Form>
-      </PracticeFormProvider>
     </section>
   )
 };
