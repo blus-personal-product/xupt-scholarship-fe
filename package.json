@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite --mode development",
         "prod": "vite --mode production",
-        "build": "tsc && vite build",
+        "build": "vite build",
         "preview": "vite preview",
         "commit": "npm run lint:fix && git status && git add . && git cz -a",
         "lint:fix": "eslint --fix ./src/*"
