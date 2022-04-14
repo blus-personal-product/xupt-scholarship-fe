@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  docs:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           # 选择要使用的 node 版本
-          node-version: '14'
+          node-version: '16'
 
       # 如果缓存没有命中，安装依赖
       - name: Install dependencies
@@ -39,7 +39,7 @@ jobs:
           # 部署到 gh-pages 分支
           target_branch: gh-pages
           # 部署目录为 VuePress 的默认输出目录
-          build_dir: /dist
+          build_dir: dist
         env:
           # @see https://docs.github.com/cn/actions/reference/authentication-in-a-workflow#about-the-github_token-secret
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
