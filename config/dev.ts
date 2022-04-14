@@ -1,6 +1,7 @@
+import { UserConfigExport } from 'vite';
 import baseConfig from './base';
 
-const config = {
+const config:UserConfigExport = {
   mode: 'development',
 };
 

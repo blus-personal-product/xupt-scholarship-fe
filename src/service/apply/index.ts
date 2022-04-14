@@ -16,6 +16,9 @@ export const putApplicationForm = (type: HandleApplicationFormType, formValue: A
   return http.put(`/apply/${id}/${type}`, formValue);
 }
 
+export const getApplicationStatus = () => {
+  return http.get<number>(`/apply`);
+}
 
 export const getApplicationForm = (applyId: number) => {
   return http.get<IGETApplicationFormRes>(`/apply/${applyId}`);

@@ -4,19 +4,21 @@ import style from '../style.module.less';
 import { getMenus, IMenu } from '@/components/page-nav/menu.config';
 import { Menu, Card } from 'antd';
 import { Link } from 'react-router-dom';
+import { useProcess } from '@/context/process-status';
 
-const childMenus = getMenus().reduce((p, c) => {
-  if (c.children && c.children.length) {
-    p = [...p, ...c.children.map(m => ({
-      ...m,
-      path: c.path + m.path
-    }))];
-  }
-  return p;
-}, [] as IMenu[]);
+
 
 const QuickStart: React.FC = () => {
-
+  const { process_id } = useProcess();
+  const childMenus = React.useMemo(() => getMenus(process_id).reduce((p, c) => {
+    if (c.children && c.children.length) {
+      p = [...p, ...c.children.map(m => ({
+        ...m,
+        path: c.path + m.path
+      }))];
+    }
+    return p;
+  }, [] as IMenu[]), []);
   return (
     <Card
       title="快速开始/便捷导航"

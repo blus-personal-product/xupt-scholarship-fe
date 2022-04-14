@@ -1,32 +1,34 @@
-import { PageHeader, PageHeaderProps, Statistic } from 'antd';
+import { PageHeader, PageHeaderProps, Statistic, Tooltip } from 'antd';
 import * as React from 'react';
 import style from '../style/header.module.less';
 
 interface IProps extends PageHeaderProps {
   title: string;
-  score: number;
+  expectScore: number;
 }
 
 const FormHeader: React.FC<IProps> = (props) => {
-  const { title, score, ...resetProps } = props;
+  const { title, expectScore: score, ...resetProps } = props;
   return (
     <PageHeader
       {...resetProps}
       className={style['form-score-header']}
       title={title}
       extra={[
-        <Statistic
-          key="score"
-          title="估算得分"
-          value={score}
-        />
+        <Tooltip title="估算得分不代表最终得分">
+          <Statistic
+            key="score"
+            title="估算得分"
+            value={score}
+          />
+        </Tooltip>,
       ]}
     />
   );
 };
 
 FormHeader.defaultProps = {
-  score: 0
+  expectScore: 0
 };
 
 export default FormHeader;
