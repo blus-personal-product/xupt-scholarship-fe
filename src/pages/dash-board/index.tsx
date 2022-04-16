@@ -7,11 +7,12 @@ import HandleChartCard from './components/handle-chart.card';
 import ProcessInfo from './components/process-info-card';
 import QuickStart from './components/quick-start-card';
 import style from './style.module.less';
+import moment from 'moment';
 
 
-const IdentityMap:Record<IUser['identity'], string> = {
+const IdentityMap: Record<IUser['identity'], string> = {
   student: "学生",
-  manager:"管理员",
+  manager: "管理员",
   'student,manager': "学生管理员"
 }
 
@@ -27,10 +28,14 @@ const DashBoard: React.FC = () => {
       <Descriptions>
         <Descriptions.Item label="邮件地址">{user.email}</Descriptions.Item>
         <Descriptions.Item label="联系电话">{user.phone}</Descriptions.Item>
-        <Descriptions.Item label="所在部门/学院">s</Descriptions.Item>
-        <Descriptions.Item label="具体部门/专业">empty</Descriptions.Item>
-        <Descriptions.Item label="奖学金状态">
-          No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
+        <Descriptions.Item label="所在部门/学院">{user.student?.college || user.manager?.department}</Descriptions.Item>
+        <Descriptions.Item label="具体部门/专业">{user.student?.professional || user.manager?.office}</Descriptions.Item>
+        <Descriptions.Item label="班级/职位">
+          {
+            user.identity === 'manager'
+              ? (user.manager?.position)
+              : (moment(user.student?.grade).format("YYYY") + " 级 " + user.student?.class + "班")
+          }
         </Descriptions.Item>
       </Descriptions>
     ),
@@ -40,7 +45,7 @@ const DashBoard: React.FC = () => {
     updatePageHeaderState(HeaderProps);
     return () => updatePageHeaderState({});
   }, [HeaderProps]);
-  
+
   return (
     <div className={style['dash-page']}>
       <div className={style['left-row']}>

@@ -24,12 +24,8 @@ const VerifyCode: React.FC<IProps> = (props) => {
   const getCaptchaImg = async () => {
     try {
       setLoading(true);
-      if (captchaCode) {
-        await api.getReloadCaptchaCode(captchaCode);
-      } else {
         const code = await api.getCaptchaCode();
         setCaptchaCode(code);
-      }
     } catch (error) {
       setCaptchaCode(undefined);
       message.error("获取验证码图片失败")

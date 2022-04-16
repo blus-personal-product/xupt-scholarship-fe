@@ -14,13 +14,19 @@ import { useAuth } from '@/context/auth.context';
 const PageLayout = () => {
   const [crumbTitle, setCrumbTitle] = React.useState<string[]>([]);
   const { user } = useAuth();
+  const showModal = React.useMemo(() => [
+    !user.user_id,
+    !user.name,
+    !user.phone,
+    user.identity !== 'student' && ((!user.student) || !(user.student as IStudentInfo).type)
+  ].some(v => v), [user]);
   return (
     <Layout className="base-layout">
       <Header />
       <Modal
         footer={null}
         title="完善用户信息"
-        visible={!user.name}>
+        visible={showModal}>
         <UpdateUserInfo
           formValue={user}
         />
@@ -35,12 +41,12 @@ const PageLayout = () => {
           >
             <PageHeaderProvider>
               <UserListProvider>
-                  <PageHeader
-                    crumbTitle={crumbTitle}
-                  />
-                  <div className={style['main-content-box']}>
-                    <Outlet />
-                  </div>
+                <PageHeader
+                  crumbTitle={crumbTitle}
+                />
+                <div className={style['main-content-box']}>
+                  <Outlet />
+                </div>
               </UserListProvider>
             </PageHeaderProvider>
           </Layout.Content>

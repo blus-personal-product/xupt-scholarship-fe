@@ -1,67 +1,85 @@
 import * as React from 'react';
-import { Table, Tag, Space, TableProps, Button, message } from 'antd';
+import { Table, Tag, TableProps, Button, message, Drawer } from 'antd';
 import * as I from './interface';
-import { Link } from 'react-router-dom';
-import { DeleteOutlined, EditTwoTone } from '@ant-design/icons';
+import { EditTwoTone } from '@ant-design/icons';
 import * as api from '@/service/apply';
-import Style from '../../style.module.less';
+import style from '../../style.module.less';
 import { useProcess } from '@/context/process-status';
+import ApplicationForm from '@/pages/application/pages/application-form';
+import ScoreForm from './score-form';
 
-const columns: TableProps<I.HistoryTableData>['columns'] = [
-  {
-    title: '表单ID',
-    dataIndex: 'id',
-    key: 'id',
-  },
-  // {
-  //   title: '验证状态',
-  //   dataIndex: 'validate_state',
-  //   key: 'validate_state',
-  //   render: (state: I.IValidateStatus) => <Tag>{I.TypesMap.get(state)}</Tag>
-  // },
-  {
-    title: '处理状态',
-    dataIndex: 'handle_state',
-    key: 'handle_state',
-    render: (state: I.IHandleStatus) => <Tag color={state === 'submit' ? 'success' : 'geekblue'}>{I.TypesMap.get(state)}</Tag>
-  },
-  {
-    title: '创建时间',
-    key: 'create_at',
-    dataIndex: 'create_at'
-  },
-  {
-    title: '更新时间',
-    key: 'edit_at',
-    dataIndex: 'edit_at',
-  },
-  {
-    title: '操作',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <Link
-          type="link"
-          to={`/apply/form/${record.id}`}>
-          <EditTwoTone />
-        </Link>
+const getColumns = (
+  changeEditForm: (id: number) => void
+): TableProps<I.HistoryTableData>['columns'] => [
+    {
+      title: '表单ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: '当前状态',
+      dataIndex: 'handle_state',
+      key: 'handle_state',
+      render: (state: I.IHandleStatus) => <Tag color={state === 'submit' ? 'success' : 'geekblue'}>{I.TypesMap.get(state)}</Tag>
+    },
+    {
+      title: '学号',
+      dataIndex: 'user_id',
+      key: 'user_id',
+    },
+    {
+      title: '得分',
+      dataIndex: 'score',
+      key: 'score',
+    },
+    {
+      title: '最近评审人工号',
+      dataIndex: 'comment_user',
+      key: 'comment_user',
+    },
+    {
+      title: '创建时间',
+      key: 'create_at',
+      dataIndex: 'create_at'
+    },
+    {
+      title: '更新时间',
+      key: 'edit_at',
+      dataIndex: 'edit_at',
+    },
+    {
+      title: '操作',
+      key: 'action',
+      render: (_, record) => (
         <Button
-          type="link"
-          danger
-          icon={
-            <DeleteOutlined />
-          }
-        />
-      </Space>
-    ),
-  },
-];
+          type="dashed"
+          shape="round"
+          onClick={() => changeEditForm(record.id)}
+          icon={<EditTwoTone />}
+        >审核</Button>
+      ),
+    },
+  ];
 
 
 const HistoryTable: React.FC = () => {
   const [tableData, setTableData] = React.useState<I.HistoryTableData[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
+  const [selectedId, setSelectedId] = React.useState(-1);
   const { process_id } = useProcess();
+
+  const commentApplyForm = (id: number) => {
+    setVisible(true);
+    setSelectedId(id)
+  }
+
+  const onCloseForm = () => {
+    setVisible(false);
+    setSelectedId(-1);
+  };
+
+  const columns = React.useMemo(() => getColumns(commentApplyForm), [commentApplyForm])
 
   const getTableData = async () => {
     try {
@@ -69,7 +87,7 @@ const HistoryTable: React.FC = () => {
       const applyList = await api.getApplicationList({
         page_count: 10,
         page_index: 1,
-        is_check: true,
+        is_check: "manager",
         procedure_id: process_id
       });
       const tableData: I.HistoryTableData[] = (applyList || []).map(item => ({
@@ -78,6 +96,10 @@ const HistoryTable: React.FC = () => {
         create_at: item.create_at,
         edit_at: item.edit_at,
         handle_state: item.status,
+        score_info: item.score_info,
+        score: item.score,
+        user_id: item.user_id,
+        comment_user: item.step.user_id,
       }));
       setTableData(tableData);
     } catch (error) {
@@ -88,16 +110,43 @@ const HistoryTable: React.FC = () => {
     }
   }
 
+  const selectedInfo = React.useMemo(() => tableData.find(item => item.id === selectedId), [tableData, selectedId]);
+
+
   React.useEffect(() => {
     getTableData();
   }, []);
 
+  console.log(selectedInfo, tableData, selectedId);
+
   return (
-    <Table
-      loading={loading}
-      columns={columns}
-      dataSource={tableData}
-    />
+    <React.Fragment>
+      <Drawer
+        onClose={onCloseForm}
+        visible={visible}
+        width={992}
+        headerStyle={{
+          height: 48,
+          padding: 20
+        }}
+        bodyStyle={{
+          padding: '16px 8px'
+        }}
+        footer={
+          <ScoreForm applyId={selectedId} initValue={selectedInfo?.score_info} />
+        }
+        footerStyle={{
+          height: 80,
+        }}
+      >
+        <ApplicationForm commentApplyId={selectedId} />
+      </Drawer>
+      <Table
+        loading={loading}
+        columns={columns}
+        dataSource={tableData}
+      />
+    </React.Fragment>
   )
 };
 

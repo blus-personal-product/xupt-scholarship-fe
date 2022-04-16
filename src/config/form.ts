@@ -27,3 +27,7 @@ export const disabledFormCurrentDate: DatePickerProps['disabledDate'] = (current
 export const disabledFormFeatureDate: DatePickerProps['disabledDate'] = (current) => {
   return current && current < moment().startOf('day');
 }
+
+export const disabledFormFeatureYear: DatePickerProps['disabledDate'] = (current) => {
+  return current > moment().endOf('year');
+}

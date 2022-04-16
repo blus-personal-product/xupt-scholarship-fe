@@ -8,16 +8,9 @@ export interface IUserInfo extends IUser {
 }
 
 const UserCenter: React.FC = () => {
-  const { user } = useAuth();
-  const detailInfo: IStudentInfo = {
-    professional: "软件工程",
-    grade: 2018,
-    class: 6,
-    college: "计算机学院"
-  }
   return (
     <Card>
-      <UserInfo baseInfo={user} detailInfo={detailInfo} />
+      <UserInfo />
     </Card>
   )
 };

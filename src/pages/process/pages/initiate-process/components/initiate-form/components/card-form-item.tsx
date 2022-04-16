@@ -5,6 +5,8 @@ import * as React from 'react';
 import { disabledFormFeatureDate, requiredRule } from '@/config/form';
 import UserSelector from '@/components/user-select';
 import FmtDatePicker from '@/components/fmt-date-picker';
+import { useProcess } from '@/context/process-status';
+import useDisabled from '../../../hooks/use-disabled';
 
 interface IProps {
   name: ProcessStep;
@@ -18,6 +20,7 @@ const currDurationColor = ["geekblue", "volcano", "gold", "lime"];
 
 const CardFormItem: React.FC<IProps> = (props) => {
   const { name, title, duration, processIndex } = props;
+  const formDisabled = useDisabled();
   return (
     <Card
       type="inner"
@@ -54,6 +57,7 @@ const CardFormItem: React.FC<IProps> = (props) => {
                   rules={requiredRule}
                 >
                   <FmtDatePicker
+                    disabled={formDisabled}
                     type="range"
                     placeholder={["流程开始时间", "流程截止时间"]}
                     disabledDate={disableDate}
@@ -95,6 +99,7 @@ const CardFormItem: React.FC<IProps> = (props) => {
         label="描述信息"
       >
         <Input.TextArea
+          disabled={formDisabled}
           placeholder="请输入该流程对应的描述信息以及相关帮助学生或其他管理者了解该流程的描述性文字"
         />
       </Form.Item>
@@ -102,7 +107,7 @@ const CardFormItem: React.FC<IProps> = (props) => {
         name={[name, "mentions"]}
         label="通知成员"
       >
-        <UserSelector />
+        <UserSelector disabled={formDisabled} />
       </Form.Item>
     </Card>
   )

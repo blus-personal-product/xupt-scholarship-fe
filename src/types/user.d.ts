@@ -5,13 +5,16 @@ interface IUser {
   avatar: string;
   phone: string;
   identity: "student" | "manager" | "student,manager";
+  student?: IStudentInfo;
+  manager?: IManagerInfo;
 }
 
 interface IStudentInfo {
   professional: string;
-  grade: number;
+  grade: string;
   class: number;
   college: string;
+  type: "bachelor_degree" | "profession_degree"
 }
 
 interface IManagerInfo {

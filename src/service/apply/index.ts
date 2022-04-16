@@ -24,21 +24,45 @@ export const getApplicationForm = (applyId: number) => {
   return http.get<IGETApplicationFormRes>(`/apply/${applyId}`);
 };
 
+export type ApplyStep =  {
+  comment: string;
+  edit_at: string;
+  user_id: string;
+}
+
+export type ApplyHistory = ApplyStep[];
+
 export type ApplicationItem = {
   id: number;
   edit_at: string;
   create_at: string;
   editable: boolean;
-  status: IHandleStatus,
+  status: IHandleStatus;
+  score_info: ScoreValue;
+  score: number;
+  user_id: string;
+  history: ApplyHistory;
+  step: ApplyStep;
 }
 
 type GETApplicationListParams = {
   page_count: number;
   page_index: number;
-  is_check: boolean;
+  is_check: IUser['identity'];
   procedure_id: number;
 }
 
 export const getApplicationList = (params:GETApplicationListParams) => {
   return http.get<ApplicationItem[]>(`/apply/form/list`, params);
+}
+
+export interface ScoreValue {
+  moral: number;
+  practice: number;
+  academic: number;
+  sum: number;
+};
+
+export const postApplicationScoreList = (id: number,params: ScoreValue) => {
+  return http.post<ApplicationItem[]>(`/apply/score/${id}`, params);
 }

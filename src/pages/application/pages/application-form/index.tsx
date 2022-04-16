@@ -42,9 +42,14 @@ export interface ApplicationValue {
   academic: AcademicFormValue;
 }
 
-const ApplicationForm: React.FC = () => {
+interface IProps {
+  commentApplyId?: number;
+  noArcher?: boolean;
+}
 
-  const applyId = (+(useParams<{ applyId: string }>()?.applyId || '')) || -1;
+const ApplicationForm: React.FC<IProps> = (props) => {
+
+  const applyId = ((+(useParams<{ applyId: string }>()?.applyId || '')) || props.commentApplyId) || -1;
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
@@ -77,7 +82,7 @@ const ApplicationForm: React.FC = () => {
     try {
       setLoading(true);
       const res = await getApplicationStatus();
-      if (res && typeof res === 'number') {
+      if (res && typeof res === 'number' && props.commentApplyId !== -1) {
         navigate(getRoutePath(location.pathname, res));
       }
     } catch (error) {
@@ -209,11 +214,15 @@ const ApplicationForm: React.FC = () => {
           practiceForm={practiceForm}
           academicForm={academicForm}
         >
-          <section
-            className={style['application-form-anchor']}
-          >
-            <FormAnchor />
-          </section>
+          {
+            !props.noArcher && (
+              <section
+                className={style['application-form-anchor']}
+              >
+                <FormAnchor />
+              </section>
+            )
+          }
           <Card
             className={style['application-form-card']}
             hoverable
@@ -227,5 +236,9 @@ const ApplicationForm: React.FC = () => {
     </Spin>
   );
 };
+
+ApplicationForm.defaultProps = {
+  noArcher: false
+}
 
 export default ApplicationForm;
