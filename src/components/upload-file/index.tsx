@@ -3,11 +3,13 @@ import * as api from '@/service/upload'
 import { Form, FormItemProps, message, Upload } from 'antd';
 import * as React from 'react';
 import { InboxOutlined } from '@ant-design/icons';
-import { UploadFile } from 'antd/lib/upload/interface';
+import { UploadFile, UploadProps } from 'antd/lib/upload/interface';
 
 interface IProps extends React.PropsWithChildren<{}> {
   formProps?: FormItemProps;
 }
+
+interface IProps extends UploadProps<any> { }
 
 const normFile: FormItemProps['getValueFromEvent'] = (e) => {
   if (Array.isArray(e)) {
@@ -17,7 +19,7 @@ const normFile: FormItemProps['getValueFromEvent'] = (e) => {
 };
 
 const UploadDragger: React.FC<IProps> = (props) => {
-  const { children, formProps } = props;
+  const { children, formProps, ...resetProps } = props;
   const [fileList, setFileList] = React.useState<UploadFile[]>([]);
   const uploadFileList = async (list: UploadFile[]) => {
     try {
@@ -50,6 +52,7 @@ const UploadDragger: React.FC<IProps> = (props) => {
       {...formProps}
     >
       <Upload.Dragger
+        {...resetProps}
         beforeUpload={(_, uploadFileList) => {
           setFileList(uploadFileList);
           return false;

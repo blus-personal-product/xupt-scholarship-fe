@@ -1,16 +1,20 @@
 import * as React from 'react';
-import { Descriptions, Badge, Button } from 'antd';
+import { Descriptions, Badge, Button, Modal, Tag, Card } from 'antd';
 import { EditFilled } from '@ant-design/icons';
 import style from '../style.module.less';
-import { IBaseUserInfo } from '@/service/user';
+import UpdateUserInfo from '@/components/update-user-info';
+import { useAuth } from '@/context/auth.context';
+import moment from 'moment';
 
 interface IProps {
-  baseInfo: IBaseUserInfo;
-  detailInfo: IStudentInfo | IManagerInfo
+
 }
 
 const UserInfo: React.FC<IProps> = (props) => {
-  const { baseInfo, detailInfo } = props;
+  const { user } = useAuth();
+  const { student, manager, ...baseInfo } = user;
+  const [modalVisible, setModalVisible] = React.useState(false);
+  const detailInfo = React.useMemo(() => baseInfo.identity === 'manager' ? manager : student, [user])
   const isStudent = React.useMemo(() => baseInfo.identity !== 'manager', [baseInfo]);
   const positionInfo = React.useMemo(
     () => {
@@ -19,11 +23,28 @@ const UserInfo: React.FC<IProps> = (props) => {
         return `${tempInfo.department} - ${tempInfo.office} - ${tempInfo.position}`
       }
       const tempInfo = detailInfo as unknown as IStudentInfo;
-      return `${tempInfo.college} - ${tempInfo.professional} 『 ${tempInfo.grade} 级（${tempInfo.class}） 班 』`
-  },
+      return `${tempInfo.college} - ${tempInfo.professional} 『 ${moment(tempInfo.grade).format("YYYY")} 级（${tempInfo.class}） 班 』`
+    },
     [baseInfo, detailInfo]);
+
+  const showModal = () => {
+    setModalVisible(true);
+  }
+  const closeModal = () => {
+    setModalVisible(false);
+  }
+
   return (
     <div className={style['user-info']}>
+      <Modal
+        footer={null}
+        onCancel={closeModal}
+        title="完善用户信息"
+        visible={modalVisible}>
+        <UpdateUserInfo
+          formValue={user}
+        />
+      </Modal>
       <section className={style['avatar-card']}>
         <div
           className={style['avatar-box']}
@@ -35,6 +56,7 @@ const UserInfo: React.FC<IProps> = (props) => {
         <Button
           type="primary"
           icon={<EditFilled />}
+          onClick={showModal}
           block
         >编辑个人信息</Button>
       </section>
@@ -49,24 +71,22 @@ const UserInfo: React.FC<IProps> = (props) => {
         <Descriptions.Item label={isStudent ? "班级" : "职位"} span={2}>
           {positionInfo}
         </Descriptions.Item>
-        <Descriptions.Item label="Status" span={3}>
-          <Badge status="processing" text="Running" />
-        </Descriptions.Item>
-        <Descriptions.Item label="Negotiated Amount">$80.00</Descriptions.Item>
-        <Descriptions.Item label="Discount">$20.00</Descriptions.Item>
-        <Descriptions.Item label="Official Receipts">$60.00</Descriptions.Item>
-        <Descriptions.Item label="Config Info">
-          Data disk type: MongoDB
-      <br />
-      Database version: 3.4
-      <br />
-      Package: dds.mongo.mid
-      <br />
-      Storage space: 10 GB
-      <br />
-      Replication factor: 3
-      <br />
-      Region: East China 1<br />
+        {
+          user.identity !== 'manager' && (
+            <Descriptions.Item label="学位类型" span={3}>
+              {(detailInfo as IStudentInfo).type === 'bachelor_degree' ? <Tag color="geekblue">学硕</Tag> : <Tag color="green">专硕</Tag>}
+            </Descriptions.Item>
+          )
+        }
+        <Descriptions.Item label="资料查看">
+          <Card>
+            <Card.Grid><a href="http://gr.xupt.edu.cn/xbwz/zlxz/zs.htm" target="_blank" title="招生">招生</a></Card.Grid>
+            <Card.Grid><a href="http://gr.xupt.edu.cn/xbwz/zlxz/py.htm" title="培养">培养</a></Card.Grid>
+            <Card.Grid><a href="http://gr.xupt.edu.cn/xbwz/zlxz/xw.htm" title="学位">学位</a></Card.Grid>
+            <Card.Grid><a href="http://gr.xupt.edu.cn/xbwz/zlxz/xk.htm" title="学科">学科</a></Card.Grid>
+            <Card.Grid><a href="http://gr.xupt.edu.cn/xbwz/zlxz/xsgl.htm" title="学生管理">学生管理</a></Card.Grid>
+            <Card.Grid><a href="http://gr.xupt.edu.cn/xbwz/zlxz/gjzc.htm" title="国家政策">国家政策</a></Card.Grid>
+          </Card>
         </Descriptions.Item>
       </Descriptions>
     </div>

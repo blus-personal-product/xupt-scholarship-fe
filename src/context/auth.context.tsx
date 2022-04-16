@@ -10,8 +10,6 @@ import { AUTH_CODE } from '@/config/auth';
 import * as api from '@/service/user/index';
 import { getSignOut } from '@/service/user/sign';
 import { message, Spin } from 'antd';
-import { convertLegacyProps } from 'antd/lib/button/button';
-import { useProcess } from './process-status';
 import useIsCreate from '@/pages/process/pages/initiate-process/hooks/use-is-create';
 
 export interface AuthContextType {
@@ -64,13 +62,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = (props) => {
   };
   const signOut: AuthContextType['signOut'] = async () => {
     try {
+      navigate(signPagePath, { replace: true });
       await getSignOut()
     } catch (error) {
       console.error(error);
     } finally {
       setUser({} as IUser);
       storage.delStg(AUTH_CODE);
-      navigate(signPagePath, { replace: true });
     }
   }
   return (
@@ -98,7 +96,7 @@ export const useAuth = () => {
 /**管理员不可访问 */
 const ManagerDisabledPage = ["/apply/form"];
 const getStudentDisabledPage = (isCreateProcess: boolean) => isCreateProcess ? ["/upload", "/process/initiate-process"] : ["/upload"];
-const getStudentManagerDisabledPage = (isCreateProcess: boolean) => isCreateProcess  ?["/process/initiate-process"] : [];
+const getStudentManagerDisabledPage = (isCreateProcess: boolean) => isCreateProcess ? ["/process/initiate-process"] : [];
 
 /**
  * 需要验证的页面

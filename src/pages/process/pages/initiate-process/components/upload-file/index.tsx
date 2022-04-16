@@ -2,6 +2,7 @@ import UploadDragger from '@/components/upload-file';
 import { Card, Form } from 'antd';
 import { UploadFile } from 'antd/lib/upload/interface';
 import * as React from 'react';
+import useDisabled from '../../hooks/use-disabled';
 import { useLastForm } from '../../hooks/use-last-form';
 
 export interface UploadFormValue {
@@ -14,6 +15,7 @@ const uploadFormValue = {
 
 const UploadFile: React.FC = () => {
   const [form, onValuesChange] = useLastForm('upload');
+  const formDisabled = useDisabled();
   return (
     <Card
       type="inner"
@@ -34,7 +36,7 @@ const UploadFile: React.FC = () => {
         <Form.Item
           name="files"
         >
-          <UploadDragger />
+          <UploadDragger disabled={formDisabled} />
         </Form.Item>
       </Form>
     </Card>
