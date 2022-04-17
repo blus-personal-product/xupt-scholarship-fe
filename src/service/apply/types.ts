@@ -1,4 +1,5 @@
 import { ApplicationValue } from "@/pages/application/pages/application-form";
+import { ScoreValue } from ".";
 
 // /application/form/${applyId}`
 export interface IGETApplicationFormRes {
@@ -6,4 +7,5 @@ export interface IGETApplicationFormRes {
   editable: boolean;
   create_at: string;
   edit_at: string;
+  score_info: ScoreValue
 }

@@ -12,7 +12,7 @@ export const HeaderAvatarTitle: React.FC = () => (
   >
     <img
       className={style['header-icon']}
-      src="/public/logo.svg" alt="logo" />
+      src="/logo.svg" alt="logo" />
     <h1
       className={style['header-title']}
     >

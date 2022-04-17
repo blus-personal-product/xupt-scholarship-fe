@@ -32,7 +32,7 @@ export const getMenus = (process_id: number): IMenu[] => [
       {
         key: 'form',
         path: '/form',
-        title: '发起申请',
+        title: '发起/修改申请',
         blockList: ["manager"],
         icon: <FormOutlined twoToneColor="rgba(57, 90, 255, 1)" />
       },

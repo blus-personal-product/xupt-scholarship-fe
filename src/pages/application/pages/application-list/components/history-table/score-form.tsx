@@ -1,5 +1,4 @@
-import { postApplicationScoreList } from '@/service/apply';
-import { Button, Form, FormProps, InputNumber, message, Space, Statistic } from 'antd';
+import { Button, Form, FormInstance, FormProps, InputNumber, message, Space, Statistic } from 'antd';
 import * as React from 'react';
 import style from "../../style.module.less";
 import * as api from '@/service/apply';
@@ -10,6 +9,7 @@ interface IProps {
   applyId: number;
   initValue?: ScoreValue
   submitCallBack?: () => void;
+  scoreFormRef?: FormInstance<api.ScoreValue>;
 }
 
 const ScoreFormList: {
@@ -30,14 +30,20 @@ const ScoreFormList: {
 }]
 
 const ScoreForm: React.FC<IProps> = (props) => {
-  const { initValue, applyId, submitCallBack } = props;
+  const { initValue, applyId, submitCallBack, scoreFormRef } = props;
   const [sumValue, setSumValue] = React.useState(initValue?.sum);
   const [loading, setLoading] = React.useState(false);
-  const onValuesChange: FormProps['onValuesChange'] = (_, values) => {
+  const updateScore = (values: any) => {
+    delete values.sum
     const sum = (Object.values(values) as number[]).reduce((p, c) => (p += (+c), p), 0);
     setSumValue(sum);
   }
-  const [formRef] = Form.useForm<ScoreValue>();
+  const onValuesChange: FormProps['onValuesChange'] = (_, values) => {
+    updateScore(values);
+  }
+  let [formRef] = Form.useForm<ScoreValue>();
+  formRef = scoreFormRef || formRef;
+
   const submitForm = async () => {
     const value = formRef.getFieldsValue(true) as ScoreValue;
     try {
@@ -58,6 +64,7 @@ const ScoreForm: React.FC<IProps> = (props) => {
   React.useEffect(() => {
     if (initValue) {
       formRef.setFieldsValue(initValue);
+      updateScore(initValue);
     }
   }, [initValue, applyId])
 
@@ -110,9 +117,12 @@ const ScoreForm: React.FC<IProps> = (props) => {
           ))
         }
       </Space>
-      <Form.Item>
-        <Button onClick={submitForm} loading={loading} type="primary">确认分数并提交</Button>
-      </Form.Item>
+      { !scoreFormRef && (
+        <Form.Item>
+          <Button onClick={submitForm} loading={loading} type="primary">确认分数并提交</Button>
+        </Form.Item>
+      )
+      }
     </Form >
   );
 }

@@ -9,12 +9,13 @@ import PracticeForm, { PracticeFormValue } from './components/practice-form';
 import FormAnchor from './components/form-anchor';
 import style from './style/layout.module.less';
 import { Button, Card, Form, message, Modal, Spin } from 'antd';
-import { getApplicationStatus, HandleApplicationFormType, postApplicationForm, putApplicationForm } from '@/service/apply';
+import { getApplicationStatus, HandleApplicationFormType, postApplicationForm, putApplicationForm, ScoreValue } from '@/service/apply';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getApplicationForm } from '@/service/apply';
 import { usePageHeaderContext } from '@/context/page-header';
 import { useAuth } from '@/context/auth.context';
 import { getRoutePath } from '@/utils';
+import ScoreForm from '../application-list/components/history-table/score-form';
 
 const messageData = {
   save: {
@@ -40,6 +41,7 @@ export interface ApplicationValue {
   moral: MoralFormValue;
   practice: PracticeFormValue;
   academic: AcademicFormValue;
+  score_info?: ScoreValue;
 }
 
 interface IProps {
@@ -57,6 +59,8 @@ const ApplicationForm: React.FC<IProps> = (props) => {
   const [moralForm] = Form.useForm();
   const [practiceForm] = Form.useForm();
   const [academicForm] = Form.useForm();
+  const [scoreForm] = Form.useForm<ScoreValue>();
+  const [scoreValue, setScoreValue] = React.useState<ScoreValue>();
   const [modalLoading, setModalLoading] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [permission, setPermission] = React.useState<FormPermission>(applyId === -1 ? 'create' : 'read');
@@ -100,6 +104,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
       moralForm.setFieldsValue(res.form.moral);
       practiceForm.setFieldsValue(res.form.practice);
       academicForm.setFieldsValue(res.form.academic);
+      setScoreValue(res.score_info)
     } catch (error) {
       message.error(error.message)
     } finally {
@@ -112,6 +117,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
       moral: moralForm.getFieldsValue(true),
       practice: practiceForm.getFieldsValue(true),
       academic: academicForm.getFieldsValue(true),
+      score_info: scoreForm.getFieldsValue(true)
     };
     return value;
   }
@@ -123,7 +129,9 @@ const ApplicationForm: React.FC<IProps> = (props) => {
       academicForm.validateFields()
     ]).then(([moral, practice, academic]) => {
       const value: ApplicationValue = {
-        moral, practice, academic
+        moral,
+        practice,
+        academic,
       };
       return value;
     }).catch(err => {
@@ -196,6 +204,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
         visible={modalStatus.visible}
         onOk={handleForm}
         okText="确认"
+        width={600}
         cancelText="取消"
         closable={false}
         cancelButtonProps={{
@@ -205,6 +214,11 @@ const ApplicationForm: React.FC<IProps> = (props) => {
         confirmLoading={modalLoading}
       >
         {messageData[modalStatus.type].desc}
+        {
+          modalStatus.type === 'submit' && (
+            <ScoreForm initValue={scoreValue} applyId={applyId} scoreFormRef={scoreForm} />
+          )
+        }
       </Modal>
       <div
         className={style['form-page-layout']}
