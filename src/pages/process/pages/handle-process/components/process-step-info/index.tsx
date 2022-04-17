@@ -5,10 +5,9 @@ import style from '../../style.module.less';
 
 interface IProps {
   title: string;
-  processInfoList: ProcessInfo[];
 }
 
-interface ProcessInfo {
+export interface ProcessInfo {
   step: ProcessStep;
   date: [string, string];
   manager: {
@@ -21,8 +20,24 @@ interface ProcessInfo {
   desc: string;
 }
 
+const defaultProcessInfoList: ProcessInfo[] = [
+  {
+    step: 'deployment_mobilization_phase',
+    date: CurrentDate,
+    manager: [{
+      name: '-',
+      email: '-',
+      avatar: '-',
+    }],
+    processingRatio: '0/0',
+    dailyProcessingRate: 0,
+    desc: ''
+  }
+]
+
 const ProcessStepInfo: React.FC<IProps> = (props) => {
-  const { title, processInfoList } = props;
+  const [processInfoList, setProcessInfoList] = React.useState<ProcessInfo[]>(defaultProcessInfoList);
+  const { title } = props;
   return (
     <Card
       className={style['process-step-card']}
@@ -31,7 +46,7 @@ const ProcessStepInfo: React.FC<IProps> = (props) => {
           className={style['card-box-title']}
         >{
             !processInfoList.length ? "当前处理流程" : null
-        }</div>
+          }</div>
       }
     >
       {
@@ -63,20 +78,6 @@ const ProcessStepInfo: React.FC<IProps> = (props) => {
 };
 
 ProcessStepInfo.defaultProps = {
-  processInfoList: [
-    {
-      step: 'deployment_mobilization_phase',
-      date: CurrentDate,
-      manager: [{
-        name: '-',
-        email: '-',
-        avatar: '-',
-      }],
-      processingRatio: '0/0',
-      dailyProcessingRate: 0,
-      desc: ''
-    }
-  ]
 }
 
 export default ProcessStepInfo;
