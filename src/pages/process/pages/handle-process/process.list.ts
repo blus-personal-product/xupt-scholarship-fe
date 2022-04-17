@@ -224,7 +224,6 @@ export const ProcessList:Omit<ProcessItem,"date" | "status" | "itemStyle">[] = [
 ];
 
 export type IStatusInfo =  Record<ProcessStep, { date: [string, string]; status?: StepStatus; }>
-
 export const getProcessList = (statusInfo?: IStatusInfo): ProcessItem[] => {
 
   const defaultInfo: {

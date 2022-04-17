@@ -107,7 +107,8 @@ export const ApplyProcessCharts: React.FC<IProps> = (props) => {
       }
     ]
   }), [processList]);
-  const stepStatusNormal: StepStatus[] = ["not_start", "in_progress", "completed", "backtracking", "error"]
+  const stepStatusNormal: StepStatus[] = ["not_start", "in_progress", "completed", "backtracking", "error"];
+  
   const getProcess = async () => {
     try {
       const res = await api.getProcessData(process_id);

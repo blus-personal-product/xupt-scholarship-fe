@@ -3,7 +3,6 @@ import { Table, Tag, TableProps, Button, message, Drawer } from 'antd';
 import * as I from './interface';
 import { EditTwoTone } from '@ant-design/icons';
 import * as api from '@/service/apply';
-import style from '../../style.module.less';
 import { useProcess } from '@/context/process-status';
 import ApplicationForm from '@/pages/application/pages/application-form';
 import ScoreForm from './score-form';
@@ -116,8 +115,6 @@ const HistoryTable: React.FC = () => {
   React.useEffect(() => {
     getTableData();
   }, []);
-
-  console.log(selectedInfo, tableData, selectedId);
 
   return (
     <React.Fragment>
