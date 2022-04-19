@@ -11,6 +11,7 @@ import { DATE_FORMAT_NORMAL } from '@/config/time';
 import useIsCreate from '../hooks/use-is-create';
 import { CopyOutlined, EditOutlined } from '@ant-design/icons';
 import { useProcess } from '@/context/process-status';
+import { ProcessList } from '../../handle-process/process.list';
 
 const StepFooter: React.FC = () => {
   const { step, next, prev } = useStepContext();
@@ -44,7 +45,9 @@ const StepFooter: React.FC = () => {
         const [start, end] = initiateValue[tempKey].date || [];
         initiateValue[tempKey].date = [
           moment(start).format(DATE_FORMAT_NORMAL),
-          moment(end).format(DATE_FORMAT_NORMAL)];
+          moment(end).format(DATE_FORMAT_NORMAL)
+        ];
+        const step = ProcessList.find(item => item.name = tempKey)
         return {
           step: tempKey,
           ...initiateValue[tempKey],

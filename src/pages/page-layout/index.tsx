@@ -18,7 +18,7 @@ const PageLayout = () => {
     !user.user_id,
     !user.name,
     !user.phone,
-    user.identity !== 'student' && ((!user.student) || !(user.student as IStudentInfo).type)
+    user.identity === 'student' && ((!user.student) || !(user.student as IStudentInfo).type)
   ].some(v => v), [user]);
   return (
     <Layout className="base-layout">
