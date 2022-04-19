@@ -113,15 +113,15 @@ export const ApplyProcessCharts: React.FC<IProps> = (props) => {
     try {
       const res = await api.getProcessData(process_id);
       const process = res.form.form;
-      const statusInfo = (Object.keys(process) as ProcessStep[]).reduce((p, c) => {
-        const [start, end] = process[c].date || [];
+      const statusInfo = process.reduce((p, c) => {
+        const [start, end] = c.date || [];
         const date = [
           moment(start, DATE_FORMAT_NORMAL),
           moment(end, DATE_FORMAT_NORMAL)
         ];
         const flag = [date[0] > moment(), date[0] < moment() && date[1] > moment(), date[1] < moment()]
-        p[c] = {
-          date: process[c].date as [string, string],
+        p[c.step] = {
+          date: c.date as [string, string],
           status: stepStatusNormal[flag.indexOf(true)],
         };
         return p;

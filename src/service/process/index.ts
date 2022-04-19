@@ -1,10 +1,10 @@
 import client from '@/client';
 import { ProcessStatus } from '@/context/process-status';
-import { InitiateFormValue } from '@/pages/process/pages/initiate-process/components/initiate-form';
+import { IProcessValue } from '@/pages/process/pages/initiate-process/components/initiate-form';
 import { UploadFormValue } from '@/pages/process/pages/initiate-process/components/upload-file';
 
 interface InitProcessValue {
-  form: InitiateFormValue;
+  form: IProcessValue;
   upload: UploadFormValue;
 }
 
