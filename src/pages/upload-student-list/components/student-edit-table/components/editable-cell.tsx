@@ -1,4 +1,4 @@
-import { Form, Input, InputNumber } from 'antd';
+import { Form, Input, InputNumber, Select } from 'antd';
 import * as React from 'react';
 import { StudentItem } from '..';
 
@@ -12,6 +12,17 @@ interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
 }
 
+const StudentTypeOptions = [
+  {
+    label: '学硕',
+    value: "bachelor_degree"
+  },
+  {
+    label: '专硕',
+    value: "profession_degree"
+  }
+]
+
 const EditableCell: React.FC<EditableCellProps> = ({
   editing,
   dataIndex,
@@ -22,7 +33,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
   children,
   ...restProps
 }) => {
-  const inputNode = inputType === 'number' ? <InputNumber /> : <Input />;
+  const inputNode = dataIndex === 'type' ? <Select options={StudentTypeOptions} /> : (inputType === 'number' ? <InputNumber /> : <Input />);
 
   return (
     <td {...restProps}>

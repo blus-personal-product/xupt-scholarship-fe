@@ -7,8 +7,10 @@ import { useProcess } from '@/context/process-status';
 import ApplicationForm from '@/pages/application/pages/application-form';
 import ScoreForm from './score-form';
 import { Link } from 'react-router-dom';
+import { useAuth } from '@/context/auth.context';
 
 const getColumns = (
+  identity: IUser['identity'],
   changeEditForm: (id: number) => void
 ): TableProps<I.HistoryTableData>['columns'] => [
     {
@@ -51,7 +53,7 @@ const getColumns = (
       title: '操作',
       key: 'action',
       render: (_, record) => (
-        record.editable ? (
+        record.editable && identity !== 'manager' ? (
           <Link to={`/apply/form/${record.id}`} state={{
             showScore: true,
           }}>
@@ -76,6 +78,7 @@ const getColumns = (
 
 
 const HistoryTable: React.FC = () => {
+  const { user } = useAuth();
   const [tableData, setTableData] = React.useState<I.HistoryTableData[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
@@ -92,7 +95,7 @@ const HistoryTable: React.FC = () => {
     setSelectedId(-1);
   };
 
-  const columns = React.useMemo(() => getColumns(commentApplyForm), [commentApplyForm])
+  const columns = React.useMemo(() => getColumns(user.identity, commentApplyForm), [user.identity, commentApplyForm])
 
   const getTableData = async () => {
     try {
