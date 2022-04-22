@@ -50,7 +50,6 @@ interface IProps {
 }
 
 const ApplicationForm: React.FC<IProps> = (props) => {
-
   const applyId = ((+(useParams<{ applyId: string }>()?.applyId || '')) || props.commentApplyId) || -1;
   const navigate = useNavigate();
   const location = useLocation();
@@ -69,7 +68,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
     visible: boolean;
     type: HandleApplicationFormType;
   }>({
-    visible: false,
+    visible: false || (location.state as any)?.showScore,
     type: 'submit',
   });
 

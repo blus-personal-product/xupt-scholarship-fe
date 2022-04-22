@@ -6,6 +6,7 @@ import * as api from '@/service/apply';
 import { useProcess } from '@/context/process-status';
 import ApplicationForm from '@/pages/application/pages/application-form';
 import ScoreForm from './score-form';
+import { Link } from 'react-router-dom';
 
 const getColumns = (
   changeEditForm: (id: number) => void
@@ -50,12 +51,25 @@ const getColumns = (
       title: '操作',
       key: 'action',
       render: (_, record) => (
-        <Button
-          type="dashed"
-          shape="round"
-          onClick={() => changeEditForm(record.id)}
-          icon={<EditTwoTone />}
-        >审核</Button>
+        record.editable ? (
+          <Link to={`/apply/form/${record.id}`} state={{
+            showScore: true,
+          }}>
+            <Button
+              shape="round"
+              icon={<EditTwoTone />}
+            >
+              修改评分
+          </Button>
+          </Link >
+        ) : (
+            <Button
+              type="dashed"
+              shape="round"
+              onClick={() => changeEditForm(record.id)}
+              icon={<EditTwoTone />}
+            >审核</Button>
+          )
       ),
     },
   ];
@@ -99,6 +113,7 @@ const HistoryTable: React.FC = () => {
         score: item.score,
         user_id: item.user_id,
         comment_user: item.step.user_id,
+        editable: item.editable,
       }));
       setTableData(tableData);
     } catch (error) {

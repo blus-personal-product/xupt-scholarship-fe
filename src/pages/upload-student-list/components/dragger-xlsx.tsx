@@ -50,7 +50,6 @@ const DraggerXlsx: React.FC<IProps> = (props) => {
         }));
         updateStudentData(studentData);
         updateStatus('success');
-        console.table(tempData);
       } catch (e) {
         updateStatus('error');
         message.error('文件类型不正确！');

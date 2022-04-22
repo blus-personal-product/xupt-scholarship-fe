@@ -2,12 +2,14 @@ import { Spin } from 'antd';
 import * as React from 'react';
 import * as api from '@/service/process';
 import { useAuth } from './auth.context';
+import { ProcessStep } from '@/pages/process/pages/handle-process/process.list';
 
 export interface ProcessStatus {
   status: "not_create" | "pre_start" | "opened";
   process_id: number;
   editable: boolean;
   createable: boolean;
+  step?: ProcessStep;
 }
 
 const ProcessContext = React.createContext<ProcessStatus>({} as ProcessStatus);

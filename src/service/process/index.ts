@@ -45,3 +45,7 @@ export const getProcessData = (id: number) => {
 export const getProcessStatus = () => {
   return client.get<ProcessStatus>("/process");
 }
+
+export const getProcessHistory = () => {
+  return client.get("/process/step");
+}

@@ -10,7 +10,6 @@ import { AUTH_CODE } from '@/config/auth';
 import * as api from '@/service/user/index';
 import { getSignOut } from '@/service/user/sign';
 import { message, Spin } from 'antd';
-import useIsCreate from '@/pages/process/pages/initiate-process/hooks/use-is-create';
 
 export interface AuthContextType {
   user: IUser;
@@ -95,8 +94,8 @@ export const useAuth = () => {
 
 /**管理员不可访问 */
 const ManagerDisabledPage = ["/apply/form"];
-const getStudentDisabledPage = (isCreateProcess: boolean) => isCreateProcess ? ["/upload", "/process/initiate-process"] : ["/upload"];
-const getStudentManagerDisabledPage = (isCreateProcess: boolean) => isCreateProcess ? ["/process/initiate-process"] : [];
+const StudentDisabledPage = ["/upload"];
+const StudentManagerDisabledPage: string[] = [];
 
 /**
  * 需要验证的页面
@@ -104,15 +103,14 @@ const getStudentManagerDisabledPage = (isCreateProcess: boolean) => isCreateProc
  */
 export const RequireAuth: React.FC<React.PropsWithChildren<{}>> = (props) => {
   const { user } = useAuth();
-  const isCreate = useIsCreate();
 
   const code = storage.getStg(AUTH_CODE);
   const location = useLocation();
   const { pathname } = location;
   const visible = [
     user.identity === "manager" && ManagerDisabledPage.includes(pathname),
-    user.identity === "student" && getStudentDisabledPage(isCreate).includes(pathname),
-    user.identity === "student,manager" && getStudentManagerDisabledPage(isCreate).includes(pathname)
+    user.identity === "student" && StudentDisabledPage.includes(pathname),
+    user.identity === "student,manager" && StudentManagerDisabledPage.includes(pathname)
   ].includes(true);
   if (visible) {
     message.warn("您没有查看该页面的权限");
