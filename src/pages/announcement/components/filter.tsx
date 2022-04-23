@@ -1,7 +1,8 @@
-import { Button, Form, Input, Select, Tag } from 'antd';
+import { Button, Form, FormInstance, Input, Select, Tag } from 'antd';
 import style from '../style.module.less';
 import * as React from 'react';
 import { SearchOutlined } from '@ant-design/icons';
+import { IFilterSelectOptions } from '..';
 
 type ITableShowTag = 'only_score' | 'only_course_credit' | 'first' | 'second' | 'third' | 'national' | 'inspirational';
 
@@ -39,7 +40,15 @@ const tagsData: {
     },
   ];
 
-const AnnouncementFilter: React.FC = () => {
+
+interface IProps {
+  filter: () => void;
+  formRef: FormInstance;
+  filterOpt: IFilterSelectOptions;
+}
+
+const AnnouncementFilter: React.FC<IProps> = (props) => {
+  const { filter, formRef, filterOpt } = props;
   const [selectTags, setSelectTags] = React.useState<ITableShowTag[]>([]);
   const handleChange = (tag: ITableShowTag, checked: boolean) => {
     if (checked) {
@@ -53,29 +62,30 @@ const AnnouncementFilter: React.FC = () => {
   return (
     <div className={style['filter']}>
       <Form
+        form={formRef}
         layout="inline"
         size="small"
         className={style['form']}
       >
         <Form.Item label="按条件筛选">
         </Form.Item>
-        <Form.Item >
+        <Form.Item name="name" >
           <Input placeholder="学生姓名" />
         </Form.Item>
-        <Form.Item>
+        <Form.Item name="student_id">
           <Input placeholder="学生学号" />
         </Form.Item>
-        <Form.Item>
-          <Select placeholder="年级" />
+        <Form.Item name="grade">
+          <Select options={filterOpt.grade} className={style['select-value']} placeholder="年级" />
+        </Form.Item>
+        <Form.Item name="professional">
+          <Select options={filterOpt.professional} className={style['select-value']} placeholder="专业" />
+        </Form.Item>
+        <Form.Item name="class">
+          <Select options={filterOpt.class} className={style['select-value']} placeholder="班级" />
         </Form.Item>
         <Form.Item>
-          <Select placeholder="专业" />
-        </Form.Item>
-        <Form.Item>
-          <Select placeholder="班级" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" shape="round" icon={<SearchOutlined />}>
+          <Button onClick={filter} type="primary" shape="round" icon={<SearchOutlined />}>
             查询数据
           </Button>
         </Form.Item>

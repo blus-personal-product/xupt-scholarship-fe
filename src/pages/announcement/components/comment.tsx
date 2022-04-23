@@ -22,15 +22,17 @@ const AnnouncementComment: React.FC = () => {
   const loadCommentList = async (procedureId: number, replyId: number = 0) => {
     try {
       setLoading(true);
-      let commentList = (await api.getComment(procedureId, 0)) || [];
+      let currentList = (await api.getComment(procedureId, 0)) || [];
       if (replyId !== 0) {
         const childList = await api.getComment(procedureId, replyId);
-        commentList = commentList.map(item => ({
+        currentList = currentList.map(item => ({
           ...item,
-          replyList: item.comment_id === replyId ? childList : []
+          replyList: item.comment_id === replyId
+            ? childList
+            : (commentList.find(v => v.comment_id === item.comment_id)?.replyList || [])
         }));
       }
-      setCommentList(commentList);
+      setCommentList(currentList);
     } catch (error) {
       message.error(error.message);
     } finally {
@@ -108,7 +110,7 @@ const AnnouncementComment: React.FC = () => {
               actions={[
                 <span onClick={() => replyComment(item)} key="reply">回复</span>,
                 (user.user_id === item.user_id && (<span onClick={() => delComment(item.comment_id)} key="del">删除</span>)),
-                item.children > 0 && (<span onClick = {() => loadCommentList(process_id, item.comment_id)}>共有{item.children}条回复<ArrowsAltOutlined /></span>)
+                item.children > 0 && (<span onClick={() => loadCommentList(process_id, item.comment_id)}>共有{item.children}条回复<ArrowsAltOutlined /></span>)
               ]}
               author={item.user_id}
               avatar={item.avatar || <Avatar size={40}>{item.name}</Avatar>}

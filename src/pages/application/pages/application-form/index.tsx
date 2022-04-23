@@ -203,7 +203,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
         visible={modalStatus.visible}
         onOk={handleForm}
         okText="确认"
-        width={600}
+        width={800}
         cancelText="取消"
         closable={false}
         cancelButtonProps={{

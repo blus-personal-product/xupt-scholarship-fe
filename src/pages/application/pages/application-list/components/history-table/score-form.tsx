@@ -2,6 +2,7 @@ import { Button, Form, FormInstance, FormProps, InputNumber, message, Space, Sta
 import * as React from 'react';
 import style from "../../style.module.less";
 import * as api from '@/service/apply';
+import { useAuth } from '@/context/auth.context';
 
 type ScoreValue = api.ScoreValue;
 
@@ -16,6 +17,9 @@ const ScoreFormList: {
   type: "base" | "moral" | "practice" | "academic" | "sum";
   name: string;
 }[] = [{
+  type: 'base',
+  name: "学业课成绩",
+}, {
   type: "moral",
   name: "思想品德分数",
 }, {
@@ -30,6 +34,7 @@ const ScoreFormList: {
 }]
 
 const ScoreForm: React.FC<IProps> = (props) => {
+  const { user } = useAuth();
   const { initValue, applyId, submitCallBack, scoreFormRef } = props;
   const [sumValue, setSumValue] = React.useState(initValue?.sum);
   const [loading, setLoading] = React.useState(false);
@@ -61,12 +66,17 @@ const ScoreForm: React.FC<IProps> = (props) => {
     }
   }
 
+  const formValue = React.useMemo(() => ({
+    ...initValue,
+    base: user.course,
+  }), [user.course, initValue]);
+
   React.useEffect(() => {
     if (initValue) {
-      formRef.setFieldsValue(initValue);
-      updateScore(initValue);
+      formRef.setFieldsValue(formValue);
+      updateScore(formValue);
     }
-  }, [initValue, applyId])
+  }, [formValue]);
 
   return (
     <Form
@@ -99,7 +109,7 @@ const ScoreForm: React.FC<IProps> = (props) => {
                         >
                           <InputNumber
                             min={0}
-                            disabled={loading}
+                            disabled={loading || item.type === 'base'}
                           />
                         </Form.Item>
                       </React.Fragment>
@@ -133,6 +143,7 @@ ScoreForm.defaultProps = {
     practice: 0,
     academic: 0,
     sum: 0,
+    base: 0,
   }
 }
 
