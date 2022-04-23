@@ -19,6 +19,7 @@ export type AnnouncementItem = {
 
 interface IProps {
   dataSource: AnnouncementItem[];
+  loading: boolean;
 }
 
 const columns: ColumnsType<AnnouncementItem> = [
@@ -76,9 +77,9 @@ const columns: ColumnsType<AnnouncementItem> = [
 ]
 
 const AnnouncementTable: React.FC<IProps> = (props) => {
-  const { dataSource } = props;
+  const { dataSource, loading } = props;
   return (
-    <Table bordered columns={columns} dataSource={dataSource} />
+    <Table loading={loading} bordered columns={columns} dataSource={dataSource} />
   )
 };
 

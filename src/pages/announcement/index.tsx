@@ -8,6 +8,7 @@ import AnnouncementFilter from './components/filter';
 import AnnouncementTable, { AnnouncementItem } from './components/table';
 import * as api from '@/service/announcement';
 import { useProcess } from '@/context/process-status';
+import moment from 'moment';
 
 /**
  * 班级公示、年级公示、最终结果公示
@@ -20,6 +21,10 @@ const Announcement: React.FC = () => {
     try {
       setLoading(true);
       const res = await api.getAnnouncement(process_id);
+      res.map(item => ({
+        ...item,
+        grade: moment(item.grade).format("YYYY")
+      }))
       setAnnouncementData(res || []);
     } catch (error) {
       message.error(error.message);
