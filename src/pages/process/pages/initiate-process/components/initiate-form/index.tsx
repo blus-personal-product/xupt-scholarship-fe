@@ -31,7 +31,7 @@ const defaultValue: DefaultStepValue = {
 const getInitiateFormValue = (): InitiateFormValue => {
   const data = {} as InitiateFormValue;
   ProcessList.forEach(item => {
-    data[item.name] = defaultValue;
+    data[item.step] = defaultValue;
   });
   return data;
 }
@@ -50,10 +50,10 @@ const InitiateForm: React.FC = () => {
     >
       {
         ProcessList.map((process, index) => (
-          <React.Fragment key={process.name}>
+          <React.Fragment key={process.step}>
             <CardFormItem
               title={process.title}
-              name={process.name}
+              name={process.step}
               processIndex={index}
               duration={process.duration}
             />

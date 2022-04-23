@@ -47,7 +47,7 @@ const StepFooter: React.FC = () => {
           moment(start).format(DATE_FORMAT_NORMAL),
           moment(end).format(DATE_FORMAT_NORMAL)
         ];
-        const step = ProcessList.find(item => item.name = tempKey)
+        const step = ProcessList.find(item => item.step === tempKey)
         return {
           step: tempKey,
           ...initiateValue[tempKey],

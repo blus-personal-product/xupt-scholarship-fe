@@ -52,7 +52,7 @@ const ProcessStepInfo: React.FC<IProps> = (props) => {
   const getUserInfo = (email: string) => {
     return list.find(item => item.email === email) || {};
   }
-  const getProcessInfo = (step: string) => (ProcessList.find(item => item.name === step) || {} as any);
+  const getProcessInfo = (step: string) => (ProcessList.find(item => item.step === step) || {} as any);
 
   const getProcess = async () => {
     try {

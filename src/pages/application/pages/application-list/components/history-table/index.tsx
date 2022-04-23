@@ -103,7 +103,7 @@ const HistoryTable: React.FC = () => {
       const applyList = await api.getApplicationList({
         page_count: 10,
         page_index: 1,
-        is_check: "manager",
+        is_check: user.identity,
         procedure_id: process_id
       });
       const tableData: I.HistoryTableData[] = (applyList || []).map(item => ({
