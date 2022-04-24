@@ -1,6 +1,9 @@
 import * as React from 'react';
-import { Table, } from 'antd';
+import { Table, Tag, } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
+import { IShipType, ITableShowTag } from './filter';
+import { ProcessStep } from '@/pages/process/pages/handle-process/process.list';
+import { useProcess } from '@/context/process-status';
 
 export type AnnouncementItem = {
   id: number;
@@ -15,14 +18,16 @@ export type AnnouncementItem = {
   professional: string;
   grade: string;
   class: number;
+  ship_type: string;
 }
 
 interface IProps {
   dataSource: AnnouncementItem[];
   loading: boolean;
+  selectTags: ITableShowTag[];
 }
 
-const columns: ColumnsType<AnnouncementItem> = [
+export const getColumns = (step: ProcessStep): ColumnsType<AnnouncementItem> => [
   {
     dataIndex: 'id',
     title: '申请ID',
@@ -37,6 +42,11 @@ const columns: ColumnsType<AnnouncementItem> = [
     dataIndex: 'student_id',
     title: '学号',
     key: 'student_id',
+  },
+  {
+    dataIndex: 'professional',
+    title: '专业',
+    key: 'professional',
   },
   {
     dataIndex: 'grade',
@@ -74,12 +84,70 @@ const columns: ColumnsType<AnnouncementItem> = [
     key: 'academic',
     sorter: (a, b) => a.academic - b.academic,
   },
-]
+  {
+    dataIndex: 'ship_type',
+    title: '奖学金类型',
+    key: 'ship_type',
+    render: (_, record) => renderShipType(record.ship_type as any, step)
+  },
+];
+
+const renderShipType = (ship_type: IShipType, step?: ProcessStep) => {
+  const colorMap: Record<IShipType, { label: string; color: string }> = {
+    first: {
+      label: "一等奖",
+      color: "geekblue",
+    },
+    second: {
+      label: "二等奖",
+      color: "cyan",
+    },
+    third: {
+      label: "三等奖",
+      color: "blue"
+    },
+    national: {
+      label: "国家奖学金",
+      color: "volcano"
+    },
+    inspirational: {
+      label: "励志奖学金",
+      color: "lime"
+    }
+  };
+  if (step !== 'finish') {
+    return <Tag>尚未公布</Tag>
+  }
+  if (!ship_type) {
+    return <Tag>未入选</Tag>
+  } else {
+    return <Tag color={colorMap[ship_type].color}>{colorMap[ship_type].label}</Tag>
+  }
+}
 
 const AnnouncementTable: React.FC<IProps> = (props) => {
-  const { dataSource, loading } = props;
+  const { dataSource, loading, selectTags } = props;
+  const { step } = useProcess();
+  const columns = React.useMemo(() => getColumns(step as any), [step]);
+
+  const filterColumns = React.useMemo(() =>
+    columns.filter(item => {
+      if (selectTags.includes('only_course_credit')) {
+        return !['moral', 'practice', 'academic'].includes(item.key as any);
+      }
+      if (selectTags.includes('only_score')) {
+        return !['course_credit', 'moral', 'practice', 'academic'].includes(item.key as any);
+      }
+
+      if (selectTags.includes('only_score') && selectTags.includes('only_course_credit')) {
+        return !['moral', 'practice', 'academic'].includes(item.key as any);
+      }
+
+      return true;
+    })
+    , [selectTags, columns]);
   return (
-    <Table loading={loading} bordered columns={columns} dataSource={dataSource} />
+    <Table loading={loading} bordered columns={filterColumns} dataSource={dataSource} />
   )
 };
 

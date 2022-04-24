@@ -1,12 +1,13 @@
-import { Button, Form, FormInstance, Input, Select, Tag } from 'antd';
+import { Button, Form, FormInstance, Input, Select, Space, Tag } from 'antd';
 import style from '../style.module.less';
 import * as React from 'react';
-import { SearchOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, SearchOutlined } from '@ant-design/icons';
 import { IFilterSelectOptions } from '..';
 
-type ITableShowTag = 'only_score' | 'only_course_credit' | 'first' | 'second' | 'third' | 'national' | 'inspirational';
+export type IShipType = 'first' | 'second' | 'third' | 'national' | 'inspirational'
+export type ITableShowTag = 'only_score' | 'only_course_credit' | IShipType;
 
-const tagsData: {
+export const tagsData: {
   label: string;
   key: ITableShowTag;
 }[] = [
@@ -44,21 +45,15 @@ const tagsData: {
 interface IProps {
   filter: () => void;
   formRef: FormInstance;
+  download: () => void
   filterOpt: IFilterSelectOptions;
+  tagChange: (tag: ITableShowTag, checked: boolean) => void;
+  selectTags: ITableShowTag[];
 }
 
 const AnnouncementFilter: React.FC<IProps> = (props) => {
-  const { filter, formRef, filterOpt } = props;
-  const [selectTags, setSelectTags] = React.useState<ITableShowTag[]>([]);
-  const handleChange = (tag: ITableShowTag, checked: boolean) => {
-    if (checked) {
-      const addTags = [...selectTags, tag];
-      setSelectTags(addTags);
-    } else {
-      const delTags = selectTags.filter(v => v !== tag);
-      setSelectTags(delTags);
-    }
-  }
+  const { filter, formRef, filterOpt, selectTags, tagChange, download } = props;
+
   return (
     <div className={style['filter']}>
       <Form
@@ -76,18 +71,23 @@ const AnnouncementFilter: React.FC<IProps> = (props) => {
           <Input placeholder="学生学号" />
         </Form.Item>
         <Form.Item name="grade">
-          <Select options={filterOpt.grade} className={style['select-value']} placeholder="年级" />
+          <Select allowClear options={filterOpt.grade} className={style['select-value']} placeholder="年级" />
         </Form.Item>
         <Form.Item name="professional">
-          <Select options={filterOpt.professional} className={style['select-value']} placeholder="专业" />
+          <Select allowClear options={filterOpt.professional} className={style['select-value']} placeholder="专业" />
         </Form.Item>
         <Form.Item name="class">
-          <Select options={filterOpt.class} className={style['select-value']} placeholder="班级" />
+          <Select allowClear options={filterOpt.class} className={style['select-value']} placeholder="班级" />
         </Form.Item>
         <Form.Item>
-          <Button onClick={filter} type="primary" shape="round" icon={<SearchOutlined />}>
-            查询数据
+          <Space>
+            <Button onClick={filter} type="primary" shape="round" icon={<SearchOutlined />}>
+              查询数据
           </Button>
+            <Button onClick={download} type="default" icon={<FileExcelOutlined />}>
+              下载数据
+          </Button>
+          </Space>
         </Form.Item>
       </Form>
       <Form.Item label="按标签选择">
@@ -97,7 +97,7 @@ const AnnouncementFilter: React.FC<IProps> = (props) => {
               <Tag.CheckableTag
                 key={tag.key}
                 checked={selectTags.indexOf(tag.key) > -1}
-                onChange={checked => handleChange(tag.key, checked)}
+                onChange={checked => tagChange(tag.key, checked)}
               >
                 {tag.label}
               </Tag.CheckableTag>

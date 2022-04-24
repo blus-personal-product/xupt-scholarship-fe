@@ -5,6 +5,7 @@ declare module '*.module.less' {
 }
 
 declare module 'js-xlsx';
+declare module 'js-export-excel';
 
 
 type UploadFileType = "file" | "avatar" | "image";

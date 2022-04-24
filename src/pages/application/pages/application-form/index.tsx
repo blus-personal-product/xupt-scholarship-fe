@@ -16,6 +16,7 @@ import { usePageHeaderContext } from '@/context/page-header';
 import { useAuth } from '@/context/auth.context';
 import { getRoutePath } from '@/utils';
 import ScoreForm from '../application-list/components/history-table/score-form';
+import getGrade from '@/utils/get-grade';
 
 const messageData = {
   save: {
@@ -28,6 +29,8 @@ const messageData = {
       <div>
         提交当前表单前建议您阅读以下事项：
         <ol style={{ marginLeft: 30 }}>
+          <li><strong>一年级新生不需要填写该表单，最终只会与录取综合成绩作为计算分数;</strong></li>
+          <li><strong>三年级学生不会将学业课成绩作为计算分数;</strong></li>
           <li>提交的信息会作为审核信息，在审核开始前你仍可更改;</li>
           <li>提交的表单会覆盖之前的提交记录;</li>
           <li>在同一年的奖学金评定记录中，只会用最后一次提交的申请表单来作为奖学金评定的依据，其他保存的申请表单在非『创建环节』不支持修改状态为「提交」;</li>
@@ -68,7 +71,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
     visible: boolean;
     type: HandleApplicationFormType;
   }>({
-    visible: false || (location.state as any)?.showScore,
+    visible: false || (location.state as any)?.showScore || (getGrade(user.student?.grade)),
     type: 'submit',
   });
 

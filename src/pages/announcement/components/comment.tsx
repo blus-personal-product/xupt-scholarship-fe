@@ -125,7 +125,7 @@ const AnnouncementComment: React.FC = () => {
                       (user.user_id === child.user_id && (<span onClick={() => delComment(child.comment_id)} key="del">删除</span>))
                     ]}
                     author={child.user_id}
-                    avatar={child.avatar || <Avatar size={40}>{item.name}</Avatar>}
+                    avatar={child.avatar || <Avatar size={40}>{child.name}</Avatar>}
                     content={child.content}
                     datetime={child.create_date}
                   />
