@@ -1,2 +1,0 @@
-import{c as s}from"./index-89cb7035.js";const e=t=>s.post("/upload/student/list",t),l=t=>{const a=new FormData;return t.forEach(o=>{a.append("files[]",o)}),s.postFormData("/upload",a)},n=async(t,a)=>{const o=new FormData;return o.append("file",a),(await s.postFormData(`/upload/single/${t}`,o)).slice(1)},i=async t=>await n("avatar",t);export{e as a,i as b,l as p};
-//# sourceMappingURL=index-7212b9a5.js.map
