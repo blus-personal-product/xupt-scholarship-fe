@@ -1,0 +1,1 @@
+{"version":3,"file":"time-a4cc2158.js","sources":["../../../src/config/time.ts"],"sourcesContent":["import moment from \"moment\";\r\n\r\nexport const TIME_FORMAT_NORMAL = \"YYYY-MM-DD HH:mm:ss\";\r\nexport const DATE_FORMAT_NORMAL = \"YYYY-MM-DD\"\r\nexport const FORMAT_DATE = moment();"],"names":[],"mappings":"8CAGa,GAAqB,aACrB,EAAc"}
