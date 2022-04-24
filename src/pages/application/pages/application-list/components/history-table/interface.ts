@@ -10,6 +10,7 @@ export interface HistoryTableData {
   id: number;
   score_info: api.ScoreValue;
   score: number;
+  editable: boolean;
   user_id: string;
 }
 

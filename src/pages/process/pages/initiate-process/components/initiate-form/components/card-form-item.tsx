@@ -39,10 +39,10 @@ const CardFormItem: React.FC<IProps> = (props) => {
             ({ getFieldValue }) => {
               let disableDate = disabledFormFeatureDate;
               if (processIndex > 0) {
-                let preIndexDate = getFieldValue(ProcessList[processIndex - 1].name).date || [];
+                let preIndexDate = getFieldValue(ProcessList[processIndex - 1].step).date || [];
                 // 学科办审核、复查和年纪公示同时进行
                 if (name === 'examination_and_review_of_the_discipline_office') {
-                  preIndexDate = getFieldValue(ProcessList[processIndex - 2].name).date || [];
+                  preIndexDate = getFieldValue(ProcessList[processIndex - 2].step).date || [];
                 }
                 if (preIndexDate.length > 0) {
                   disableDate = (current) => {

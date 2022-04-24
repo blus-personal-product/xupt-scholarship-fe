@@ -1,5 +1,15 @@
-import { ProcessStatus } from "@/context/process-status";
-import { AppstoreTwoTone, AreaChartOutlined, CloudTwoTone, ContainerOutlined, ContainerTwoTone, FormOutlined, InteractionTwoTone, SwapOutlined, ToolTwoTone } from "@ant-design/icons";
+import {
+  AppstoreTwoTone,
+  AreaChartOutlined,
+  CloudTwoTone,
+  ContainerOutlined,
+  ContainerTwoTone,
+  FormOutlined,
+  InteractionTwoTone,
+  ReconciliationTwoTone,
+  SwapOutlined,
+  ToolTwoTone
+} from "@ant-design/icons";
 import { Menu } from "antd";
 import React, { ReactNode } from "react";
 import { Link } from "react-router-dom";
@@ -15,6 +25,7 @@ export interface IMenu {
   blockList?: IUser['identity'][];
 
 }
+
 
 export const getMenus = (process_id: number): IMenu[] => [
   {
@@ -32,7 +43,7 @@ export const getMenus = (process_id: number): IMenu[] => [
       {
         key: 'form',
         path: '/form',
-        title: '发起申请',
+        title: '发起/修改申请',
         blockList: ["manager"],
         icon: <FormOutlined twoToneColor="rgba(57, 90, 255, 1)" />
       },
@@ -71,6 +82,12 @@ export const getMenus = (process_id: number): IMenu[] => [
     title: '上传学生名单',
     blockList: ["student"],
     icon: <CloudTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
+  },
+  {
+    key: 'announcement',
+    path: '/announcement',
+    title: '结果公示',
+    icon: <ReconciliationTwoTone twoToneColor="rgba(57, 90, 255, 1)" />,
   },
   {
     key: 'user',

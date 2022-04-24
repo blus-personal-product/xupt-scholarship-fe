@@ -15,6 +15,7 @@ const Home = React.lazy(() => import('@/pages/dash-board'));
 const Sign = React.lazy(() => import('pages/sign'));
 const PageLayout = React.lazy(() => import('@/pages/page-layout'));
 const NotFound = React.lazy(() => import('pages/not-found'));
+const Announcement = React.lazy(() => import('@/pages/announcement'));
 
 const RoutesCenter: React.FC = () => {
 
@@ -34,6 +35,8 @@ const RoutesCenter: React.FC = () => {
               </RequireAuth>
             }>
               <Route index element={<Home />} />
+              {/* 结果公示页面 */}
+              <Route path="announcement" element={<Announcement />} />
               {/* 用户中心 */}
               <Route path="user" element={<UserCenter />} />
               {/* 申请页面 */}
@@ -44,6 +47,7 @@ const RoutesCenter: React.FC = () => {
                   <Route path=":applyId" element={<ApplicationForm />} />
                 </Route>
               </Route>
+              {/* 上传学生信息 */}
               <Route path="upload" element={<UploadStudentList />} />
               {/* 评定流程处理 */}
               <Route path="process">

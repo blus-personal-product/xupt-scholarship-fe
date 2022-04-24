@@ -143,7 +143,7 @@ const UploadUserInfo: React.FC<IProps> = (props) => {
         ...value
       });
       message.success("完善个人信成功");
-      // location.reload();
+      location.reload();
     } catch (error) {
       message.error("完善个人信息失败");
     } finally {

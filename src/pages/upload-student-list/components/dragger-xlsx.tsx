@@ -37,20 +37,24 @@ const DraggerXlsx: React.FC<IProps> = (props) => {
           }
         }
         tempData.shift();
+        const currentYear = (new Date()).getFullYear() + '';
         const studentData = tempData.map((item, index) => ({
           name: item['学生姓名'] || '-',
-          student_id: item['学号'] || '-',
+          student_id: `${item['学号'] || '-'}` ,
           gender: item['性别'] || '-',
           professional: item['专业'] || '-',
           course_credit: +item['学位课加权平均成绩'],
           id: index + 1,
-          email: item['邮箱'] || '-',
+          type: (item['硕士类型'] && (item['硕士类型'] ===  '学硕'? "bachelor_degree" : "profession_degree")) || "bachelor_degree",
+          email: item['邮箱'] || (item['学号'] && `${item['学号']}@stu.xiyou.edu.cn`) || '-',
           phone: item['联系方式'] || '-',
+          class: (+item['班级']) || 1,
+          grade: `${item['年级'] || currentYear}`,
+          password: (item['学号'] && `Jxj${item['学号']}`) || 'JxjStudent',
           key: index + 1,
         }));
         updateStudentData(studentData);
         updateStatus('success');
-        console.table(tempData);
       } catch (e) {
         updateStatus('error');
         message.error('文件类型不正确！');
@@ -61,7 +65,7 @@ const DraggerXlsx: React.FC<IProps> = (props) => {
 
   const onChange: DraggerProps['onChange'] = (info) => {
     const { status } = info.file;
-    if(info.file.status === "removed") return;
+    if (info.file.status === "removed") return;
     setFileList([info.file]);
     // 通过FileReader对象读取文件
     // 以二进制方式打开文件

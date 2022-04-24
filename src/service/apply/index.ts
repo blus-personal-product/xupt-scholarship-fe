@@ -61,6 +61,7 @@ export interface ScoreValue {
   practice: number;
   academic: number;
   sum: number;
+  base: number;
 };
 
 export const postApplicationScoreList = (id: number,params: ScoreValue) => {

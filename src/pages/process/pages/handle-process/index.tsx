@@ -16,11 +16,9 @@ const HandleProcess: React.FC = () => {
     >
       <ProcessStepInfo
         title="当前流程状态"
-        processInfoList={[]}
       ></ProcessStepInfo>
       <ApplyProcessSteps
         title="评定总流程"
-        currentStep="first_class_announcement"
       />
 
       {/* <Card

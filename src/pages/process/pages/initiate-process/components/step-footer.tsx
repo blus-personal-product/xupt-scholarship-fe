@@ -11,6 +11,7 @@ import { DATE_FORMAT_NORMAL } from '@/config/time';
 import useIsCreate from '../hooks/use-is-create';
 import { CopyOutlined, EditOutlined } from '@ant-design/icons';
 import { useProcess } from '@/context/process-status';
+import { ProcessList } from '../../handle-process/process.list';
 
 const StepFooter: React.FC = () => {
   const { step, next, prev } = useStepContext();
@@ -39,17 +40,23 @@ const StepFooter: React.FC = () => {
     try {
       setLoading(true);
       const initiateValue: InitiateFormValue = getFormInstance('initiate').getFieldsValue(true);
-      Object.keys(initiateValue).map((key) => {
+      const initValue = Object.keys(initiateValue).map((key) => {
         const tempKey = key as keyof InitiateFormValue;
         const [start, end] = initiateValue[tempKey].date || [];
         initiateValue[tempKey].date = [
           moment(start).format(DATE_FORMAT_NORMAL),
-          moment(end).format(DATE_FORMAT_NORMAL)]
+          moment(end).format(DATE_FORMAT_NORMAL)
+        ];
+        const step = ProcessList.find(item => item.step === tempKey)
+        return {
+          step: tempKey,
+          ...initiateValue[tempKey],
+        }
       });
       const uploadValue: UploadFormValue = getFormInstance('upload').getFieldsValue(true);
       const processId = await api.postInitProcess({
         upload: uploadValue,
-        form: initiateValue,
+        form: initValue,
       });
       message.success("创建成功");
     } catch (error) {
@@ -63,15 +70,18 @@ const StepFooter: React.FC = () => {
     try {
       setLoading(true);
       const { form } = await api.getProcessData(process_id);
-      Object.keys(form.form).map((key) => {
-        const tempKey = key as keyof InitiateFormValue;
-        const [start, end] = form.form[tempKey].date || [];
-        form.form[tempKey].date = [
-          moment(start, DATE_FORMAT_NORMAL),
-          moment(end, DATE_FORMAT_NORMAL)
-        ] as any;
-      });
-      getFormInstance('initiate').setFieldsValue(form.form);
+      const initValue = form.form.reduce((p, v) => {
+        const [start, end] = v.date || [];
+        p[v.step] = {
+          ...v,
+          date: [
+            moment(start, DATE_FORMAT_NORMAL),
+            moment(end, DATE_FORMAT_NORMAL)
+          ] as any,
+        }
+        return p;
+      }, {} as InitiateFormValue);
+      getFormInstance('initiate').setFieldsValue(initValue);
       getFormInstance('upload').setFieldsValue(form.upload);
     } catch (error) {
       message.error(error.message);

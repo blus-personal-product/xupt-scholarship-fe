@@ -3,12 +3,14 @@ import { Table, Tag, TableProps, Button, message, Drawer } from 'antd';
 import * as I from './interface';
 import { EditTwoTone } from '@ant-design/icons';
 import * as api from '@/service/apply';
-import style from '../../style.module.less';
 import { useProcess } from '@/context/process-status';
 import ApplicationForm from '@/pages/application/pages/application-form';
 import ScoreForm from './score-form';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/context/auth.context';
 
 const getColumns = (
+  identity: IUser['identity'],
   changeEditForm: (id: number) => void
 ): TableProps<I.HistoryTableData>['columns'] => [
     {
@@ -51,18 +53,32 @@ const getColumns = (
       title: '操作',
       key: 'action',
       render: (_, record) => (
-        <Button
-          type="dashed"
-          shape="round"
-          onClick={() => changeEditForm(record.id)}
-          icon={<EditTwoTone />}
-        >审核</Button>
+        record.editable && identity !== 'manager' ? (
+          <Link to={`/apply/form/${record.id}`} state={{
+            showScore: true,
+          }}>
+            <Button
+              shape="round"
+              icon={<EditTwoTone />}
+            >
+              修改评分
+          </Button>
+          </Link >
+        ) : (
+            <Button
+              type="dashed"
+              shape="round"
+              onClick={() => changeEditForm(record.id)}
+              icon={<EditTwoTone />}
+            >审核</Button>
+          )
       ),
     },
   ];
 
 
 const HistoryTable: React.FC = () => {
+  const { user } = useAuth();
   const [tableData, setTableData] = React.useState<I.HistoryTableData[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
@@ -79,7 +95,7 @@ const HistoryTable: React.FC = () => {
     setSelectedId(-1);
   };
 
-  const columns = React.useMemo(() => getColumns(commentApplyForm), [commentApplyForm])
+  const columns = React.useMemo(() => getColumns(user.identity, commentApplyForm), [user.identity, commentApplyForm])
 
   const getTableData = async () => {
     try {
@@ -87,7 +103,7 @@ const HistoryTable: React.FC = () => {
       const applyList = await api.getApplicationList({
         page_count: 10,
         page_index: 1,
-        is_check: "manager",
+        is_check: user.identity,
         procedure_id: process_id
       });
       const tableData: I.HistoryTableData[] = (applyList || []).map(item => ({
@@ -100,6 +116,7 @@ const HistoryTable: React.FC = () => {
         score: item.score,
         user_id: item.user_id,
         comment_user: item.step.user_id,
+        editable: item.editable,
       }));
       setTableData(tableData);
     } catch (error) {
@@ -116,8 +133,6 @@ const HistoryTable: React.FC = () => {
   React.useEffect(() => {
     getTableData();
   }, []);
-
-  console.log(selectedInfo, tableData, selectedId);
 
   return (
     <React.Fragment>

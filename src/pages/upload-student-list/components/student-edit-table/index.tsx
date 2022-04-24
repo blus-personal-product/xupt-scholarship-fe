@@ -1,4 +1,4 @@
-import { Table, Popconfirm, Form, Typography, message, Button } from 'antd';
+import { Table, Popconfirm, Form, Typography, message, Button, Tag } from 'antd';
 import * as React from 'react';
 import style from '@/pages/upload-student-list/style.module.less';
 import EditableCell from './components/editable-cell';
@@ -17,9 +17,12 @@ export interface StudentItem {
   student_id: string;
   gender: string;
   professional: string;
+  class: number;
   course_credit: number;
   phone: string;
   email: string;
+  password: string;
+  type: IStudentInfo['type'];
 }
 
 const StudentEditTable: React.FC<IProps> = (props) => {
@@ -106,9 +109,34 @@ const StudentEditTable: React.FC<IProps> = (props) => {
       editable: true,
     },
     {
+      title: '硕士类型',
+      dataIndex: 'type',
+      key: 'type',
+      editable: true,
+      render: (_: any, record: StudentItem) => {
+        return record.type === 'bachelor_degree' ? (
+          <Tag color="cyan">学硕</Tag>
+        ) :(
+          <Tag color="geekblue">专硕</Tag>
+        )
+      }
+    },
+    {
       title: '专业',
       dataIndex: 'professional',
       key: 'professional',
+      editable: true,
+    },
+    {
+      title: '年级',
+      dataIndex: 'grade',
+      key: 'grade',
+      editable: true,
+    },
+    {
+      title: '班级',
+      dataIndex: 'class',
+      key: 'class',
       editable: true,
     },
     {
@@ -127,6 +155,12 @@ const StudentEditTable: React.FC<IProps> = (props) => {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
+      editable: true,
+    },
+    {
+      title: '初始密码',
+      dataIndex: 'password',
+      key: 'password',
       editable: true,
     },
     {

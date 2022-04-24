@@ -65,8 +65,9 @@ class http {
   put<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
     return this.instance.put<V, V, AxiosRequestConfig>(url, params, config);
   }
-  delete<V = undefined>(url: string, params: any, config?: AxiosRequestConfig) {
-    return this.instance.put<V, V, AxiosRequestConfig>(url, params, config);
+  delete<V = undefined>(url: string, params?: any, config?: AxiosRequestConfig) {
+    const queryUrl = queryString.stringifyUrl({ url: url, query: params });
+    return this.instance.delete<V, V, AxiosRequestConfig>(queryUrl, config);
   }
   postFormData<V = undefined>(url: string, file: FormData) {
     return this.instance.post<V, any, AxiosRequestConfig>(url, file as any, {
