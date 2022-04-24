@@ -1,0 +1,1 @@
+{"version":3,"file":"index-4aa99cfc.js","sources":["../../../src/pages/forget-password/index.tsx"],"sourcesContent":["import * as React from 'react';\r\n\r\nconst ForgetPassword = () => {\r\n  return (\r\n    <div>forget</div>\r\n  )\r\n};\r\n\r\nexport default ForgetPassword;"],"names":[],"mappings":"yCAEM,GAAiB,4BAElB,MAAD,KAAK"}
