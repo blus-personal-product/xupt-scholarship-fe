@@ -17,6 +17,8 @@ import { useAuth } from '@/context/auth.context';
 import { getRoutePath } from '@/utils';
 import ScoreForm from '../application-list/components/history-table/score-form';
 import getGrade from '@/utils/get-grade';
+import { useProcess } from '@/context/process-status';
+import { StudentEditableList } from '@/pages/process/pages/handle-process/process.list';
 
 const messageData = {
   save: {
@@ -57,6 +59,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { step } = useProcess();
   const { updatePageHeaderState } = usePageHeaderContext();
   const [moralForm] = Form.useForm();
   const [practiceForm] = Form.useForm();
@@ -71,7 +74,7 @@ const ApplicationForm: React.FC<IProps> = (props) => {
     visible: boolean;
     type: HandleApplicationFormType;
   }>({
-    visible: false || (location.state as any)?.showScore || (getGrade(user.student?.grade)),
+    visible: false || ((location.state as any)?.showScore || (getGrade(user.student?.grade) === 1) && step && StudentEditableList.includes(step)),
     type: 'submit',
   });
 
@@ -177,25 +180,27 @@ const ApplicationForm: React.FC<IProps> = (props) => {
 
 
   React.useEffect(() => {
-    updatePageHeaderState({
-      title: '申请表单',
-      extra: disabled ? [] : [
-        <Button
-          key="1"
-          onClick={saveForm}
-        >保存</Button>,
-        <Button
-          type="primary"
-          key="2"
-          onClick={submitForm}
-        >提交</Button>,
-      ],
-      subTitle: '',
-    });
+    if (step && StudentEditableList.includes(step)) {
+      updatePageHeaderState({
+        title: '申请表单',
+        extra: disabled ? [] : [
+          <Button
+            key="1"
+            onClick={saveForm}
+          >保存</Button>,
+          <Button
+            type="primary"
+            key="2"
+            onClick={submitForm}
+          >提交</Button>,
+        ],
+        subTitle: '',
+      });
+    }
     return () => {
       updatePageHeaderState({})
     }
-  }, []);
+  }, [step]);
 
   return (
     <Spin

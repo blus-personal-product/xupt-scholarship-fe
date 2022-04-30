@@ -30,6 +30,24 @@ const getPosition = (step: number) => {
   }
 };
 
+export const StudentEditableList: ProcessStep[] = [
+  'individual_application_stage',
+  'first_self_assessment',
+  'second_personal_self_assessment'
+];
+
+export const ShowResultList: ProcessStep[] = [
+  "first_self_assessment",
+  "first_class_announcement",
+  "second_personal_self_assessment",
+  "second_class_announcement",
+  "grade_announcement",
+  "examination_and_review_of_the_discipline_office",
+  "verification_and_deliberation_by_the_scholarship_evaluation_group",
+  "school_review_stage",
+  "finish"
+];
+
 export type ProcessStep = "deployment_mobilization_phase"
   | "individual_application_stage"
   | "policies_for_all_grades"

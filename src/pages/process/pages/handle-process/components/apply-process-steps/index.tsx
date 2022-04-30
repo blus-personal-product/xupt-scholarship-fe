@@ -108,7 +108,7 @@ export const ApplyProcessCharts: React.FC<IProps> = (props) => {
     ]
   }), [processList]);
   const stepStatusNormal: StepStatus[] = ["not_start", "in_progress", "completed", "backtracking", "error"];
-  
+
   const getProcess = async () => {
     try {
       const res = await api.getProcessData(process_id);
@@ -119,7 +119,10 @@ export const ApplyProcessCharts: React.FC<IProps> = (props) => {
           moment(start, DATE_FORMAT_NORMAL),
           moment(end, DATE_FORMAT_NORMAL)
         ];
-        const flag = [date[0] > moment(), date[0] < moment() && date[1] > moment(), date[1] < moment()]
+        const flag = [
+          date[0] > moment(), date[0] < moment() && date[1] > moment(),
+          date[1] < moment()
+        ]
         p[c.step] = {
           date: c.date as [string, string],
           status: stepStatusNormal[flag.indexOf(true)],
@@ -135,7 +138,9 @@ export const ApplyProcessCharts: React.FC<IProps> = (props) => {
   }
 
   React.useEffect(() => {
-    getProcess()
+    if (process_id !== -1) {
+      getProcess()
+    }
   }, [process_id])
 
   return (

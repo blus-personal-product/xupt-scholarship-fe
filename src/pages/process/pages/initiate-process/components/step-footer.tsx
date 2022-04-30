@@ -91,7 +91,7 @@ const StepFooter: React.FC = () => {
   }
 
   React.useEffect(() => {
-    if (!isCreate && getFormInstance('initiate') && getFormInstance('upload')) {
+    if (!isCreate && getFormInstance('initiate') && getFormInstance('upload') && process_id !== -1) {
       getProcess()
     }
   }, [process_id, getFormInstance])

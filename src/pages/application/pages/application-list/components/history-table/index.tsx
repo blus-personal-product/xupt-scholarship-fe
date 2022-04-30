@@ -8,6 +8,7 @@ import ApplicationForm from '@/pages/application/pages/application-form';
 import ScoreForm from './score-form';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/context/auth.context';
+import { ShowResultList, StudentEditableList } from '@/pages/process/pages/handle-process/process.list';
 
 const getColumns = (
   identity: IUser['identity'],
@@ -79,6 +80,7 @@ const getColumns = (
 
 const HistoryTable: React.FC = () => {
   const { user } = useAuth();
+  const { step } = useProcess();
   const [tableData, setTableData] = React.useState<I.HistoryTableData[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
@@ -131,8 +133,12 @@ const HistoryTable: React.FC = () => {
 
 
   React.useEffect(() => {
+    if (user.identity === 'manager' && step && ShowResultList.includes(step)) {
+      message.warn("当前未能开始查看评定流程")
+      return;
+    }
     getTableData();
-  }, []);
+  }, [step, user.identity]);
 
   return (
     <React.Fragment>

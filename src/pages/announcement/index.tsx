@@ -11,6 +11,8 @@ import { useProcess } from '@/context/process-status';
 import moment from 'moment';
 import { useForm } from 'antd/lib/form/Form';
 import downloadFileToExcel from '@/utils/xlsx-download';
+import { useAuth } from '@/context/auth.context';
+import { ShowResultList } from '../process/pages/handle-process/process.list';
 
 export interface IFilterFormValue {
   name?: string;
@@ -30,6 +32,7 @@ export interface IFilterSelectOptions {
  * 班级公示、年级公示、最终结果公示
  */
 const Announcement: React.FC = () => {
+  const { user } = useAuth();
   const { process_id, step } = useProcess();
   const [announcementData, setAnnouncementData] = React.useState<AnnouncementItem[]>([]);
   const [filterData, setFilterData] = React.useState<AnnouncementItem[]>([]);
@@ -124,8 +127,14 @@ const Announcement: React.FC = () => {
 
 
   React.useEffect(() => {
-    loadAnnouncement();
-  }, [process_id])
+    const show = [
+      user.identity === 'student' && step && ShowResultList.includes(step),
+      user.identity === 'manager' || user.identity === 'student,manager',
+    ];
+    if (show.some(v => v)) {
+      loadAnnouncement();
+    };
+  }, [process_id, step, user.identity])
 
   return (
     <Card>

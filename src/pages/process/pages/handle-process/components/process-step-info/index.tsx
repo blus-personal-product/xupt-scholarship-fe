@@ -76,7 +76,9 @@ const ProcessStepInfo: React.FC<IProps> = (props) => {
   }
 
   React.useEffect(() => {
-    getProcess();
+    if (process_id !== -1) {
+      getProcess();
+    }
   }, [process_id, step]);
 
   return (
